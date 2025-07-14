@@ -26,5 +26,15 @@ export default [
     //     name: 'foxModel',
     //     type: 'gltfModel',
     //     path: 'models/Fox/glTF/Fox.gltf'
-    // }
+    // },
+    {
+        name: 'baseProfile',
+        type: 'gltfModel',
+        path: 'models/Profile/Base/BaseProfile.glb'
+    },
+    {
+        name: 'basePortfolio',
+        type: 'gltfModel',
+        path: 'models/Portfolio/Base/BasePortfolio.glb'
+    }
 ]
