@@ -44,6 +44,7 @@ export default class Raycaster
             this.getCursorForRaycast("left")
             this.instance.setFromCamera(new THREE.Vector2(this.x, this.y), this.experience.camera.instance)
             this.objectsIntersectLeft.resultIntersectObjects = this.instance.intersectObjects(this.objectsIntersectLeft.objects)
+            
             if(this.objectsIntersectLeft.resultIntersectObjects.length > 0)
             {
                 const hit = this.objectsIntersectLeft.resultIntersectObjects[0].object;
@@ -71,6 +72,9 @@ export default class Raycaster
             this.getCursorForRaycast("right")
             this.instance.setFromCamera(new THREE.Vector2(this.x, this.y), this.experience.camera.instance)
             this.objectsIntersectRight.resultIntersectObjects = this.instance.intersectObjects(this.objectsIntersectRight.objects)
+
+            // console.log(this.objectsIntersectRight.resultIntersectObjects);
+
             if(this.objectsIntersectRight.resultIntersectObjects.length > 0)
             {
                 const hit = this.objectsIntersectRight.resultIntersectObjects[0].object;

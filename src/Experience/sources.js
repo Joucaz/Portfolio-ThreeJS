@@ -40,6 +40,6 @@ export default [
     {
         name: 'reyna',
         type: 'gltfModel',
-        path: 'models/Profile/Reyna/Reyna.glb'
+        path: 'models/Portfolio/Reyna/Reyna.glb'
     }
 ]

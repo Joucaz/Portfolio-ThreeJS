@@ -58,7 +58,14 @@ export default class Reyna
         // Actions
         this.animation.actions = {}        
         
-        this.animation.actions.reynaAction = this.animation.mixer.clipAction(this.resource.animations[0])        
+        this.animation.actions.reynaAction = this.animation.mixer.clipAction(this.resource.animations[0])
+
+        // Look when animation is finish with an event
+        // this.animation.mixer.addEventListener('finished', () => {
+        //     console.log("finish");
+            
+        //     this.isPlaying = false
+        // })
         
     }
 
@@ -77,10 +84,16 @@ export default class Reyna
 
     update()
     {
-        this.animation.mixer.update(this.time.delta * 0.001)
+        this.animation.mixer.update(this.time.delta * 0.001)      
 
+        // console.log(this.resource.animations[0].duration);
+        
+        
         // Look when animation is finish
         if (this.isPlaying && this.animation.actions.reynaAction.time >= this.resource.animations[0].duration) {
+
+            console.log("finish");
+            
             this.isPlaying = false;
         }
     }

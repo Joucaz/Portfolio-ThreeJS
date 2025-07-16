@@ -1,8 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
-import Floor from './Floor.js'
-import Fox from './Fox.js'
 import BaseProfile from './Profile/BaseProfile.js'
 import Reyna from './Portfolio/Reyna.js'
 import BasePortfolio from './Portfolio/BasePortfolio.js'
@@ -74,14 +72,14 @@ export default class World
             
             // Setup Group
             this.sceneProfile.add(this.groupProfile)
-            this.groupProfile.position.z = 2
-            this.groupProfile.position.y = -1
-            this.groupProfile.scale.setScalar(2)
+            // this.groupProfile.position.z = 2
+            // this.groupProfile.position.y = -1
+            // this.groupProfile.scale.setScalar(2)
 
             this.scenePortfolio.add(this.groupPortfolio)
-            this.groupPortfolio.position.z = 2
-            this.groupPortfolio.position.y = -1
-            this.groupPortfolio.scale.setScalar(2)
+            // this.groupPortfolio.position.z = 2
+            // this.groupPortfolio.position.y = -1
+            // this.groupPortfolio.scale.setScalar(2)
             
             // Setup Profile
             this.baseProfile = new BaseProfile()
@@ -89,7 +87,7 @@ export default class World
             // Setup Portfolio    
             this.basePortfolio = new BasePortfolio()
 
-            // this.reyna = new Reyna()
+            this.reyna = new Reyna()
 
             // Setup Environment
             this.environment = new Environment()
@@ -97,15 +95,15 @@ export default class World
     }
 
     update()
-    {
+    {        
+        if(this.reyna)
+            this.reyna.update()
         if(this.environment)
             this.environment.update()
-        // if(this.reyna)
-        //     this.reyna.update()
     }
 
     mouseOut()
     {
-        this.environment.mouseOut()
+        // this.environment.mouseOut()
     }
 }

@@ -12,6 +12,7 @@ import sources from './sources.js'
 import Cursor from './Utils/Cursor.js'
 import Raycaster from './Utils/Raycaster.js'
 import ObjectsIntersect from './World/ObjectsIntersect.js'
+import Stats from './Utils/Stats.js'
 
 let instance = null
 
@@ -34,6 +35,7 @@ export default class Experience
 
         // Setup
         this.debug = new Debug()
+        this.stats = new Stats()
         this.sizes = new Sizes()
         this.time = new Time()
         this.cursor = new Cursor()
@@ -93,6 +95,7 @@ export default class Experience
 
     update()
     {
+        this.stats.update()
         this.cursor.update()
         this.camera.update()
         this.world.update()

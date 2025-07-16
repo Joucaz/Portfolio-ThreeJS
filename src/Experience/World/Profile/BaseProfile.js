@@ -31,7 +31,7 @@ export default class BaseProfile
         {
             if(child instanceof THREE.Mesh)
             {
-                child.castShadow = true
+                child.receiveShadow = true
             }
         })
     }

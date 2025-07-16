@@ -153,6 +153,9 @@ export default class Environment
         this.directionalLightPortfolio.position.set(5, 5, 5)
         this.scenePortfolio.add(this.directionalLightPortfolio)
 
+        const helper = new THREE.DirectionalLightHelper( this.directionalLightPortfolio, 5 );
+        this.scenePortfolio.add( helper );
+
     }
 
     setEnvironmentMap()
