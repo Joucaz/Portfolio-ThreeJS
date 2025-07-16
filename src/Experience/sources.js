@@ -42,4 +42,10 @@ export default [
         type: 'gltfModel',
         path: 'models/Portfolio/Reyna/Reyna.glb'
     }
+    ,
+    {
+        name: 'reynaEchelle',
+        type: 'gltfModel',
+        path: 'models/Portfolio/Reyna/ReynaEchelle.glb'
+    }
 ]

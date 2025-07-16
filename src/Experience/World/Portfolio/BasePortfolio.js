@@ -32,6 +32,7 @@ export default class BasePortfolio
             if(child instanceof THREE.Mesh)
             {
                 child.receiveShadow = true
+                // child.castShadow = true
             }
         })
     }

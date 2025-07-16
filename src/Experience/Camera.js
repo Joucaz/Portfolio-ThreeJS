@@ -14,16 +14,18 @@ export default class Camera
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
 
         this.setInstance()
-        this.setControls()
+        // this.setControls()
     }
 
     setInstance()
     {
-        this.instance = new THREE.PerspectiveCamera(75, this.aspectRatioCamera, 0.1, 100)
-        this.instance.position.set(0, 2, 5)
+        this.instance = new THREE.PerspectiveCamera(60, this.aspectRatioCamera, 0.1, 100)
+        this.instance.position.set(0, 0.5, 3)
+
+        // DON'T WORK WITH ORBIT CONTROLS
+        this.instance.lookAt(new THREE.Vector3(0, 0, 0))
+
         this.experience.addToBothScene(this.instance)
-        // this.sceneProfile.add(this.instance)
-        // this.scenePortfolio.add(this.instance)
     }
 
     setControls()
@@ -41,6 +43,6 @@ export default class Camera
 
     update()
     {
-        this.controls.update()
+        // this.controls.update()
     }
 }

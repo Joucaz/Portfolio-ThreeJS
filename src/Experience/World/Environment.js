@@ -150,11 +150,11 @@ export default class Environment
         this.directionalLightPortfolio.shadow.camera.top = 7
         this.directionalLightPortfolio.shadow.camera.right = 7
         this.directionalLightPortfolio.shadow.camera.bottom = -7
-        this.directionalLightPortfolio.position.set(5, 5, 5)
+        this.directionalLightPortfolio.position.set(1, 3, 1)
         this.scenePortfolio.add(this.directionalLightPortfolio)
 
-        const helper = new THREE.DirectionalLightHelper( this.directionalLightPortfolio, 5 );
-        this.scenePortfolio.add( helper );
+        // const helper = new THREE.DirectionalLightHelper( this.directionalLightPortfolio, 5 );
+        // this.scenePortfolio.add( helper );
 
     }
 

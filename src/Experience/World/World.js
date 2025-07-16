@@ -4,6 +4,8 @@ import Environment from './Environment.js'
 import BaseProfile from './Profile/BaseProfile.js'
 import Reyna from './Portfolio/Reyna.js'
 import BasePortfolio from './Portfolio/BasePortfolio.js'
+import TV from './Portfolio/TV.js'
+import ReynaEchelle from './Portfolio/TV.js'
 
 export default class World
 {
@@ -31,34 +33,6 @@ export default class World
         // floor.rotation.x = - Math.PI * 0.5
         this.sceneProfile.add(cube)
         this.experience.objectsIntersectLeft.addObject(cube)
-
-        const cube2 = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
-            new THREE.MeshStandardMaterial({
-                color: '#ffffff',
-                metalness: 0,
-                roughness: 0.5
-            })
-        )
-        cube2.castShadow = true
-        // floor.rotation.x = - Math.PI * 0.5
-        this.scenePortfolio.add(cube2)
-        this.experience.objectsIntersectRight.addObject(cube2)
-
-        // const floor = new THREE.Mesh(
-        //     new THREE.PlaneGeometry(50, 50),
-        //     new THREE.MeshStandardMaterial({
-        //         color: '#444444',
-        //         metalness: 0,
-        //         roughness: 0.5
-        //     })
-        // )
-        // floor.receiveShadow = true
-        // floor.rotation.x = - Math.PI * 0.5
-        // this.sceneProfile.add(floor)
-
-        // const floor2 = floor.clone()
-        // this.scenePortfolio.add(floor2)
 
         // this.environment = new Environment()
 
@@ -88,6 +62,7 @@ export default class World
             this.basePortfolio = new BasePortfolio()
 
             this.reyna = new Reyna()
+            this.reynaEchelle = new ReynaEchelle()
 
             // Setup Environment
             this.environment = new Environment()
