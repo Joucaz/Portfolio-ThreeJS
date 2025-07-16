@@ -4,7 +4,8 @@ import Environment from './Environment.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
 import BaseProfile from './Profile/BaseProfile.js'
-import Reyna from './Profile/Reyna.js'
+import Reyna from './Portfolio/Reyna.js'
+import BasePortfolio from './Portfolio/BasePortfolio.js'
 
 export default class World
 {
@@ -20,18 +21,31 @@ export default class World
         /**
          * Floor
          */
-        // const cube = new THREE.Mesh(
-        //     new THREE.BoxGeometry(1, 1, 1),
-        //     new THREE.MeshStandardMaterial({
-        //         color: '#ffffff',
-        //         metalness: 0,
-        //         roughness: 0.5
-        //     })
-        // )
-        // cube.castShadow = true
-        // // floor.rotation.x = - Math.PI * 0.5
-        // this.sceneProfile.add(cube)
-        // this.experience.objectsIntersectLeft.addObject(cube)
+        const cube = new THREE.Mesh(
+            new THREE.BoxGeometry(1, 1, 1),
+            new THREE.MeshStandardMaterial({
+                color: '#ffffff',
+                metalness: 0,
+                roughness: 0.5
+            })
+        )
+        cube.castShadow = true
+        // floor.rotation.x = - Math.PI * 0.5
+        this.sceneProfile.add(cube)
+        this.experience.objectsIntersectLeft.addObject(cube)
+
+        const cube2 = new THREE.Mesh(
+            new THREE.BoxGeometry(1, 1, 1),
+            new THREE.MeshStandardMaterial({
+                color: '#ffffff',
+                metalness: 0,
+                roughness: 0.5
+            })
+        )
+        cube2.castShadow = true
+        // floor.rotation.x = - Math.PI * 0.5
+        this.scenePortfolio.add(cube2)
+        this.experience.objectsIntersectRight.addObject(cube2)
 
         // const floor = new THREE.Mesh(
         //     new THREE.PlaneGeometry(50, 50),
@@ -48,7 +62,7 @@ export default class World
         // const floor2 = floor.clone()
         // this.scenePortfolio.add(floor2)
 
-        this.environment = new Environment()
+        // this.environment = new Environment()
 
         // Wait for resources
         this.resources.on('ready', () =>
@@ -72,9 +86,10 @@ export default class World
             // Setup Profile
             this.baseProfile = new BaseProfile()
 
-            this.reyna = new Reyna()
+            // Setup Portfolio    
+            this.basePortfolio = new BasePortfolio()
 
-            // Setup Portfolio        
+            // this.reyna = new Reyna()
 
             // Setup Environment
             this.environment = new Environment()
@@ -83,9 +98,10 @@ export default class World
 
     update()
     {
-        this.environment.update()
-        if(this.reyna)
-            this.reyna.update()
+        if(this.environment)
+            this.environment.update()
+        // if(this.reyna)
+        //     this.reyna.update()
     }
 
     mouseOut()

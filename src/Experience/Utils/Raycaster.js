@@ -71,7 +71,27 @@ export default class Raycaster
             this.getCursorForRaycast("right")
             this.instance.setFromCamera(new THREE.Vector2(this.x, this.y), this.experience.camera.instance)
             this.objectsIntersectRight.resultIntersectObjects = this.instance.intersectObjects(this.objectsIntersectRight.objects)
-            // console.log(this.objectsIntersectRight.resultIntersectObjects);
+            if(this.objectsIntersectRight.resultIntersectObjects.length > 0)
+            {
+                const hit = this.objectsIntersectRight.resultIntersectObjects[0].object;
+
+                // 🟢 Traverse vers le haut pour trouver le userData avec .parentInstance
+                let current = hit;
+                while (current && !current.userData.parentInstance) {
+                    current = current.parent;
+                }
+
+                // Une fois l'objet parent trouvé, on peut jouer l'animation
+                if (current && current.userData.parentInstance) {
+                    const animatedObject = current.userData.parentInstance;
+
+                    // Si l'animation n'est pas déjà en cours, la lancer
+                    if (!animatedObject.isPlaying) {
+                        animatedObject.playAnimation();
+                    }
+                }
+                
+            }
         }
     }
 

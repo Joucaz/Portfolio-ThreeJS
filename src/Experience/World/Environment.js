@@ -13,6 +13,11 @@ export default class Environment
         this.debug = this.experience.debug
 
         this.currentSection = null        
+
+        this.intensityAmbientLight = 0.2
+        this.intensityAmbientLightOff = 0
+        this.intensityDirectionnalLight = 3
+        this.intensityDirectionnalLightOff = 0.08
         
         // Debug
         if(this.debug.active)
@@ -34,8 +39,12 @@ export default class Environment
     mouseOut()
     {
         this.currentSection = null
-        gsap.to(this.directionalLightProfile, { intensity: 0, duration: 1, ease: "power2.out" })
-        gsap.to(this.directionalLightPortfolio, { intensity: 0, duration: 1, ease: "power2.out" })
+        
+        gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+        gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+
+        gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+        gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
     }
 
     updateLights()
@@ -51,11 +60,19 @@ export default class Environment
 
             if (isFirst) 
             {
-                gsap.to(this.directionalLightProfile, { intensity: 1, duration: 1, ease: "power2.out" })
-                gsap.to(this.directionalLightPortfolio, { intensity: 0, duration: 1, ease: "power2.out" })
-            } else {
-                gsap.to(this.directionalLightProfile, { intensity: 0, duration: 1, ease: "power2.out" })
-                gsap.to(this.directionalLightPortfolio, { intensity: 1, duration: 1, ease: "power2.out" })
+                gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+                gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+
+                gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
+                gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+            } 
+            else 
+            {
+                gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+                gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+
+                gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+                gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
             }
         } 
         
@@ -64,10 +81,13 @@ export default class Environment
 
     setLightProfile()
     {
-        this.ambientLightProfile = new THREE.AmbientLight(0xffffff, 0.2)
+        // Ambient Light (0xffffff, 0.2)
+        this.ambientLightProfile = new THREE.AmbientLight(0xffffff, this.intensityAmbientLightOff)
         this.sceneProfile.add(this.ambientLightProfile)
 
-        this.directionalLightProfile = new THREE.DirectionalLight(0xffffff, 3)
+
+        // Directional Light (0xffffff, 3)
+        this.directionalLightProfile = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
         this.directionalLightProfile.castShadow = true
         this.directionalLightProfile.shadow.mapSize.set(1024, 1024)
         this.directionalLightProfile.shadow.camera.far = 15
@@ -76,7 +96,6 @@ export default class Environment
         this.directionalLightProfile.shadow.camera.right = 7
         this.directionalLightProfile.shadow.camera.bottom = - 7
         this.directionalLightProfile.position.set(5, 5, 5)
-        // directionalLight.visible = false
         this.sceneProfile.add(this.directionalLightProfile)
 
         // Debug
@@ -117,8 +136,23 @@ export default class Environment
         // this.ambientLightPortfolio = this.ambientLightProfile.clone()
         // this.scenePortfolio.add(this.ambientLightPortfolio)
 
-        this.directionalLightPortfolio = this.directionalLightProfile.clone()
+        // this.directionalLightPortfolio = this.directionalLightProfile.clone()
+        // this.scenePortfolio.add(this.directionalLightPortfolio)
+
+        this.ambientLightPortfolio = new THREE.AmbientLight(0xffffff, this.intensityAmbientLightOff)
+        this.scenePortfolio.add(this.ambientLightPortfolio)
+
+        this.directionalLightPortfolio = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
+        this.directionalLightPortfolio.castShadow = true
+        this.directionalLightPortfolio.shadow.mapSize.set(1024, 1024)
+        this.directionalLightPortfolio.shadow.camera.far = 15
+        this.directionalLightPortfolio.shadow.camera.left = -7
+        this.directionalLightPortfolio.shadow.camera.top = 7
+        this.directionalLightPortfolio.shadow.camera.right = 7
+        this.directionalLightPortfolio.shadow.camera.bottom = -7
+        this.directionalLightPortfolio.position.set(5, 5, 5)
         this.scenePortfolio.add(this.directionalLightPortfolio)
+
     }
 
     setEnvironmentMap()

@@ -13,7 +13,7 @@ export default class Cursor extends EventEmitter
         this.sizes = this.experience.sizes
         this.isMouseOutside = false
         this.currentSection = null
-        this.isFirstSection = false
+        this.isFirstSection = null
 
         window.addEventListener('mousemove', (event) =>
         {
@@ -27,6 +27,8 @@ export default class Cursor extends EventEmitter
                 // console.log('🟩 La souris est rentrée dans la fenêtre');
             }
 
+            this.isFirstSection = this.sizes.isMobile ? this.y > 0 : this.x < 0
+
             this.trigger('mousemove')
         })
         
@@ -34,6 +36,7 @@ export default class Cursor extends EventEmitter
             if (!event.relatedTarget && !event.toElement) {
                 this.isMouseOutside = true;
                 this.currentSection = null;
+                this.isFirstSection = null
                 // console.log('🟥 La souris est sortie de la fenêtre');
                 
                 this.trigger('mouseout')
@@ -43,6 +46,6 @@ export default class Cursor extends EventEmitter
 
     update()
     {
-        this.isFirstSection = this.sizes.isMobile ? this.y > 0 : this.x < 0
+        // this.isFirstSection = this.sizes.isMobile ? this.y > 0 : this.x < 0
     }
 }
