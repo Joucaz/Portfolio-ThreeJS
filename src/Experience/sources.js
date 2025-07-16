@@ -36,5 +36,10 @@ export default [
         name: 'basePortfolio',
         type: 'gltfModel',
         path: 'models/Portfolio/Base/BasePortfolio.glb'
+    },
+    {
+        name: 'reyna',
+        type: 'gltfModel',
+        path: 'models/Profile/Reyna/Reyna.glb'
     }
 ]

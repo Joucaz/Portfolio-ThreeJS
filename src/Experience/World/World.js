@@ -4,6 +4,7 @@ import Environment from './Environment.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
 import BaseProfile from './Profile/BaseProfile.js'
+import Reyna from './Profile/Reyna.js'
 
 export default class World
 {
@@ -52,6 +53,8 @@ export default class World
         // Wait for resources
         this.resources.on('ready', () =>
         {
+            console.log("ready");
+            
             // Setup
             // this.floor = new Floor()
             
@@ -69,6 +72,8 @@ export default class World
             // Setup Profile
             this.baseProfile = new BaseProfile()
 
+            this.reyna = new Reyna()
+
             // Setup Portfolio        
 
             // Setup Environment
@@ -79,8 +84,8 @@ export default class World
     update()
     {
         this.environment.update()
-        // if(this.fox)
-        //     this.fox.update()
+        if(this.reyna)
+            this.reyna.update()
     }
 
     mouseOut()

@@ -114,8 +114,8 @@ export default class Environment
 
     setLightPortfolio()
     {
-        this.ambientLightPortfolio = this.ambientLightProfile.clone()
-        this.scenePortfolio.add(this.ambientLightPortfolio)
+        // this.ambientLightPortfolio = this.ambientLightProfile.clone()
+        // this.scenePortfolio.add(this.ambientLightPortfolio)
 
         this.directionalLightPortfolio = this.directionalLightProfile.clone()
         this.scenePortfolio.add(this.directionalLightPortfolio)
