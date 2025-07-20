@@ -40,12 +40,21 @@ export default [
     {
         name: 'reyna',
         type: 'gltfModel',
-        path: 'models/Portfolio/Reyna/Reyna.glb'
-    }
-    ,
+        path: 'models/Portfolio/Valorant/Reyna/Reyna.glb'
+    },
     {
-        name: 'reynaEchelle',
+        name: 'chamber',
         type: 'gltfModel',
-        path: 'models/Portfolio/Reyna/ReynaEchelle.glb'
+        path: 'models/Portfolio/Valorant/Chamber/Chamber.glb'
+    },
+    {
+        name: 'breach',
+        type: 'gltfModel',
+        path: 'models/Portfolio/Valorant/Breach/Breach.glb'
+    },
+    {
+        name: 'rlTrack',
+        type: 'gltfModel',
+        path: 'models/Portfolio/RL/RLTrack.glb'
     }
 ]

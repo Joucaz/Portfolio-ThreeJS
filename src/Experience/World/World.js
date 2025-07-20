@@ -4,8 +4,9 @@ import Environment from './Environment.js'
 import BaseProfile from './Profile/BaseProfile.js'
 import Reyna from './Portfolio/Reyna.js'
 import BasePortfolio from './Portfolio/BasePortfolio.js'
-import TV from './Portfolio/TV.js'
-import ReynaEchelle from './Portfolio/TV.js'
+import RLTrack from './Portfolio/RLTrack.js'
+import Chamber from './Portfolio/Chamber.js'
+import Breach from './Portfolio/Breach.js'
 
 export default class World
 {
@@ -62,7 +63,9 @@ export default class World
             this.basePortfolio = new BasePortfolio()
 
             this.reyna = new Reyna()
-            this.reynaEchelle = new ReynaEchelle()
+            this.chamber = new Chamber()
+            this.breach = new Breach()
+            this.rlTrack = new RLTrack()
 
             // Setup Environment
             this.environment = new Environment()
@@ -73,6 +76,12 @@ export default class World
     {        
         if(this.reyna)
             this.reyna.update()
+        if(this.chamber)
+            this.chamber.update()
+        if(this.breach)
+            this.breach.update()
+        if(this.rlTrack)
+            this.rlTrack.update()
         if(this.environment)
             this.environment.update()
     }

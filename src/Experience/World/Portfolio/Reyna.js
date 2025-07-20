@@ -91,9 +91,6 @@ export default class Reyna
         
         // Look when animation is finish
         if (this.isPlaying && this.animation.actions.reynaAction.time >= this.resource.animations[0].duration) {
-
-            console.log("finish");
-            
             this.isPlaying = false;
         }
     }

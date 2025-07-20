@@ -20,7 +20,7 @@ export default class Camera
     setInstance()
     {
         this.instance = new THREE.PerspectiveCamera(60, this.aspectRatioCamera, 0.1, 100)
-        this.instance.position.set(0, 0.5, 3)
+        this.instance.position.set(0, 0.2, 3)
 
         // DON'T WORK WITH ORBIT CONTROLS
         this.instance.lookAt(new THREE.Vector3(0, 0, 0))
