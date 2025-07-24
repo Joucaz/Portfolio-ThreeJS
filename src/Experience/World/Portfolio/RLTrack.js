@@ -93,7 +93,7 @@ export default class RLTrack
 
         const randomAction = actions[Math.floor(Math.random() * actions.length)]
 
-        const possibleSpeeds = [0.4, 1, 2, 3]
+        const possibleSpeeds = [0.4, 1.5, 3]
         const newSpeed = possibleSpeeds[Math.floor(Math.random() * possibleSpeeds.length)]
         randomAction.timeScale = newSpeed
 

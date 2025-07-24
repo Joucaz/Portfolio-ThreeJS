@@ -18,6 +18,8 @@ export default class Environment
         this.intensityAmbientLightOff = 0
         this.intensityDirectionnalLight = 3
         this.intensityDirectionnalLightOff = 0.08
+        // this.intensityDirectionnalLight = 0
+        // this.intensityDirectionnalLightOff = 0
         
         // Debug
         if(this.debug.active)
@@ -88,7 +90,7 @@ export default class Environment
 
         // Directional Light (0xffffff, 3)
         this.directionalLightProfile = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
-        this.directionalLightProfile.castShadow = true
+        // this.directionalLightProfile.castShadow = true
         this.directionalLightProfile.shadow.mapSize.set(1024, 1024)
         this.directionalLightProfile.shadow.camera.far = 15
         this.directionalLightProfile.shadow.camera.left = - 7
@@ -143,7 +145,7 @@ export default class Environment
         this.scenePortfolio.add(this.ambientLightPortfolio)
 
         this.directionalLightPortfolio = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
-        this.directionalLightPortfolio.castShadow = true
+        // this.directionalLightPortfolio.castShadow = true
         this.directionalLightPortfolio.shadow.mapSize.set(1024, 1024)
         this.directionalLightPortfolio.shadow.camera.far = 15
         this.directionalLightPortfolio.shadow.camera.left = -7

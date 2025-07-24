@@ -19,6 +19,7 @@ export default class Raycaster
         this.y = 0
         this.objectsIntersectLeft = this.experience.objectsIntersectLeft
         this.objectsIntersectRight = this.experience.objectsIntersectRight
+        this.frameCount = 0
         // getCursorForRaycast()
 
         // this.sendRaycast()
@@ -106,6 +107,11 @@ export default class Raycaster
 
     update()
     {
-        this.sendRaycast()
+        this.frameCount++;
+
+        if (this.frameCount % 4 === 0)
+        {
+            this.sendRaycast()
+        }
     }
 }

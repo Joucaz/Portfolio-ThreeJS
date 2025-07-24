@@ -56,5 +56,10 @@ export default [
         name: 'rlTrack',
         type: 'gltfModel',
         path: 'models/Portfolio/RL/RLTrack.glb'
+    },
+    {
+        name: 'jordan',
+        type: 'gltfModel',
+        path: 'models/Portfolio/Jordan1/Jordan1.glb'
     }
 ]

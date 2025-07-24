@@ -7,6 +7,7 @@ import BasePortfolio from './Portfolio/BasePortfolio.js'
 import RLTrack from './Portfolio/RLTrack.js'
 import Chamber from './Portfolio/Chamber.js'
 import Breach from './Portfolio/Breach.js'
+import Jordan from './Portfolio/Jordan.js'
 
 export default class World
 {
@@ -66,6 +67,7 @@ export default class World
             this.chamber = new Chamber()
             this.breach = new Breach()
             this.rlTrack = new RLTrack()
+            this.jordan = new Jordan()
 
             // Setup Environment
             this.environment = new Environment()
@@ -82,6 +84,8 @@ export default class World
             this.breach.update()
         if(this.rlTrack)
             this.rlTrack.update()
+        if(this.jordan)
+            this.jordan.update()
         if(this.environment)
             this.environment.update()
     }
