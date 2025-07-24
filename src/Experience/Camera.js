@@ -14,7 +14,7 @@ export default class Camera
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
 
         this.setInstance()
-        // this.setControls()
+        this.setControls()
     }
 
     setInstance()

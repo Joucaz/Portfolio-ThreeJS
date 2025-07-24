@@ -61,5 +61,25 @@ export default [
         name: 'jordan',
         type: 'gltfModel',
         path: 'models/Portfolio/Jordan1/Jordan1.glb'
+    },
+    {
+        name: 'jordanGreyBlueTexture',
+        type: 'texture',
+        path: 'textures/Jordan/J1GreyBlueSmall.jpg'
+    },
+    {
+        name: 'jordanRedTexture',
+        type: 'texture',
+        path: 'textures/Jordan/J1RedSmall.jpg'
+    },
+    {
+        name: 'jordanPurpleTexture',
+        type: 'texture',
+        path: 'textures/Jordan/J1Purple128.jpg'
+    },
+    {
+        name: 'jordanNormalTexture',
+        type: 'texture',
+        path: 'textures/Jordan/J1Normal128.png'
     }
 ]
