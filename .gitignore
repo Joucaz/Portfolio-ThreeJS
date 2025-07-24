@@ -34,6 +34,9 @@ Thumbs.db
 *.blend2
 *.blend@
 
+# PS files
+*.psd
+
 # Logs
 logs/
 *.log
