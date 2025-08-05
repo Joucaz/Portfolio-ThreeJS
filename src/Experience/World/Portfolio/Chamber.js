@@ -61,12 +61,13 @@ export default class Chamber
         this.animation = {}
                 
         // Mixer
-        this.animation.mixer = new THREE.AnimationMixer(this.model)
+        this.animation.mixer = new THREE.AnimationMixer(this.model)        
         
         // Actions
         this.animation.actions = {}        
         
         this.animation.actions.chamberAction = this.animation.mixer.clipAction(this.resource.animations[0])
+        this.animation.actions.chamberSniperAction = this.animation.mixer.clipAction(this.resource.animations[1])
 
         // Look when animation is finish with an event
         // this.animation.mixer.addEventListener('finished', () => {
@@ -81,13 +82,18 @@ export default class Chamber
     {
         if (this.isPlaying) return;
 
-        const action = this.animation.actions.chamberAction;
+        const action1 = this.animation.actions.chamberAction;
+        const action2 = this.animation.actions.chamberSniperAction;
 
-        action.reset();                         // ← remet à la frame 0
-        action.setLoop(THREE.LoopOnce, 1);      // ← joue une seule fois
-        action.clampWhenFinished = true;        // ← reste sur la dernière frame
+        // Configuration commune
+        [action1, action2].forEach(action => {
+            action.reset();
+            action.setLoop(THREE.LoopOnce, 1);
+            action.clampWhenFinished = true;
+            action.play();
+        }); 
+
         this.isPlaying = true;
-        action.play();   
     }
 
     update()
@@ -95,7 +101,8 @@ export default class Chamber
         this.animation.mixer.update(this.time.delta * 0.001)      
         
         // Look when animation is finish
-        if (this.isPlaying && this.animation.actions.chamberAction.time >= this.resource.animations[0].duration) {            
+        if (this.isPlaying && this.animation.actions.chamberAction.time >= this.resource.animations[0].duration 
+            && this.animation.actions.chamberSniperAction.time >= this.resource.animations[1].duration) {            
             this.isPlaying = false;
         }
     }
