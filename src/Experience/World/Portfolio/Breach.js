@@ -33,7 +33,15 @@ export default class Breach
 
         // Ajoute une référence vers "this" dans le modèle
         this.model.traverse(child => {
+
             child.userData.parentInstance = this;
+
+            if(child instanceof THREE.Mesh)
+            {
+                if (child.material) {
+                    child.material = this.experience.world.unlimitedTexture.bakedMaterialPortfolio
+                }
+            }
         });
 
         // Add object to raycast
