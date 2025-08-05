@@ -19,21 +19,34 @@ export default class BasePortfolio
         
         this.ressource = this.resources.items.basePortfolio
 
-        this.setModel()
+        this.setModel()        
     }
 
     setModel()
     {
         this.model = this.ressource.scene
         this.experience.world.groupPortfolio.add(this.model)
+
+        console.log(this.model)
     
         this.model.traverse((child) =>
         {
             if(child instanceof THREE.Mesh)
             {
-                child.receiveShadow = true
+                // child.receiveShadow = true
                 // child.castShadow = true
+
+                if (child.material) {
+                    child.material = this.experience.world.unlimitedTexture.bakedMaterialPortfolio
+                }
+
+                // if (child.geometry.attributes.uv) {
+                //     child.material = new THREE.MeshStandardMaterial({
+                //         map: this.textures.color,
+                //     })
+                // }
             }
         })
     }
+    
 }

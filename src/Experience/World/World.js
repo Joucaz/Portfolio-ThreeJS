@@ -8,6 +8,7 @@ import RLTrack from './Portfolio/RLTrack.js'
 import Chamber from './Portfolio/Chamber.js'
 import Breach from './Portfolio/Breach.js'
 import Jordan from './Portfolio/Jordan.js'
+import UnlimitedTexture from './UnlimitedTexture.js'
 
 export default class World
 {
@@ -56,6 +57,8 @@ export default class World
             // this.groupPortfolio.position.z = 2
             // this.groupPortfolio.position.y = -1
             // this.groupPortfolio.scale.setScalar(2)
+
+            this.unlimitedTexture = new UnlimitedTexture()
             
             // Setup Profile
             this.baseProfile = new BaseProfile()

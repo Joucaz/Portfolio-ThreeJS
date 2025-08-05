@@ -65,21 +65,26 @@ export default [
     {
         name: 'jordanGreyBlueTexture',
         type: 'texture',
-        path: 'textures/Jordan/J1GreyBlueSmall.jpg'
+        path: 'textures/Jordan/J1GreyBlue512.jpg'
     },
     {
         name: 'jordanRedTexture',
         type: 'texture',
-        path: 'textures/Jordan/J1RedSmall.jpg'
+        path: 'textures/Jordan/J1Red512.jpg'
     },
     {
         name: 'jordanPurpleTexture',
         type: 'texture',
-        path: 'textures/Jordan/J1Purple128.jpg'
+        path: 'textures/Jordan/J1Purple512.jpg'
     },
     {
         name: 'jordanNormalTexture',
         type: 'texture',
-        path: 'textures/Jordan/J1Normal128.png'
+        path: 'textures/Jordan/J1Normal512.png'
+    },
+    {
+        name: 'basePortfolioTexture',
+        type: 'texture',
+        path: 'textures/Base/BasePortfolioTexture.jpg'
     }
 ]

@@ -41,14 +41,14 @@ export default class Jordan
         // Add object to raycast
         this.experience.objectsIntersectRight.addObject(this.model)
     
-        this.model.traverse((child) =>
-        {
-            if(child instanceof THREE.Mesh)
-            {
-                child.receiveShadow = true
-                child.castShadow = true
-            }
-        })
+        // this.model.traverse((child) =>
+        // {
+        //     if(child instanceof THREE.Mesh)
+        //     {
+        //         child.receiveShadow = true
+        //         child.castShadow = true
+        //     }
+        // })
     }
 
     setTextures()
@@ -83,7 +83,7 @@ export default class Jordan
         this.rightShoes = this.model.children[0].children[1].children.find(child => child.name === "RightShoes")
         this.leftShoes = this.model.children[0].children[1].children.find(child => child.name === "LeftShoes")      
 
-        const sharedMaterial= new THREE.MeshStandardMaterial({
+        const sharedMaterial = new THREE.MeshStandardMaterial({
             map: this.changeTexture(),
             normalMap: this.textures.normal,
             metalness: 0,
@@ -92,6 +92,24 @@ export default class Jordan
 
         this.rightShoes.material = sharedMaterial
         this.leftShoes.material = sharedMaterial
+
+        // const sharedMaterial= new THREE.MeshStandardMaterial({
+        //     map: this.textures.red,
+        //     normalMap: this.textures.normal,
+        //     metalness: 0,
+        //     roughness: 0.843
+        // })
+
+        // const sharedMaterial2 = new THREE.MeshStandardMaterial({
+        //     map: this.textures.purple,
+        //     normalMap: this.textures.normal,
+        //     metalness: 0,
+        //     roughness: 0.843
+        // })
+
+        // this.rightShoes.material = sharedMaterial2
+        // this.leftShoes.material = sharedMaterial
+
 
     }
 
@@ -164,7 +182,6 @@ export default class Jordan
         this.animation.mixer.update(this.time.delta * 0.001)      
 
         // console.log(this.resource.animations[0].duration);
-        
         
         // Look when animation is finish
         if (this.isPlaying && this.animation.actions.jordanAction.time >= this.resource.animations[0].duration) {

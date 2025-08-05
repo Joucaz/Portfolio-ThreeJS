@@ -39,13 +39,13 @@ export default class Chamber
         // Add object to raycast
         this.experience.objectsIntersectRight.addObject(this.model)
     
-        this.model.traverse((child) =>
-        {
-            if(child instanceof THREE.Mesh)
-            {
-                child.castShadow = true
-            }
-        })
+        // this.model.traverse((child) =>
+        // {
+        //     if(child instanceof THREE.Mesh)
+        //     {
+        //         child.castShadow = true
+        //     }
+        // })
     }
 
     setAnimation()
