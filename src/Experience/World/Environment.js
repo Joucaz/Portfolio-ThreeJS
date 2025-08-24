@@ -14,6 +14,8 @@ export default class Environment
 
         this.currentSection = null        
 
+        this.debugObject = {}
+
         this.intensityAmbientLight = 0.2
         this.intensityAmbientLightOff = 0
         this.intensityDirectionnalLight = 3
@@ -36,6 +38,7 @@ export default class Environment
     update()
     {
         this.updateLights()
+        
     }
 
     mouseOut()
@@ -154,6 +157,24 @@ export default class Environment
         this.directionalLightPortfolio.shadow.camera.bottom = -7
         this.directionalLightPortfolio.position.set(1, 3, 1)
         this.scenePortfolio.add(this.directionalLightPortfolio)
+
+        // Debug
+        if(this.debug.active)
+        {
+            this.debugFolder
+                .add(this.ambientLightPortfolio, 'intensity')
+                .name('ambientLightPortfolio')
+                .min(0)
+                .max(10)
+                .step(0.001)
+            
+            this.debugFolder
+                .add(this.directionalLightPortfolio, 'intensity')
+                .name('directionalLightPortfolio')
+                .min(0)
+                .max(10)
+                .step(0.001)            
+        }
 
         // const helper = new THREE.DirectionalLightHelper( this.directionalLightPortfolio, 5 );
         // this.scenePortfolio.add( helper );

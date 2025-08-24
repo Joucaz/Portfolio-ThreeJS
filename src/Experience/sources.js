@@ -63,6 +63,11 @@ export default [
         path: 'models/Portfolio/Jordan1/Jordan1.glb'
     },
     {
+        name: 'tvScreen',
+        type: 'gltfModel',
+        path: 'models/Portfolio/TV/TVScreen.glb'
+    },
+    {
         name: 'jordanGreyBlueTexture',
         type: 'texture',
         path: 'textures/Jordan/J1GreyBlue512.jpg'

@@ -37,6 +37,9 @@ Thumbs.db
 # PS files
 *.psd
 
+# Video
+*.mp4
+
 # Logs
 logs/
 *.log

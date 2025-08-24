@@ -9,6 +9,7 @@ import Chamber from './Portfolio/Chamber.js'
 import Breach from './Portfolio/Breach.js'
 import Jordan from './Portfolio/Jordan.js'
 import UnlimitedTexture from './UnlimitedTexture.js'
+import TVScreen from './Portfolio/TVScreen.js'
 
 export default class World
 {
@@ -71,6 +72,7 @@ export default class World
             this.breach = new Breach()
             this.rlTrack = new RLTrack()
             this.jordan = new Jordan()
+            this.tvScreen = new TVScreen()
 
             // Setup Environment
             this.environment = new Environment()
@@ -89,6 +91,8 @@ export default class World
             this.rlTrack.update()
         if(this.jordan)
             this.jordan.update()
+        if(this.tvScreen)
+            this.tvScreen.update()
         if(this.environment)
             this.environment.update()
     }
