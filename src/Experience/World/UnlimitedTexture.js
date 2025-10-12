@@ -20,9 +20,9 @@ export default class UnlimitedTexture
 
     setTextureBaseProfile()
     {
-        // this.textures.colorProfile = this.resources.items.baseProfileTexture
-        // this.textures.colorProfile.colorSpace = THREE.SRGBColorSpace
-        // this.textures.colorProfile.flipY = false
+        this.textures.colorProfile = this.resources.items.baseProfileTexture
+        this.textures.colorProfile.colorSpace = THREE.SRGBColorSpace
+        this.textures.colorProfile.flipY = false
     }
 
     setTextureBasePortfolio()
@@ -36,6 +36,9 @@ export default class UnlimitedTexture
     {
         this.bakedMaterialPortfolio = new THREE.MeshStandardMaterial({
             map: this.textures.colorPortfolio,
+        })
+        this.bakedMaterialProfile = new THREE.MeshStandardMaterial({
+            map: this.textures.colorProfile,
         })
     }
 }

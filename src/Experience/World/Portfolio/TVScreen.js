@@ -60,8 +60,10 @@ export default class TVScreen
 
         this.videoTexture = new THREE.VideoTexture(this.video);
         this.videoTexture.colorSpace = THREE.SRGBColorSpace;
-        this.videoTexture.center.set(0.5, 0.5);
-        this.videoTexture.rotation = Math.PI; // 180°
+        // this.videoTexture.center.set(0.5, 0.5);
+        // this.videoTexture.rotation = Math.PI; // 180°
+        this.videoTexture.repeat.y = -1;
+        this.videoTexture.offset.y = 1;
 
 
         this.videoMaterial = new THREE.MeshStandardMaterial({

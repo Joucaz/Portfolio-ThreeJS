@@ -38,6 +38,11 @@ export default [
         path: 'models/Portfolio/Base/BasePortfolio.glb'
     },
     {
+        name: 'baseProfile',
+        type: 'gltfModel',
+        path: 'models/Profile/Base/BaseProfile.glb'
+    },
+    {
         name: 'reyna',
         type: 'gltfModel',
         path: 'models/Portfolio/Valorant/Reyna/Reyna.glb'
@@ -91,5 +96,36 @@ export default [
         name: 'basePortfolioTexture',
         type: 'texture',
         path: 'textures/Base/BasePortfolioTexture.jpg'
+    }
+    ,
+    {
+        name: 'baseProfileTexture',
+        type: 'texture',
+        path: 'textures/Base/BaseProfileTexture.jpg'
+    },
+    {
+        name: 'ball',
+        type: 'gltfModel',
+        path: 'models/Profile/Ball/Ball.glb'
+    },
+    {
+        name: 'chair',
+        type: 'gltfModel',
+        path: 'models/Profile/Chair/Chair.glb'
+    },
+    {
+        name: 'hat',
+        type: 'gltfModel',
+        path: 'models/Profile/Hat/Hat.glb'
+    },
+    {
+        name: 'mouse',
+        type: 'gltfModel',
+        path: 'models/Profile/Mouse/Mouse.glb'
+    },
+    {
+        name: 'pc',
+        type: 'gltfModel',
+        path: 'models/Profile/PC/PC.glb'
     }
 ]

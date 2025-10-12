@@ -6,7 +6,7 @@ export default class BaseProfile
     constructor()
     {
         this.experience = new Experience()
-        this.sceneProfile = this.experience.sceneProfile
+        this.scenePortfolio = this.experience.scenePortfolio
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -19,19 +19,32 @@ export default class BaseProfile
         
         this.ressource = this.resources.items.baseProfile
 
-        this.setModel()
+        this.setModel()        
     }
 
     setModel()
     {
         this.model = this.ressource.scene
         this.experience.world.groupProfile.add(this.model)
+
+        console.log(this.model)
     
         this.model.traverse((child) =>
         {
             if(child instanceof THREE.Mesh)
             {
-                child.receiveShadow = true
+                // child.receiveShadow = true
+                // child.castShadow = true
+
+                if (child.material) {
+                    child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
+                }
+
+                // if (child.geometry.attributes.uv) {
+                //     child.material = new THREE.MeshStandardMaterial({
+                //         map: this.textures.color,
+                //     })
+                // }
             }
         })
     }

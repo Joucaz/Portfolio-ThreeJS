@@ -10,6 +10,11 @@ import Breach from './Portfolio/Breach.js'
 import Jordan from './Portfolio/Jordan.js'
 import UnlimitedTexture from './UnlimitedTexture.js'
 import TVScreen from './Portfolio/TVScreen.js'
+import Ball from './Profile/Ball.js'
+import Chair from './Profile/Chair.js'
+import Hat from './Profile/Hat.js'
+import Mouse from './Profile/Mouse.js'
+import PC from './Profile/PC.js'
 
 export default class World
 {
@@ -21,22 +26,6 @@ export default class World
         this.resources = this.experience.resources
         this.groupProfile = new THREE.Group()
         this.groupPortfolio = new THREE.Group()
-
-        /**
-         * Floor
-         */
-        const cube = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
-            new THREE.MeshStandardMaterial({
-                color: '#ffffff',
-                metalness: 0,
-                roughness: 0.5
-            })
-        )
-        cube.castShadow = true
-        // floor.rotation.x = - Math.PI * 0.5
-        this.sceneProfile.add(cube)
-        this.experience.objectsIntersectLeft.addObject(cube)
 
         // this.environment = new Environment()
 
@@ -64,6 +53,12 @@ export default class World
             // Setup Profile
             this.baseProfile = new BaseProfile()
 
+            this.ball = new Ball()
+            this.chair = new Chair()
+            this.hat = new Hat()
+            this.mouse = new Mouse()
+            this.pc = new PC()
+
             // Setup Portfolio    
             this.basePortfolio = new BasePortfolio()
 
@@ -81,6 +76,7 @@ export default class World
 
     update()
     {        
+        // Portfolio
         if(this.reyna)
             this.reyna.update()
         if(this.chamber)
@@ -93,6 +89,19 @@ export default class World
             this.jordan.update()
         if(this.tvScreen)
             this.tvScreen.update()
+
+        // Profile
+        if(this.ball)
+            this.ball.update()
+        if(this.chair)
+            this.chair.update()
+        if(this.hat)
+            this.hat.update()
+        if(this.mouse)
+            this.mouse.update()
+        if(this.pc)
+            this.pc.update()
+
         if(this.environment)
             this.environment.update()
     }
