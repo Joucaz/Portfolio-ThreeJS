@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Experience from '../../Experience.js'
 import { logarithmicDepthToViewZ } from 'three/tsl'
 
-export default class PC
+export default class Monitor
 {
     constructor()
     {
@@ -13,21 +13,19 @@ export default class PC
         this.debug = this.experience.debug
 
         this.isPlaying = false;
-        this.isOpen = true;
 
         // Debug
         if(this.debug.active)
         {
-            this.debugFolder = this.debug.ui.addFolder('PC')
+            this.debugFolder = this.debug.ui.addFolder('Monitor')
         }
 
         
-        this.resource = this.resources.items.pc
+        this.resource = this.resources.items.monitor
 
         this.setMaterialVideo()
         this.setModel()
         this.setMaterial()
-        this.setAnimation()
     }
 
     setModel()
@@ -84,13 +82,32 @@ export default class PC
             toneMapped: false
         });
 
+        this.video2 = document.getElementById("video2");
+        
+        this.video2.play();
+
+        // console.log("Video ready:", this.video);
+
+        this.videoTexture2 = new THREE.VideoTexture(this.video2);
+        this.videoTexture2.colorSpace = THREE.SRGBColorSpace;
+        // this.videoTexture2.center.set(0.5, 0.5);
+        // this.videoTexture2.rotation = Math.PI; // 180°
+        this.videoTexture2.repeat.y = -1;
+        this.videoTexture2.offset.y = 1;
+
+        this.videoMaterial2 = new THREE.MeshStandardMaterial({
+            map: this.videoTexture2,
+            side: THREE.FrontSide,
+            toneMapped: false
+        });
+
     }
 
     setMaterial()
     {
-        this.screenPC = this.model.children[0].children[1];     
-        this.screenPC.material = this.videoMaterial;
-        
+        this.screenPC = this.model.children[0].children[1];
+
+        // this.screenPC.material = this.videoMaterial;        
     }
 
     setAnimation()
@@ -110,58 +127,7 @@ export default class PC
         this.isReversed = false
     }
 
-    playAnimation()
-    {
-        if (this.isPlaying) return
-        this.isPlaying = true
-        
-
-        setTimeout(() => {
-            this.isOpen = !this.isOpen;
-        }, 1 * 1000)
-
-        // On récupère les deux actions
-        const screenAction = this.animation.actions.pcActionScreen
-        const displayAction = this.animation.actions.pcActionDisplay
-
-        // Réinitialisation
-        screenAction.reset()
-        displayAction.reset()
-
-        // Config commune
-        screenAction.setLoop(THREE.LoopOnce, 1)
-        displayAction.setLoop(THREE.LoopOnce, 1)
-        screenAction.clampWhenFinished = true
-        displayAction.clampWhenFinished = true
-
-        // Gestion du sens (normal / inversé)
-        const timeScale = this.isReversed ? -1 : 1
-        screenAction.timeScale = timeScale
-        displayAction.timeScale = timeScale
-
-        // Si on joue à l'envers, on démarre à la fin
-        if (this.isReversed) {
-            screenAction.time = this.resource.animations[0].duration
-            displayAction.time = this.resource.animations[1].duration
-        }
-
-        // Lecture simultanée 🎬
-        screenAction.play()
-        displayAction.play()
-
-        // Inverser le sens pour la prochaine fois
-        this.isReversed = !this.isReversed
-
-        // Quand les deux sont terminées, on remet isPlaying à false
-        const maxDuration = Math.max(
-            this.resource.animations[0].duration,
-            this.resource.animations[1].duration
-        )
-
-        setTimeout(() => {
-            this.isPlaying = false
-        }, (maxDuration + 2) * 1000)
-    }
+    
 
     update()
     {
@@ -169,8 +135,18 @@ export default class PC
         {
             this.videoTexture.needsUpdate = true;
         }
-        // Met à jour le mixer
-        this.animation.mixer.update(this.time.delta * 0.001)
+        if(this.videoTexture2)
+        {
+            this.videoTexture2.needsUpdate = true;
+        }
+
+        if(this.experience.world.pc.isOpen){
+            this.screenPC.material = this.videoMaterial;   
+        }
+        else{
+            this.screenPC.material = this.videoMaterial2;   
+        }       
+        
     }
 
 }

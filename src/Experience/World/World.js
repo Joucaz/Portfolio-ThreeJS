@@ -15,6 +15,7 @@ import Chair from './Profile/Chair.js'
 import Hat from './Profile/Hat.js'
 import Mouse from './Profile/Mouse.js'
 import PC from './Profile/PC.js'
+import Monitor from './Profile/Monitor.js'
 
 export default class World
 {
@@ -58,6 +59,7 @@ export default class World
             this.hat = new Hat()
             this.mouse = new Mouse()
             this.pc = new PC()
+            this.monitor = new Monitor()
 
             // Setup Portfolio    
             this.basePortfolio = new BasePortfolio()
@@ -101,6 +103,8 @@ export default class World
             this.mouse.update()
         if(this.pc)
             this.pc.update()
+        if(this.monitor)
+            this.monitor.update()
 
         if(this.environment)
             this.environment.update()
