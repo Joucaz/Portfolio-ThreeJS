@@ -49,7 +49,7 @@ export default class Monitor
         });
 
         // Add object to raycast
-        this.experience.objectsIntersectLeft.addObject(this.model)
+        // this.experience.objectsIntersectLeft.addObject(this.model)
     
         // this.model.traverse((child) =>
         // {

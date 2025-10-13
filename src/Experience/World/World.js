@@ -112,6 +112,7 @@ export default class World
 
     mouseOut()
     {
-        // this.environment.mouseOut()
+        if(this.environment)
+            this.environment.mouseOut()
     }
 }

@@ -19,9 +19,11 @@ export default class Environment
         this.intensityAmbientLight = 0.2
         this.intensityAmbientLightOff = 0
         this.intensityDirectionnalLight = 3
-        this.intensityDirectionnalLightOff = 0.08
+        this.intensityDirectionnalLightOff = 0.15
         // this.intensityDirectionnalLight = 0
         // this.intensityDirectionnalLightOff = 0
+
+        this.isMobileEnabled = false;
         
         // Debug
         if(this.debug.active)
@@ -37,12 +39,27 @@ export default class Environment
 
     update()
     {
-        this.updateLights()
         
+
+        if(this.experience.sizes.isMobile)
+        {
+            if(!this.isMobileEnabled)
+            {
+                this.setLightMobile()
+                this.isMobileEnabled = true;
+            }
+        }
+        else
+        {
+            this.updateLights()   
+        }     
     }
 
     mouseOut()
-    {
+    {        
+        if(this.experience.sizes.isMobile)
+            return
+
         this.currentSection = null
         
         gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
@@ -179,6 +196,15 @@ export default class Environment
         // const helper = new THREE.DirectionalLightHelper( this.directionalLightPortfolio, 5 );
         // this.scenePortfolio.add( helper );
 
+    }
+
+    setLightMobile()
+    {
+        gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+        gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+
+        gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
+        gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
     }
 
     setEnvironmentMap()

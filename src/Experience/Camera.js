@@ -12,9 +12,19 @@ export default class Camera
         this.scenePortfolio = this.experience.scenePortfolio
         this.canvas = this.experience.canvas
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
+        
+        this.debug = this.experience.debug
+
+        // Debug
+        if(this.debug.active)
+        {
+            this.debugFolder = this.debug.ui.addFolder('Camera')
+        }
+
 
         this.setInstance()
         this.setControls()
+
     }
 
     setInstance()
@@ -26,6 +36,40 @@ export default class Camera
         this.instance.lookAt(new THREE.Vector3(0, 0, 0))
 
         this.experience.addToBothScene(this.instance)
+
+        
+        if(this.debug.active)
+        {
+            this.debugFolder
+                .add(this.instance, 'fov')
+                .name('FOV')
+                .min(0)
+                .max(150)
+                .step(1)
+                .onChange((value) => {
+                    this.instance.fov = value; // on met à jour le FOV
+                    this.instance.updateProjectionMatrix(); // obligatoire pour appliquer le changement
+                });
+            
+            this.debugFolder
+                .add(this.instance.position, 'x')
+                .name('Position X')
+                .min(-10)
+                .max(10)
+                .step(0.01)
+            this.debugFolder
+                .add(this.instance.position, 'y')
+                .name('Position Y')
+                .min(-10)
+                .max(10)
+                .step(0.01)
+            this.debugFolder
+                .add(this.instance.position, 'z')
+                .name('Position Z')
+                .min(-10)
+                .max(10)
+                .step(0.01)
+        }
     }
 
     setControls()
@@ -38,6 +82,8 @@ export default class Camera
     {
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
         this.instance.aspect = this.aspectRatioCamera
+        console.log(this.instance.aspect);
+        
         this.instance.updateProjectionMatrix()
     }
 
