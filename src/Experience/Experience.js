@@ -13,6 +13,8 @@ import Cursor from './Utils/Cursor.js'
 import Raycaster from './Utils/Raycaster.js'
 import ObjectsIntersect from './World/ObjectsIntersect.js'
 import Stats from './Utils/Stats.js'
+import Input from './Utils/Input.js'
+import PostProcessing from './Utils/PostProcessing.js'
 
 let instance = null
 
@@ -39,12 +41,14 @@ export default class Experience
         this.sizes = new Sizes()
         this.time = new Time()
         this.cursor = new Cursor()
+        // this.input = new Input()
         this.sceneProfile = new THREE.Scene()
         this.scenePortfolio = new THREE.Scene()
         this.allScene = [this.sceneProfile, this.scenePortfolio]
         this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()
+        // this.postProcessing = new PostProcessing()
         
         this.objectsIntersectRight = new ObjectsIntersect()
         this.objectsIntersectLeft = new ObjectsIntersect()
@@ -93,6 +97,7 @@ export default class Experience
     {
         this.camera.resize()
         this.renderer.resize()
+        // this.postProcessing.resize()
     }
 
     update()
@@ -102,6 +107,7 @@ export default class Experience
         this.camera.update()
         this.world.update()
         this.renderer.update()
+        // this.postProcessing.update()
         this.raycast.update()
     }
 

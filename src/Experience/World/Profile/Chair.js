@@ -24,6 +24,8 @@ export default class Chair
 
         this.setModel()
         this.setAnimation()
+
+
     }
 
     setModel()
@@ -54,6 +56,9 @@ export default class Chair
         //         child.castShadow = true
         //     }
         // })
+
+        // this.experience.postProcessing.setOutlinedObjects([this.model])
+
     }
 
     setAnimation()
