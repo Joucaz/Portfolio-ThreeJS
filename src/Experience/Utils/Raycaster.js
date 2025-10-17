@@ -20,6 +20,9 @@ export default class Raycaster
         this.objectsIntersectLeft = this.experience.objectsIntersectLeft
         this.objectsIntersectRight = this.experience.objectsIntersectRight
         this.frameCount = 0
+
+        this.currentIntersectLeft = null
+        this.currentIntersectRight = null
         // getCursorForRaycast()
 
         // this.sendRaycast()
@@ -60,12 +63,29 @@ export default class Raycaster
                 if (current && current.userData.parentInstance) {
                     const animatedObject = current.userData.parentInstance;
 
+                    if(this.currentIntersectLeft == null)
+                    {
+                        // console.log(animatedObject.model);
+                        this.experience.renderer.addSelectedObject(animatedObject.model)
+                    }
+
+                    this.currentIntersectLeft = animatedObject
+
                     // Si l'animation n'est pas déjà en cours, la lancer
                     if (!animatedObject.isPlaying) {
                         animatedObject.playAnimation();
                     }
                 }
                 
+            }
+            else
+            {
+                if(this.currentIntersectLeft)
+                {
+                    this.experience.renderer.removeSelectedObject()
+                }
+
+                this.currentIntersectLeft = null
             }
         }
         else
@@ -90,6 +110,14 @@ export default class Raycaster
                 if (current && current.userData.parentInstance) {
                     const animatedObject = current.userData.parentInstance;
 
+                    if(this.currentIntersectRight == null)
+                    {
+                        // console.log(animatedObject.model);
+                        this.experience.renderer.addSelectedObject(animatedObject.model)
+                    }
+
+                    this.currentIntersectRight = animatedObject
+
                     // Si l'animation n'est pas déjà en cours, la lancer
                     if (!animatedObject.isPlaying) {
                         animatedObject.playAnimation();
@@ -97,12 +125,16 @@ export default class Raycaster
                 }
                 
             }
+            else
+            {
+                if(this.currentIntersectRight)
+                {
+                    this.experience.renderer.removeSelectedObject()
+                }
+
+                this.currentIntersectRight = null
+            }
         }
-    }
-
-    playAnimationAfterRaycast()
-    {
-
     }
 
     update()

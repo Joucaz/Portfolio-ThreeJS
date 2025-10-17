@@ -22,6 +22,8 @@ export default class Chair
         
         this.resource = this.resources.items.chair
 
+        this.materialTestOutline = new THREE.MeshStandardMaterial({color:"white"})
+
         this.setModel()
         this.setAnimation()
 
@@ -40,9 +42,19 @@ export default class Chair
 
             if(child instanceof THREE.Mesh)
             {
-                if (child.material) {
+                // if(child.material)
+                // {
+                //     if(child.name === "Plane049_1"){
+                //         child.material = this.materialTestOutline
+                //     }
+                //     else{
+                //         child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
+                //     }
+                // }
+
+                if (child.material)
                     child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
-                }
+
             }
         });
 
