@@ -7,6 +7,7 @@
 html,
 body
 {
+    font-family:'Montserrat','serif';
     overflow: hidden;
 }
 
@@ -17,4 +18,13 @@ body
     left: 0;
     outline: none;
     cursor: pointer;
+}
+.speed-indicator {
+    position: absolute;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    pointer-events: none;
+    user-select: none;
 }
