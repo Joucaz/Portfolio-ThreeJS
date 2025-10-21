@@ -41,7 +41,7 @@ export default class Experience
         this.sizes = new Sizes()
         this.time = new Time()
         this.cursor = new Cursor()
-        // this.input = new Input()
+        this.input = new Input()
         this.sceneProfile = new THREE.Scene()
         this.scenePortfolio = new THREE.Scene()
         this.allScene = [this.sceneProfile, this.scenePortfolio]
