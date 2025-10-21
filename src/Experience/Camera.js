@@ -12,6 +12,8 @@ export default class Camera
         this.scenePortfolio = this.experience.scenePortfolio
         this.canvas = this.experience.canvas
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
+        this.clock = new THREE.Clock()
+        this.previousTime = 0
         
         this.debug = this.experience.debug
 
@@ -23,7 +25,7 @@ export default class Camera
 
 
         this.setInstance()
-        this.setControls()
+        // this.setControls()
 
     }
 
@@ -89,6 +91,16 @@ export default class Camera
 
     update()
     {
+        // const elapsedTime = this.clock.getElapsedTime()
+        // const deltaTime = elapsedTime - this.previousTime
+        // this.previousTime = elapsedTime
+
+        // const parallaxAmplitude = 0.02
+        // const parallaxX = this.experience.cursor.x * parallaxAmplitude
+        // const parallaxY = -this.experience.cursor.y * parallaxAmplitude
+        // this.instance.position.x += (parallaxX - this.instance.position.x) * 5 * deltaTime
+        // this.instance.position.y += (parallaxY - this.instance.position.y) * 5 * deltaTime
+
         // this.controls.update()
     }
 }
