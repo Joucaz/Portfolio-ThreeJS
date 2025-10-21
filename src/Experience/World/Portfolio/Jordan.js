@@ -78,40 +78,89 @@ export default class Jordan
         }
     }
 
+    getRandomNextTexture(currentTexture)
+    {
+        const textureOptions = [
+            this.textures.red,
+            this.textures.purple,
+            this.textures.greyBlue
+        ];
+
+        // on évite de retomber sur la même texture
+        const filtered = textureOptions.filter(tex => tex !== currentTexture);
+        const randomTexture = filtered[Math.floor(Math.random() * filtered.length)];
+
+        return randomTexture;
+    }
+
     setMaterial()
     {
         this.rightShoes = this.model.children[0].children[1].children.find(child => child.name === "RightShoes")
-        this.leftShoes = this.model.children[0].children[1].children.find(child => child.name === "LeftShoes")      
+        this.leftShoes = this.model.children[0].children[1].children.find(child => child.name === "LeftShoes")
 
         const sharedMaterial = new THREE.MeshStandardMaterial({
-            map: this.changeTexture(),
+            map: this.textures.red,
             normalMap: this.textures.normal,
             metalness: 0,
             roughness: 0.843
         })
 
+        // 🧩 Transition shader
+        sharedMaterial.onBeforeCompile = (shader) => {
+            shader.uniforms.texA = { value: this.textures.greyBlue }
+            shader.uniforms.texB = { value: this.textures.red }
+            shader.uniforms.progress = { value: 0 }
+
+            // Déclare bien les UV pour éviter les erreurs
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <uv_pars_vertex>',
+                `
+                #include <uv_pars_vertex>
+                varying vec2 vUvCustom;
+                `
+            )
+
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <uv_vertex>',
+                `
+                #include <uv_vertex>
+                vUvCustom = uv;
+                `
+            )
+
+            // ⚡ Remplace la section texture du fragment shader
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <map_pars_fragment>',
+                `
+                #include <map_pars_fragment>
+                uniform sampler2D texA;
+                uniform sampler2D texB;
+                uniform float progress;
+                varying vec2 vUvCustom;
+                `
+            )
+
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <map_fragment>',
+                `
+                #ifdef USE_MAP
+                    vec4 texelA = texture2D(texA, vUvCustom);
+                    vec4 texelB = texture2D(texB, vUvCustom);
+                    vec4 mixedTex = mix(texelA, texelB, progress);
+                    diffuseColor *= mixedTex;
+                #endif
+                `
+            )
+
+            sharedMaterial.userData.shader = shader
+            this.shader = shader
+        }
+
         this.rightShoes.material = sharedMaterial
         this.leftShoes.material = sharedMaterial
-
-        // const sharedMaterial= new THREE.MeshStandardMaterial({
-        //     map: this.textures.red,
-        //     normalMap: this.textures.normal,
-        //     metalness: 0,
-        //     roughness: 0.843
-        // })
-
-        // const sharedMaterial2 = new THREE.MeshStandardMaterial({
-        //     map: this.textures.purple,
-        //     normalMap: this.textures.normal,
-        //     metalness: 0,
-        //     roughness: 0.843
-        // })
-
-        // this.rightShoes.material = sharedMaterial2
-        // this.leftShoes.material = sharedMaterial
-
-
     }
+
+
 
     setAnimation()
     {
@@ -152,40 +201,72 @@ export default class Jordan
 
     playAnimation()
     {
-        if (this.isPlaying) return;
+        if (this.isPlaying) return
 
-        const action = this.animation.actions.jordanAction;
+        const action = this.animation.actions.jordanAction
+        action.reset()
+        action.setLoop(THREE.LoopOnce, 1)
+        action.clampWhenFinished = true
+        this.isPlaying = true
+        action.play()
 
-        action.reset();                         // ← remet à la frame 0
-        action.setLoop(THREE.LoopOnce, 1);      // ← joue une seule fois
-        action.clampWhenFinished = true;        // ← reste sur la dernière frame
-        this.isPlaying = true;
-        action.play();   
+        const shader = this.rightShoes.material.userData.shader
+        if (!shader) return
 
-        console.log(action);
-
-        const halfActionDuration = this.resource.animations[0].duration / 2 * 1000
-        
-
-        setTimeout(() => {
-            const currentMap = this.rightShoes.material.map;
-            const newTexture = this.changeTexture(currentMap);
-
-            this.rightShoes.material.map = newTexture;
-            this.leftShoes.material.map = newTexture;
-            newTexture.needsUpdate = true;
-        }, halfActionDuration);
+        const currentTex = shader.uniforms.texA.value
+        const nextTex = this.getRandomNextTexture(currentTex)
+        shader.uniforms.texB.value = nextTex
     }
+
 
     update()
     {
-        this.animation.mixer.update(this.time.delta * 0.001)      
+        // Update mixer
+        this.animation.mixer.update(this.time.delta * 0.001)
 
-        // console.log(this.resource.animations[0].duration);
-        
-        // Look when animation is finish
-        if (this.isPlaying && this.animation.actions.jordanAction.time >= this.resource.animations[0].duration) {
-            this.isPlaying = false;
+        if (!this.isPlaying) return
+
+        const action = this.animation.actions.jordanAction
+        const animTime = action.time
+        const animDuration = this.resource.animations[0].duration
+
+        const shader = this.rightShoes.material.userData.shader
+        if (!shader) return
+
+        // Transition window : 25% → 75% de l'animation
+        const startTime = animDuration * 0.25
+        const endTime = animDuration * 0.75
+        const transitionDuration = endTime - startTime
+
+        if (animTime >= startTime && animTime <= endTime)
+        {
+            // Progression de 0 → 1 sur cette fenêtre
+            const progress = (animTime - startTime) / transitionDuration
+            shader.uniforms.progress.value = progress
+        }
+        else if (animTime < startTime)
+        {
+            shader.uniforms.progress.value = 0
+        }
+        else if (animTime > endTime)
+        {
+            shader.uniforms.progress.value = 1
+            // Une fois terminé → la texture B devient A
+            if (!this.transitionDone)
+            {
+                shader.uniforms.texA.value = shader.uniforms.texB.value
+                shader.uniforms.progress.value = 0
+                this.transitionDone = true
+            }
+        }
+
+        // Check fin animation
+        if (animTime >= animDuration)
+        {
+            this.isPlaying = false
+            this.transitionDone = false
         }
     }
+
+
 }
