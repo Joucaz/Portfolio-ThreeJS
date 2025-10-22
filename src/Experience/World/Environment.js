@@ -16,10 +16,10 @@ export default class Environment
 
         this.debugObject = {}
 
-        this.intensityAmbientLight = 0.2
-        this.intensityAmbientLightOff = 0
-        this.intensityDirectionnalLight = 3
-        this.intensityDirectionnalLightOff = 0.15
+        this.intensityAmbientLight = 0.1
+        this.intensityAmbientLightOff = 0.08
+        this.intensityDirectionnalLight = 3.5
+        this.intensityDirectionnalLightOff = 0
         // this.intensityDirectionnalLight = 0
         // this.intensityDirectionnalLightOff = 0
 
@@ -111,46 +111,33 @@ export default class Environment
         // Directional Light (0xffffff, 3)
         this.directionalLightProfile = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
         // this.directionalLightProfile.castShadow = true
-        this.directionalLightProfile.shadow.mapSize.set(1024, 1024)
-        this.directionalLightProfile.shadow.camera.far = 15
-        this.directionalLightProfile.shadow.camera.left = - 7
-        this.directionalLightProfile.shadow.camera.top = 7
-        this.directionalLightProfile.shadow.camera.right = 7
-        this.directionalLightProfile.shadow.camera.bottom = - 7
+        // this.directionalLightProfile.shadow.mapSize.set(1024, 1024)
+        // this.directionalLightProfile.shadow.camera.far = 15
+        // this.directionalLightProfile.shadow.camera.left = - 7
+        // this.directionalLightProfile.shadow.camera.top = 7
+        // this.directionalLightProfile.shadow.camera.right = 7
+        // this.directionalLightProfile.shadow.camera.bottom = - 7
         this.directionalLightProfile.position.set(5, 5, 5)
         this.sceneProfile.add(this.directionalLightProfile)
 
-        // Debug
-        // if(this.debug.active)
-        // {
-        //     this.debugFolder
-        //         .add(this.sunLight, 'intensity')
-        //         .name('sunLightIntensity')
-        //         .min(0)
-        //         .max(10)
-        //         .step(0.001)
+        if(this.debug.active)
+        {
+            this.debugFolder
+                .add(this.ambientLightProfile, 'intensity')
+                .name('ambient profile intensity')
+                .min(0)
+                .max(4)
+                .setValue(this.intensityAmbientLight)
+                .step(0.1)
             
-        //     this.debugFolder
-        //         .add(this.sunLight.position, 'x')
-        //         .name('sunLightX')
-        //         .min(- 5)
-        //         .max(5)
-        //         .step(0.001)
-            
-        //     this.debugFolder
-        //         .add(this.sunLight.position, 'y')
-        //         .name('sunLightY')
-        //         .min(- 5)
-        //         .max(5)
-        //         .step(0.001)
-            
-        //     this.debugFolder
-        //         .add(this.sunLight.position, 'z')
-        //         .name('sunLightZ')
-        //         .min(- 5)
-        //         .max(5)
-        //         .step(0.001)
-        // }
+            this.debugFolder
+                .add(this.directionalLightProfile, 'intensity')
+                .name('directional profile intensity')
+                .min(0)
+                .max(5)
+                .setValue(this.intensityDirectionnalLight)
+                .step(0.1)            
+        }
     }
 
     setLightPortfolio()
@@ -166,12 +153,12 @@ export default class Environment
 
         this.directionalLightPortfolio = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
         // this.directionalLightPortfolio.castShadow = true
-        this.directionalLightPortfolio.shadow.mapSize.set(1024, 1024)
-        this.directionalLightPortfolio.shadow.camera.far = 15
-        this.directionalLightPortfolio.shadow.camera.left = -7
-        this.directionalLightPortfolio.shadow.camera.top = 7
-        this.directionalLightPortfolio.shadow.camera.right = 7
-        this.directionalLightPortfolio.shadow.camera.bottom = -7
+        // this.directionalLightPortfolio.shadow.mapSize.set(1024, 1024)
+        // this.directionalLightPortfolio.shadow.camera.far = 15
+        // this.directionalLightPortfolio.shadow.camera.left = -7
+        // this.directionalLightPortfolio.shadow.camera.top = 7
+        // this.directionalLightPortfolio.shadow.camera.right = 7
+        // this.directionalLightPortfolio.shadow.camera.bottom = -7
         this.directionalLightPortfolio.position.set(1, 3, 1)
         this.scenePortfolio.add(this.directionalLightPortfolio)
 
@@ -183,14 +170,16 @@ export default class Environment
                 .name('ambientLightPortfolio')
                 .min(0)
                 .max(10)
-                .step(0.001)
+                .setValue(this.intensityAmbientLightOff)
+                .step(0.1)
             
             this.debugFolder
                 .add(this.directionalLightPortfolio, 'intensity')
                 .name('directionalLightPortfolio')
                 .min(0)
                 .max(10)
-                .step(0.001)            
+                .setValue(this.intensityDirectionnalLightOff)
+                .step(0.1)            
         }
 
         // const helper = new THREE.DirectionalLightHelper( this.directionalLightPortfolio, 5 );
@@ -201,10 +190,10 @@ export default class Environment
     setLightMobile()
     {
         gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
-        gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+        // gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
 
         gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
-        gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
+        // gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
     }
 
     setEnvironmentMap()

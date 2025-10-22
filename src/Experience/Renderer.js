@@ -24,7 +24,11 @@ export default class Renderer
         // Debug
         if(this.debug.active)
         {
-            this.debugFolder = this.debug.ui.addFolder('Renderer')
+            this.rendererFolder = this.debug.ui.addFolder('Renderer')
+        
+            this.postProcessingFolder = this.rendererFolder.addFolder('Post Processing');
+
+            this.outlineFolder = this.postProcessingFolder.addFolder('Outline');
         }
 
         this.setInstance()
@@ -39,14 +43,14 @@ export default class Renderer
         this.composerPortfolio.addPass(this.renderPassPortfolio);
 
         this.outlinePassProfile = new OutlinePass(
-        new THREE.Vector2(this.sizes.width, this.sizes.height),
-        this.sceneProfile,
-        this.camera.instance
+            new THREE.Vector2(this.sizes.width, this.sizes.height),
+            this.sceneProfile,
+            this.camera.instance
         );
         this.outlinePassPortfolio = new OutlinePass(
-        new THREE.Vector2(this.sizes.width, this.sizes.height),
-        this.scenePortfolio,
-        this.camera.instance
+            new THREE.Vector2(this.sizes.width, this.sizes.height),
+            this.scenePortfolio,
+            this.camera.instance
         );
 
         [this.outlinePassProfile, this.outlinePassPortfolio].forEach(op => {
@@ -76,7 +80,6 @@ export default class Renderer
         this.selectedObjects = [];
 
         if (this.debug.active) {
-            const outlineFolder = this.debugFolder.addFolder('OutlinePass');
 
             const params = {
                 edgeStrength: this.outlinePassProfile.edgeStrength,
@@ -91,25 +94,57 @@ export default class Renderer
                 callback(this.outlinePassPortfolio);
             };
 
-            outlineFolder.add(params, 'edgeStrength', 0.01, 10).onChange((value) => {
+            this.outlineFolder.add(params, 'edgeStrength', 0.01, 10).onChange((value) => {
                 applyToBoth((p) => (p.edgeStrength = Number(value)));
             });
 
-            outlineFolder.add(params, 'edgeGlow', 0.0, 1.0).onChange((value) => {
+            this.outlineFolder.add(params, 'edgeGlow', 0.0, 1.0).onChange((value) => {
                 applyToBoth((p) => (p.edgeGlow = Number(value)));
             });
 
-            outlineFolder.add(params, 'edgeThickness', 1, 4).onChange((value) => {
+            this.outlineFolder.add(params, 'edgeThickness', 1, 4).onChange((value) => {
                 applyToBoth((p) => (p.edgeThickness = Number(value)));
             });
 
-            outlineFolder.add(params, 'pulsePeriod', 0.0, 5.0).onChange((value) => {
+            this.outlineFolder.add(params, 'pulsePeriod', 0.0, 5.0).onChange((value) => {
                 applyToBoth((p) => (p.pulsePeriod = Number(value)));
             });
 
-            outlineFolder.add(params, 'usePatternTexture').onChange((value) => {
+            this.outlineFolder.add(params, 'usePatternTexture').onChange((value) => {
                 applyToBoth((p) => (p.usePatternTexture = value));
             });
+
+            const toneMappingOptions = {
+                NoToneMapping: THREE.NoToneMapping,
+                LinearToneMapping: THREE.LinearToneMapping,
+                ReinhardToneMapping: THREE.ReinhardToneMapping,
+                CineonToneMapping: THREE.CineonToneMapping,
+                ACESFilmicToneMapping: THREE.ACESFilmicToneMapping
+            };
+
+            // On suppose que this.instance est ton renderer
+            this.rendererFolder.add(this.instance, 'toneMapping', toneMappingOptions)
+                .name('Tone Mapping')
+                .onChange(() => {
+                    this.instance.toneMapping = parseInt(this.instance.toneMapping);
+                    this.instance.needsUpdate = true; // parfois nécessaire pour que ça prenne effet
+                });
+
+            // Exposure (luminosité globale)
+            this.rendererFolder.add(this.instance, 'toneMappingExposure', 0, 5, 0.01)
+                .name('Exposure');
+
+            // Output encoding
+            const encodingOptions = {
+                LinearEncoding: THREE.LinearEncoding,
+                sRGBEncoding: THREE.sRGBEncoding
+            };
+
+            this.rendererFolder.add(this.instance, 'outputEncoding', encodingOptions)
+                .name('Output Encoding')
+                .onChange(() => {
+                    this.instance.outputEncoding = parseInt(this.instance.outputEncoding);
+                });
         }
 
     }
