@@ -15,20 +15,47 @@ export default class Resources extends EventEmitter
         this.toLoad = this.sources.length
         this.loaded = 0
 
+        this.setLoadingManager()
         this.setLoaders()
         this.startLoading()
     }
 
+    setLoadingManager() {
+        const loaderElement = document.getElementById('loader');
+        const loaderBar = document.querySelector('.loader-bar-fill');
+        const loaderPercent = document.getElementById('loader-percent');   
+
+
+        this.loadingManager = new THREE.LoadingManager(
+            // Quand tout est chargé
+            () => {
+                loaderElement.style.opacity = '0';
+                setTimeout(() => loaderElement.remove(), 600);
+            },
+
+            // Pendant le chargement
+            (url, itemsLoaded, itemsTotal) => {
+                const progress = itemsLoaded / itemsTotal;
+
+                loaderBar.style.transform = `scaleX(${progress})`;
+                loaderPercent.textContent = `${Math.floor(progress * 100)}%`;
+            }
+        );
+
+    }
+
+
     setLoaders()
     {
+        
         this.loaders = {}
-        this.loaders.gltfLoader = new GLTFLoader()
+        this.loaders.gltfLoader = new GLTFLoader(this.loadingManager)
         this.dracoLoader = new DRACOLoader()
         this.dracoLoader.setDecoderPath('./draco/')
         // this.dracoLoader.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
         this.loaders.gltfLoader.setDRACOLoader(this.dracoLoader)
-        this.loaders.textureLoader = new THREE.TextureLoader()
-        this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader()
+        this.loaders.textureLoader = new THREE.TextureLoader(this.loadingManager)
+        this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(this.loadingManager)
     }
 
     startLoading()
@@ -77,7 +104,7 @@ export default class Resources extends EventEmitter
 
         if(this.loaded === this.toLoad)
         {
-            this.trigger('ready')            
+            this.trigger('ready')                
         }
     }
 }
