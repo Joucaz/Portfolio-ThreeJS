@@ -36,8 +36,6 @@ export default class Monitor
         // Ajoute une référence vers "this" dans le modèle
         this.model.traverse(child => {
 
-            console.log(child);
-
             child.userData.parentInstance = this;
 
             if(child instanceof THREE.Mesh)

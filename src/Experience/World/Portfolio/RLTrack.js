@@ -30,11 +30,7 @@ export default class RLTrack
     setModel()
     {        
         this.model = this.resource.scene
-        this.experience.world.groupPortfolio.add(this.model)
-
-        console.log(this.resource);
-        
-        
+        this.experience.world.groupPortfolio.add(this.model) 
 
         // Ajoute une référence vers "this" dans le modèle
         this.model.traverse(child => {

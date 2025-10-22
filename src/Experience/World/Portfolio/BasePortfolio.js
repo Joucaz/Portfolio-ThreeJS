@@ -26,8 +26,6 @@ export default class BasePortfolio
     {
         this.model = this.ressource.scene
         this.experience.world.groupPortfolio.add(this.model)
-
-        console.log(this.model)
     
         this.model.traverse((child) =>
         {

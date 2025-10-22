@@ -26,8 +26,6 @@ export default class BaseProfile
     {
         this.model = this.ressource.scene
         this.experience.world.groupProfile.add(this.model)
-
-        console.log(this.model)
     
         this.model.traverse((child) =>
         {
