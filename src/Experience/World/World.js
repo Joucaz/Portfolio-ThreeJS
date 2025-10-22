@@ -65,6 +65,8 @@ export default class World
             this.pc = new PC()
             this.monitor = new Monitor()
 
+            this.arrayAnimationProfile = [this.ball, this.chair, this.hat, this.mouse, this.pc]
+
             // Setup Portfolio    
             this.basePortfolio = new BasePortfolio()
 
@@ -74,6 +76,8 @@ export default class World
             this.rlTrack = new RLTrack()
             this.jordan = new Jordan()
             this.tvScreen = new TVScreen()
+
+            this.arrayAnimationPortfolio = [this.reyna, this.chamber, this.breach, this.rlTrack, this.jordan]
 
             // Setup Environment
             this.environment = new Environment()
@@ -106,6 +110,9 @@ export default class World
                     this.groupPortfolio.scale.set(value, value, value);
                 });
         }
+
+        this.currentAnimationProfile = null
+        this.currentAnimationPortfolio = null
 
     }
 
@@ -141,6 +148,44 @@ export default class World
 
         if(this.environment)
             this.environment.update()
+
+        
+        if(this.experience.sizes.isMobile)
+        {
+            if(this.currentAnimationProfile == null || !this.currentAnimationProfile.isPlaying)
+            {
+                this.playRandomProfileAnimation()
+            }
+            if(this.currentAnimationPortfolio == null || !this.currentAnimationPortfolio.isPlaying)
+            {
+                this.playRandomPortfolioAnimation()
+            }
+            
+        }
+    }
+
+    playRandomProfileAnimation()
+    {
+        if(this.arrayAnimationProfile == null)
+            return
+        
+        const randomIndex = Math.floor(Math.random() * this.arrayAnimationProfile.length);
+        this.currentAnimationProfile = this.arrayAnimationProfile[randomIndex];
+
+        this.currentAnimationProfile.playAnimation()
+        
+    }
+
+    playRandomPortfolioAnimation()
+    {
+        if(this.arrayAnimationPortfolio == null)
+            return
+        
+        const randomIndex = Math.floor(Math.random() * this.arrayAnimationPortfolio.length);
+        this.currentAnimationPortfolio = this.arrayAnimationPortfolio[randomIndex];
+
+        this.currentAnimationPortfolio.playAnimation()
+        
     }
 
     mouseOut()
