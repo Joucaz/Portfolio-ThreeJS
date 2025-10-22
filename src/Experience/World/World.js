@@ -28,7 +28,13 @@ export default class World
         this.groupProfile = new THREE.Group()
         this.groupPortfolio = new THREE.Group()
 
-        // this.environment = new Environment()
+        this.debug = this.experience.debug
+
+        // Debug
+        if(this.debug.active)
+        {
+            this.debugFolder = this.debug.ui.addFolder('World')
+        }
 
         // Wait for resources
         this.resources.on('ready', () =>
@@ -74,6 +80,35 @@ export default class World
             // Setup Environment
             this.environment = new Environment()
         })
+
+        if(this.debug.active)
+        {
+            // this.debugFolder
+            //     .add(this.instance, 'fov')
+            //     .name('FOV')
+            //     .min(0)
+            //     .max(150)
+            //     .step(1)
+            //     .onChange((value) => {
+            //         this.instance.fov = value; // on met à jour le FOV
+            //         this.instance.updateProjectionMatrix(); // obligatoire pour appliquer le changement
+            //     });
+            
+            const scaleParams = { scale: 1 };
+
+            this.debugFolder
+                .add(scaleParams, 'scale')
+                .name('Scene Scale')
+                .min(0.1)
+                .max(10)
+                .step(0.01)
+                .onChange((value) => {
+                    // Applique la même échelle sur les 3 axes
+                    this.groupProfile.scale.set(value, value, value);
+                    this.groupPortfolio.scale.set(value, value, value);
+                });
+        }
+
     }
 
     update()
