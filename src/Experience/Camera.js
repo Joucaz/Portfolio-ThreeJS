@@ -14,6 +14,11 @@ export default class Camera
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
         this.clock = new THREE.Clock()
         this.previousTime = 0
+
+        const baseWidth = 1350 / 2; //1536 total mais j'ai baissé un peu
+        const baseHeight = 695;
+        this.baseFOV = 60;
+        this.baseAspect = baseWidth / baseHeight;
         
         this.debug = this.experience.debug
 
@@ -31,8 +36,13 @@ export default class Camera
 
     setInstance()
     {
-        this.instance = new THREE.PerspectiveCamera(60, this.aspectRatioCamera, 0.1, 100)
+        this.instance = new THREE.PerspectiveCamera(this.baseFOV, this.aspectRatioCamera, 0.1, 100)
         this.instance.position.set(0, 0.2, 3)
+
+        console.log(this.aspectRatioCamera);
+        console.log(this.sizes.width);
+        console.log(this.sizes.height);
+
 
         // DON'T WORK WITH ORBIT CONTROLS
         this.instance.lookAt(new THREE.Vector3(0, 0, 0))
@@ -45,8 +55,8 @@ export default class Camera
             this.debugFolder
                 .add(this.instance, 'fov')
                 .name('FOV')
-                .min(0)
-                .max(150)
+                .min(40)
+                .max(100)
                 .step(1)
                 .onChange((value) => {
                     this.instance.fov = value; // on met à jour le FOV
@@ -70,7 +80,7 @@ export default class Camera
                 .name('Position Z')
                 .min(-10)
                 .max(10)
-                .step(0.01)
+                .step(0.1)
         }
     }
 
@@ -84,13 +94,19 @@ export default class Camera
     {
         this.aspectRatioCamera = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
         this.instance.aspect = this.aspectRatioCamera
-        console.log(this.instance.aspect);
+
+        const currentAspect = this.sizes.isMobile ? this.sizes.width / (this.sizes.height / 2) : this.sizes.width / 2 / this.sizes.height
+        const fovFactor = currentAspect / this.baseAspect;
+        this.instance.fov = Math.max(60, Math.min(72, this.baseFOV / fovFactor));
+        console.log(this.instance.fov);
+        
         
         this.instance.updateProjectionMatrix()
     }
 
     update()
     {
+        
         // const elapsedTime = this.clock.getElapsedTime()
         // const deltaTime = elapsedTime - this.previousTime
         // this.previousTime = elapsedTime
