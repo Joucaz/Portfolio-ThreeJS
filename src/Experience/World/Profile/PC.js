@@ -42,7 +42,9 @@ export default class PC
 
             if(child instanceof THREE.Mesh)
             {
-                if (child.material) {                    
+                if (child.material) {   
+                    console.log(child);
+                                     
                     child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
                 }
             }
@@ -82,13 +84,35 @@ export default class PC
             toneMapped: false
         });
 
+        this.video2 = document.getElementById("video2");
+                
+        this.video2.play();
+
+        // console.log("Video ready:", this.video);
+
+        this.videoTexture2 = new THREE.VideoTexture(this.video2);
+        this.videoTexture2.colorSpace = THREE.SRGBColorSpace;
+        // this.videoTexture2.center.set(0.5, 0.5);
+        // this.videoTexture2.rotation = Math.PI; // 180°
+        this.videoTexture2.repeat.y = -1;
+        this.videoTexture2.offset.y = 1;
+
+        this.videoMaterial2 = new THREE.MeshStandardMaterial({
+            map: this.videoTexture2,
+            side: THREE.FrontSide,
+            toneMapped: false
+        });
+
     }
 
     setMaterial()
     {
+        console.log(this.model);
+        
         this.screenPC = this.model.children[0].children[1];     
         this.screenPC.material = this.videoMaterial;
-        
+        this.screenMonitor = this.model.children[0].children[2];     
+        this.screenMonitor.material = this.videoMaterial2;
     }
 
     setAnimation()
@@ -112,10 +136,22 @@ export default class PC
     {
         if (this.isPlaying) return
         this.isPlaying = true
-        
+
+        if(!this.isOpen){
+            
+            this.screenPC.material = this.videoMaterial 
+            this.screenPC.visible = true;
+        }        
 
         setTimeout(() => {
             this.isOpen = !this.isOpen;
+            if(this.isOpen){
+                this.screenMonitor.material = this.videoMaterial;
+            }
+            else{
+                this.screenMonitor.material = this.videoMaterial2;  
+                this.screenPC.visible = false
+            }    
         }, 1 * 1000)
 
         // On récupère les deux actions
