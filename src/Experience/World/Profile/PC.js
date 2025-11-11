@@ -78,7 +78,7 @@ export default class PC
         this.videoTexture.offset.y = 1;
 
 
-        this.videoMaterial = new THREE.MeshStandardMaterial({
+        this.videoMaterial = new THREE.MeshBasicMaterial({
             map: this.videoTexture,
             side: THREE.FrontSide,
             toneMapped: false
@@ -97,7 +97,7 @@ export default class PC
         this.videoTexture2.repeat.y = -1;
         this.videoTexture2.offset.y = 1;
 
-        this.videoMaterial2 = new THREE.MeshStandardMaterial({
+        this.videoMaterial2 = new THREE.MeshBasicMaterial({
             map: this.videoTexture2,
             side: THREE.FrontSide,
             toneMapped: false

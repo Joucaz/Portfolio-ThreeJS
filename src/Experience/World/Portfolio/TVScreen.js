@@ -54,7 +54,7 @@ export default class TVScreen
         
         this.video.play();
 
-        // console.log("Video ready:", this.video);
+        console.log("Video ready:", this.video)
 
         this.videoTexture = new THREE.VideoTexture(this.video);
         this.videoTexture.colorSpace = THREE.SRGBColorSpace;
@@ -64,7 +64,7 @@ export default class TVScreen
         this.videoTexture.offset.y = 1;
 
 
-        this.videoMaterial = new THREE.MeshStandardMaterial({
+        this.videoMaterial = new THREE.MeshBasicMaterial({
             map: this.videoTexture,
             side: THREE.FrontSide,
             toneMapped: false
