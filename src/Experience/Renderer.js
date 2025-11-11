@@ -35,6 +35,8 @@ export default class Renderer
 
         // Post-processing
         this.composerProfile = new EffectComposer(this.instance);
+        this.composerProfile.setSize(this.sizes.width, this.sizes.height)
+        this.composerProfile.setPixelRatio(this.sizes.pixelRatio)
         this.composerPortfolio = new EffectComposer(this.instance);
 
         this.renderPassProfile = new RenderPass(this.sceneProfile, this.camera.instance);
@@ -176,15 +178,19 @@ export default class Renderer
     {
         this.instance = new THREE.WebGLRenderer({
             canvas: this.canvas,
-            antialias: true
+            antialias: false,
+            powerPreference: 'high-performance'
         })
-        this.instance.toneMapping = THREE.CineonToneMapping
+        this.instance.toneMapping = THREE.NoToneMapping
         this.instance.toneMappingExposure = 1.75
         // this.instance.shadowMap.enabled = true
         // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
         this.instance.setClearColor('#211d20')
         this.instance.setSize(this.sizes.width, this.sizes.height)
         this.instance.setPixelRatio(this.sizes.pixelRatio)
+        this.instance.autoUpdate = false
+
+        // this.sceneProfile.overrideMaterial = new THREE.MeshBasicMaterial({ color: "green" });
     }
 
     resize()
@@ -198,7 +204,9 @@ export default class Renderer
 
         // Resize des composers
         this.composerProfile.setSize(halfWidth, halfHeight)
+        this.composerProfile.setPixelRatio(this.sizes.pixelRatio)
         this.composerPortfolio.setSize(halfWidth, halfHeight)
+        this.composerPortfolio.setPixelRatio(this.sizes.pixelRatio)
 
         // Resize des OutlinePass
         if (this.outlinePassProfile && this.outlinePassPortfolio) {
@@ -216,7 +224,7 @@ export default class Renderer
     update()
     {    
         // console.log(this.selectedObjects)
-        
+        // console.log(this.instance.info)
         this.instance.setScissorTest(true)
 
         if(!this.sizes.isMobile)
