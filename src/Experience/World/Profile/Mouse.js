@@ -68,26 +68,39 @@ export default class Mouse
         
         this.animation.actions.mouseAction = this.animation.mixer.clipAction(this.resource.animations[0])
 
-        // Look when animation is finish with an event
-        // this.animation.mixer.addEventListener('finished', () => {
-        //     console.log("finish");
-            
-        //     this.isPlaying = false
-        // })
+        this.isReversed = false;
         
     }
 
-    playAnimation()
-    {
+    playAnimation() {
         if (this.isPlaying) return;
+        this.isPlaying = true;
 
         const action = this.animation.actions.mouseAction;
+        const duration = this.resource.animations[0].duration;
 
-        action.reset();                         // ← remet à la frame 0
         action.setLoop(THREE.LoopOnce, 1);      // ← joue une seule fois
-        action.clampWhenFinished = true;        // ← reste sur la dernière frame
-        this.isPlaying = true;
-        action.play();   
+        action.clampWhenFinished = true;  
+
+        // Stop proprement avant de rejouer
+        action.stop();
+        action.reset();
+
+        // Sens de lecture
+        if (this.isReversed) {
+            action.timeScale = -1;    // joue en arrière
+            action.time = duration;   // démarre à la fin
+        } else {
+            action.timeScale = 1;     // joue normalement
+            action.time = 0;          // démarre au début
+        }
+        this.isReversed = !this.isReversed
+        // Lecture
+        action.play();
+
+        setTimeout(() => {
+            this.isPlaying = false
+        }, (this.resource.animations[0].duration) * 1000)
     }
 
     update()
@@ -96,10 +109,5 @@ export default class Mouse
 
         // console.log(this.resource.animations[0].duration);
         
-        
-        // Look when animation is finish
-        if (this.isPlaying && this.animation.actions.mouseAction.time >= this.resource.animations[0].duration) {
-            this.isPlaying = false;
-        }
     }
 }

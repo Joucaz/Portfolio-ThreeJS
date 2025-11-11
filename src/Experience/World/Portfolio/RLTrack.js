@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../../Experience.js'
+import { mod } from 'three/tsl'
 
 export default class RLTrack
 {
@@ -61,10 +62,12 @@ export default class RLTrack
     setAnimation()
     {
         this.animation = {}
+        
+        
+        this.emptyFennec = this.model.children[0].children.find(child => child.name === "EmptyFennec005")
+        this.emptyOctane = this.model.children[0].children.find(child => child.name === "EmptyOctane005")
 
         
-        this.emptyFennec = this.model.children[0].children.find(child => child.name === "EmptyFennec")
-        this.emptyOctane = this.model.children[0].children.find(child => child.name === "EmptyOctane")
         
         // // Mixer
         this.animation.mixerFennec = new THREE.AnimationMixer(this.emptyFennec)
@@ -72,10 +75,10 @@ export default class RLTrack
         
         // // Actions
         this.animation.actions = {}        
-        
         this.animation.actions.fennecAction = this.animation.mixerFennec.clipAction(this.resource.animations[0])
         this.animation.actions.octaneAction = this.animation.mixerOctane.clipAction(this.resource.animations[1])
 
+    
         this.animation.actions.fennecAction.play()
         this.animation.actions.octaneAction.play()  
         

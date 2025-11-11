@@ -26,6 +26,8 @@ export default class BaseProfile
     {
         this.model = this.ressource.scene
         this.experience.world.groupProfile.add(this.model)
+
+        // this.model.matrixAutoUpdate = false
     
         this.model.traverse((child) =>
         {

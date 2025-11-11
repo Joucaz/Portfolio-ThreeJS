@@ -22,6 +22,13 @@ export default class Environment
         this.intensityDirectionnalLightOff = 0
         // this.intensityDirectionnalLight = 0
         // this.intensityDirectionnalLightOff = 0
+        this.intensityLightOff = 0.04
+        this.intensityLightOn = 1
+
+        
+        this.colorProfile = this.experience.world.unlimitedTexture.bakedMaterialProfile.color;
+        this.colorPortfolio = this.experience.world.unlimitedTexture.bakedMaterialPortfolio.color;
+        this.colorJordan = this.experience.world.unlimitedTexture.bakedMaterialJordan.color;
 
         this.isMobileEnabled = false;
         
@@ -31,8 +38,8 @@ export default class Environment
             this.debugFolder = this.debug.ui.addFolder('environment')
         }
 
-        this.setLightProfile()
-        this.setLightPortfolio()
+        // this.setLightProfile()
+        // this.setLightPortfolio()
         
         // this.setEnvironmentMap()
     }
@@ -75,27 +82,48 @@ export default class Environment
             return
 
         const isFirst = this.experience.cursor.isFirstSection
-
+        
         if (isFirst !== this.currentSection) 
         {
+    
             this.currentSection = isFirst
 
-            if (isFirst) 
-            {
-                gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
-                gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+            let intensity = { value: isFirst ? this.intensityLightOff : this.intensityLightOn }
 
-                gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
-                gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
-            } 
-            else 
-            {
-                gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
-                gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+            gsap.to(intensity, { value: isFirst ? 1 : 0.04, 
+                duration: 1, 
+                ease: "power2.out", 
+                onUpdate: () => { 
+                    this.colorProfile.setScalar(intensity.value); 
+                    this.colorPortfolio.setScalar(1 - intensity.value + 0.03); 
+                    this.colorJordan.setScalar(1 - intensity.value + 0.03); 
+                }
+            })
 
-                gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
-                gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
-            }
+
+            // if (isFirst) 
+            // {
+                // gsap.to(this.experience.world.unlimitedTexture.bakedMaterialProfile.color, { setScalar: 1, duration: 1, ease: "power2.out" })
+                // gsap.to(this.experience.world.unlimitedTexture.bakedMaterialPortfolio.color, { setScalar: 0.03, duration: 1, ease: "power2.out" })
+
+                // gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+                // gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+
+                // gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
+                // gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+            // } 
+            // else 
+            // {
+                
+                // gsap.to(this.experience.world.unlimitedTexture.bakedMaterialProfile.color, { setScalar: 0.03, duration: 1, ease: "power2.out" })
+                // gsap.to(this.experience.world.unlimitedTexture.bakedMaterialPortfolio.color, { setScalar: 1, duration: 1, ease: "power2.out" })
+
+                // gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+                // gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+
+                // gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+                // gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
+            // }
         } 
         
         
@@ -105,8 +133,7 @@ export default class Environment
     {
         // Ambient Light (0xffffff, 0.2)
         this.ambientLightProfile = new THREE.AmbientLight(0xffffff, this.intensityAmbientLightOff)
-        this.sceneProfile.add(this.ambientLightProfile)
-
+        // this.sceneProfile.add(this.ambientLightProfile)
 
         // Directional Light (0xffffff, 3)
         this.directionalLightProfile = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
@@ -118,10 +145,25 @@ export default class Environment
         // this.directionalLightProfile.shadow.camera.right = 7
         // this.directionalLightProfile.shadow.camera.bottom = - 7
         this.directionalLightProfile.position.set(5, 5, 5)
-        this.sceneProfile.add(this.directionalLightProfile)
+        // this.sceneProfile.add(this.directionalLightProfile)
 
         if(this.debug.active)
         {
+            // Toggle visibility
+            const paramLightsProfile = { enabledDirectionnalProfile: this.directionalLightProfile.visible,
+                                        enabledAmbientProfile: this.ambientLightProfile.visible };
+            this.debugFolder
+                .add(paramLightsProfile, 'enabledDirectionnalProfile')
+                .name('Enable Directional Light Profile')
+                .onChange(value => {
+                    this.directionalLightProfile.visible = value;
+                });
+            this.debugFolder
+                .add(paramLightsProfile, 'enabledAmbientProfile')
+                .name('Enable Ambient Light Profile')
+                .onChange(value => {
+                    this.ambientLightProfile.visible = value;
+                });
             this.debugFolder
                 .add(this.ambientLightProfile, 'intensity')
                 .name('ambient profile intensity')
@@ -129,27 +171,22 @@ export default class Environment
                 .max(4)
                 .setValue(this.intensityAmbientLight)
                 .step(0.1)
-            
             this.debugFolder
                 .add(this.directionalLightProfile, 'intensity')
                 .name('directional profile intensity')
                 .min(0)
                 .max(5)
                 .setValue(this.intensityDirectionnalLight)
-                .step(0.1)            
+                .step(0.1)     
+                   
         }
     }
 
     setLightPortfolio()
     {
-        // this.ambientLightPortfolio = this.ambientLightProfile.clone()
-        // this.scenePortfolio.add(this.ambientLightPortfolio)
-
-        // this.directionalLightPortfolio = this.directionalLightProfile.clone()
-        // this.scenePortfolio.add(this.directionalLightPortfolio)
 
         this.ambientLightPortfolio = new THREE.AmbientLight(0xffffff, this.intensityAmbientLightOff)
-        this.scenePortfolio.add(this.ambientLightPortfolio)
+        // this.scenePortfolio.add(this.ambientLightPortfolio)
 
         this.directionalLightPortfolio = new THREE.DirectionalLight(0xffffff, this.intensityDirectionnalLightOff)
         // this.directionalLightPortfolio.castShadow = true
@@ -160,11 +197,26 @@ export default class Environment
         // this.directionalLightPortfolio.shadow.camera.right = 7
         // this.directionalLightPortfolio.shadow.camera.bottom = -7
         this.directionalLightPortfolio.position.set(1, 3, 1)
-        this.scenePortfolio.add(this.directionalLightPortfolio)
+        // this.scenePortfolio.add(this.directionalLightPortfolio)
 
         // Debug
         if(this.debug.active)
         {
+            // Toggle visibility
+            const paramLightsPortfolio = { enabledDirectionnalPortfolio: this.directionalLightPortfolio.visible,
+                                        enabledAmbientPortfolio: this.ambientLightPortfolio.visible };
+            this.debugFolder
+                .add(paramLightsPortfolio, 'enabledDirectionnalPortfolio')
+                .name('Enable Directional Light Portfolio')
+                .onChange(value => {
+                    this.directionalLightPortfolio.visible = value;
+                });
+            this.debugFolder
+                .add(paramLightsPortfolio, 'enabledAmbientPortfolio')
+                .name('Enable Ambient Light Portfolio')
+                .onChange(value => {
+                    this.ambientLightPortfolio.visible = value;
+                });
             this.debugFolder
                 .add(this.ambientLightPortfolio, 'intensity')
                 .name('ambientLightPortfolio')
@@ -189,10 +241,23 @@ export default class Environment
 
     setLightMobile()
     {
-        gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
+
+        let intensity = { value: this.intensityLightOff }; // valeur de départ
+
+        gsap.to(intensity, {
+            value: this.intensityLightOn, // valeur cible
+            duration: 1,
+            ease: "power2.out",
+            onUpdate: () => {
+                this.colorProfile.setScalar(intensity.value);
+                this.colorPortfolio.setScalar(intensity.value);
+            }
+        });
+
+        // gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
         // gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
 
-        gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
+        // gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
         // gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLight, duration: 1, ease: "power2.out" })
     }
 

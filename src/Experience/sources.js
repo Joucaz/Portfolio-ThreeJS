@@ -68,6 +68,11 @@ export default [
         path: 'models/Portfolio/Jordan1/Jordan1.glb'
     },
     {
+        name: 'jordanBox',
+        type: 'gltfModel',
+        path: 'models/Portfolio/Jordan1/Jordan1Box.glb'
+    },
+    {
         name: 'tvScreen',
         type: 'gltfModel',
         path: 'models/Portfolio/TV/TVScreen.glb'
