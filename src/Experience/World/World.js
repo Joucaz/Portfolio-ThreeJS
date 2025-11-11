@@ -8,6 +8,7 @@ import RLTrack from './Portfolio/RLTrack.js'
 import Chamber from './Portfolio/Chamber.js'
 import Breach from './Portfolio/Breach.js'
 import Jordan from './Portfolio/Jordan.js'
+import JordanBox from './Portfolio/JordanBox.js'
 import UnlimitedTexture from './UnlimitedTexture.js'
 import TVScreen from './Portfolio/TVScreen.js'
 import Ball from './Profile/Ball.js'
@@ -15,7 +16,6 @@ import Chair from './Profile/Chair.js'
 import Hat from './Profile/Hat.js'
 import Mouse from './Profile/Mouse.js'
 import PC from './Profile/PC.js'
-import Monitor from './Profile/Monitor.js'
 
 export default class World
 {
@@ -63,7 +63,6 @@ export default class World
             this.hat = new Hat()
             this.mouse = new Mouse()
             this.pc = new PC()
-            this.monitor = new Monitor()
 
             this.arrayAnimationProfile = [this.ball, this.chair, this.hat, this.mouse, this.pc]
 
@@ -74,10 +73,11 @@ export default class World
             this.chamber = new Chamber()
             this.breach = new Breach()
             this.rlTrack = new RLTrack()
-            this.jordan = new Jordan()
+            // this.jordan = new Jordan()
+            this.jordanBox = new JordanBox()
             this.tvScreen = new TVScreen()
 
-            this.arrayAnimationPortfolio = [this.reyna, this.chamber, this.breach, this.rlTrack, this.jordan]
+            this.arrayAnimationPortfolio = [this.reyna, this.chamber, this.breach, this.rlTrack, this.jordanBox]
 
             // Setup Environment
             this.environment = new Environment()
@@ -129,6 +129,8 @@ export default class World
             this.rlTrack.update()
         if(this.jordan)
             this.jordan.update()
+        if(this.jordanBox)
+            this.jordanBox.update()
         if(this.tvScreen)
             this.tvScreen.update()
 
