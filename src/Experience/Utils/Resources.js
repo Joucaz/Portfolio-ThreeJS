@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+// import { FontLoader } from 'three/addons/loaders/FontLoader.js'
+
 import EventEmitter from './EventEmitter.js'
 
 export default class Resources extends EventEmitter
@@ -50,6 +52,9 @@ export default class Resources extends EventEmitter
         
         this.loaders = {}
         this.loaders.gltfLoader = new GLTFLoader(this.loadingManager)
+        // this.loaders.fontLoader = new FontLoader(this.loadingManager)
+        // this.loaders.fontLoader = new THREE.FileLoader(this.loadingManager)
+        // this.loaders.fontLoader.setResponseType('arraybuffer') // important pour TTF
         this.dracoLoader = new DRACOLoader()
         this.dracoLoader.setDecoderPath('./draco/')
         // this.dracoLoader.setDecoderPath(`${import.meta.env.BASE_URL}draco/`)
@@ -93,6 +98,19 @@ export default class Resources extends EventEmitter
                     }
                 )
             }
+            // else if(source.type === 'font')
+            // {
+            //     this.loaders.fontLoader.load(
+            //         source.path,
+            //         (file) =>
+            //         {
+            //             // file est un ArrayBuffer
+            //             console.log(file);
+                        
+            //             this.sourceLoaded(source, file)
+            //         }
+            //     )
+            // }
         }
     }
 

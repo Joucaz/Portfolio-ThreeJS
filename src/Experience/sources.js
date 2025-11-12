@@ -137,5 +137,10 @@ export default [
     //     name: 'monitor',
     //     type: 'gltfModel',
     //     path: 'models/Profile/Monitor/Monitor.glb'
+    // },
+    // {
+    //     name: 'fontMontserrat',
+    //     type: 'font',
+    //     path: 'fonts/Montserrat-Bold.ttf'
     // }
 ]

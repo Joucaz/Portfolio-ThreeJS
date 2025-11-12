@@ -29,6 +29,7 @@ export default class Environment
         this.colorProfile = this.experience.world.unlimitedTexture.bakedMaterialProfile.color;
         this.colorPortfolio = this.experience.world.unlimitedTexture.bakedMaterialPortfolio.color;
         this.colorJordan = this.experience.world.unlimitedTexture.bakedMaterialJordan.color;
+        this.colorTextRL = this.experience.world.troikaText.textRLMaterial.color;
 
         this.isMobileEnabled = false;
         
@@ -97,6 +98,8 @@ export default class Environment
                     this.colorProfile.setScalar(intensity.value); 
                     this.colorPortfolio.setScalar(1 - intensity.value + 0.03); 
                     this.colorJordan.setScalar(1 - intensity.value + 0.03); 
+                    const c = 1 - intensity.value + 0.03
+                    this.colorTextRL.setRGB(c, c, c)
                 }
             })
 

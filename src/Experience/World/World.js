@@ -16,6 +16,7 @@ import Chair from './Profile/Chair.js'
 import Hat from './Profile/Hat.js'
 import Mouse from './Profile/Mouse.js'
 import PC from './Profile/PC.js'
+import TroikaText from './Portfolio/TroikaText.js'
 
 export default class World
 {
@@ -27,6 +28,10 @@ export default class World
         this.resources = this.experience.resources
         this.groupProfile = new THREE.Group()
         this.groupPortfolio = new THREE.Group()
+        this.sceneProfile.add(this.groupProfile)
+        this.scenePortfolio.add(this.groupPortfolio)
+
+        this.troikaText = new TroikaText({ parentGroup: this.groupPortfolio })
 
         this.debug = this.experience.debug
 
@@ -43,12 +48,12 @@ export default class World
             // this.floor = new Floor()
             
             // Setup Group
-            this.sceneProfile.add(this.groupProfile)
+            // this.sceneProfile.add(this.groupProfile)
             // this.groupProfile.position.z = 2
             // this.groupProfile.position.y = -1
             // this.groupProfile.scale.setScalar(2)
 
-            this.scenePortfolio.add(this.groupPortfolio)
+            // this.scenePortfolio.add(this.groupPortfolio)
             // this.groupPortfolio.position.z = 2
             // this.groupPortfolio.position.y = -1
             // this.groupPortfolio.scale.setScalar(2)
@@ -76,6 +81,7 @@ export default class World
             // this.jordan = new Jordan()
             this.jordanBox = new JordanBox()
             this.tvScreen = new TVScreen()
+
 
             this.arrayAnimationPortfolio = [this.reyna, this.chamber, this.breach, this.rlTrack, this.jordanBox]
 

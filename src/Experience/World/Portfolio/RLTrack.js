@@ -11,9 +11,21 @@ export default class RLTrack
         this.resources = this.experience.resources
         this.time = this.experience.time
         this.debug = this.experience.debug
+        this.troikaText = this.experience.world.troikaText
 
         this.lastAnimationChange = 0 // en millisecondes
         this.animationChangeCooldown = 3000 // 3 secondes
+
+        this.fennecCounter = 0
+        this.octaneCounter = 0
+
+        // 🎲 Génère une vitesse aléatoire
+        this.minSpeed = 1.5
+        this.maxSpeed = 3.88
+
+        this.baseSpeed = 110
+        this.fennecSpeed = 110
+        this.octaneSpeed = 110
 
         // Debug
         if(this.debug.active)
@@ -59,30 +71,53 @@ export default class RLTrack
         // })
     }
 
-    setAnimation()
-    {
+    setAnimation() {
         this.animation = {}
-        
-        
+
         this.emptyFennec = this.model.children[0].children.find(child => child.name === "EmptyFennec005")
         this.emptyOctane = this.model.children[0].children.find(child => child.name === "EmptyOctane005")
 
-        
-        
-        // // Mixer
+        // Mixers
         this.animation.mixerFennec = new THREE.AnimationMixer(this.emptyFennec)
         this.animation.mixerOctane = new THREE.AnimationMixer(this.emptyOctane)
-        
-        // // Actions
-        this.animation.actions = {}        
+
+        // Actions
+        this.animation.actions = {}
         this.animation.actions.fennecAction = this.animation.mixerFennec.clipAction(this.resource.animations[0])
         this.animation.actions.octaneAction = this.animation.mixerOctane.clipAction(this.resource.animations[1])
 
-    
+        // Boucles infinies
+        this.animation.actions.fennecAction.setLoop(THREE.LoopRepeat, Infinity)
+        this.animation.actions.octaneAction.setLoop(THREE.LoopRepeat, Infinity)
+
+        this.animation.actions.fennecAction.clampWhenFinished = true
+        this.animation.actions.octaneAction.clampWhenFinished = true
+
+        this.animation.actions.fennecAction.timeScale = this.minSpeed
+        this.animation.actions.octaneAction.timeScale = this.minSpeed
+
+        // Jouer les animations
         this.animation.actions.fennecAction.play()
-        this.animation.actions.octaneAction.play()  
-        
+        this.animation.actions.octaneAction.play()
+
+        // Événements "loop" pour incrémenter les compteurs
+        this.animation.mixerFennec.addEventListener('loop', (e) => {
+            if (e.action === this.animation.actions.fennecAction) {
+                this.fennecCounter++
+                this.troikaText.updateText('lapFennec', `${this.fennecCounter}`)
+                console.log(`Fennec loop finished: ${this.fennecCounter}`)
+            }
+        })
+
+        this.animation.mixerOctane.addEventListener('loop', (e) => {
+            if (e.action === this.animation.actions.octaneAction) {
+                this.octaneCounter++
+                this.troikaText.updateText('lapOctane', `${this.octaneCounter}`)
+                console.log(`Octane loop finished: ${this.octaneCounter}`)
+            }
+        })
     }
+
 
     // createSpeedIndicator(car, speed, isRightScene = true) {
     //     const speedLabel = `${speed}`
@@ -208,14 +243,24 @@ export default class RLTrack
         const actions = [fAction, oAction]
         const randomAction = actions[Math.floor(Math.random() * actions.length)]
 
-        // 🎲 Génère une vitesse aléatoire
-        const minSpeed = 0.88
-        const maxSpeed = 3.88
-        const newSpeed = Math.random() * (maxSpeed - minSpeed) + minSpeed
+        const newSpeed = Math.random() * (this.maxSpeed - this.minSpeed) + this.minSpeed
 
         // ⏩ Applique la vitesse à l'animation
         randomAction.timeScale = newSpeed
         this.currentSpeed = newSpeed
+
+        // 🔹 Conversion en km/h pour cette voiture
+        const newSpeedKmH = newSpeed * this.baseSpeed
+
+        if (randomAction === fAction) {
+            this.fennecSpeed = newSpeedKmH.toFixed(0)
+            this.troikaText.updateText('speedFennec', `${this.fennecSpeed}`)
+            console.log(`Fennec speed updated: ${this.fennecSpeed} km/h`)
+        } else {
+            this.octaneSpeed = newSpeedKmH.toFixed(0)
+            this.troikaText.updateText('speedOctane', `${this.octaneSpeed}`)
+            console.log(`Octane speed updated: ${this.octaneSpeed} km/h`)
+        }
 
         // console.log(`Action : ${randomAction._clip.name}, Vitesse : x${newSpeed.toFixed(2)}`)    
 
