@@ -9,6 +9,7 @@ export default class TVScreen
         this.scenePortfolio = this.experience.scenePortfolio
         this.resources = this.experience.resources
         this.debug = this.experience.debug
+        this.unlimitedTexture = this.experience.world.unlimitedTexture
 
         // Debug
         if(this.debug.active)
@@ -19,7 +20,6 @@ export default class TVScreen
         
         this.ressource = this.resources.items.tvScreen
 
-        this.setMaterialVideo()    
         this.setModel()
     }
 
@@ -36,7 +36,7 @@ export default class TVScreen
                 // child.castShadow = true
 
                 if (child.material) {
-                    child.material = this.videoMaterial
+                    child.material = this.unlimitedTexture.videoPC1Material
                 }
 
                 // if (child.geometry.attributes.uv) {
@@ -48,35 +48,11 @@ export default class TVScreen
         })
     }
 
-    setMaterialVideo()
-    {
-        this.video = document.getElementById("video");
-        
-        this.video.play();
-
-        console.log("Video ready:", this.video)
-
-        this.videoTexture = new THREE.VideoTexture(this.video);
-        this.videoTexture.colorSpace = THREE.SRGBColorSpace;
-        // this.videoTexture.center.set(0.5, 0.5);
-        // this.videoTexture.rotation = Math.PI; // 180°
-        this.videoTexture.repeat.y = -1;
-        this.videoTexture.offset.y = 1;
-
-
-        this.videoMaterial = new THREE.MeshBasicMaterial({
-            map: this.videoTexture,
-            side: THREE.FrontSide,
-            toneMapped: false
-        });
-
-    }
-
     update()
     {
-        if(this.videoTexture)
+        if(this.unlimitedTexture.videoPC1Texture)
         {
-            this.videoTexture.needsUpdate = true;
+            this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
         }
     }
     

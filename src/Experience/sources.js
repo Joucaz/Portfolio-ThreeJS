@@ -133,9 +133,9 @@ export default [
         type: 'gltfModel',
         path: 'models/Profile/PC/PC.glb'
     },
-    {
-        name: 'monitor',
-        type: 'gltfModel',
-        path: 'models/Profile/Monitor/Monitor.glb'
-    }
+    // {
+    //     name: 'monitor',
+    //     type: 'gltfModel',
+    //     path: 'models/Profile/Monitor/Monitor.glb'
+    // }
 ]

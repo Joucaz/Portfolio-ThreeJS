@@ -10,7 +10,8 @@ export default class PC
         this.sceneProfile = this.experience.sceneProfile
         this.resources = this.experience.resources
         this.time = this.experience.time
-        this.debug = this.experience.debug
+        this.debug = this.experience.debug        
+        this.unlimitedTexture = this.experience.world.unlimitedTexture
 
         this.isPlaying = false;
         this.isOpen = true;
@@ -24,7 +25,6 @@ export default class PC
         
         this.resource = this.resources.items.pc
 
-        this.setMaterialVideo()
         this.setModel()
         this.setMaterial()
         this.setAnimation()
@@ -45,7 +45,7 @@ export default class PC
                 if (child.material) {   
                     console.log(child);
                                      
-                    child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
+                    child.material = this.unlimitedTexture.bakedMaterialProfile
                 }
             }
         });
@@ -62,57 +62,12 @@ export default class PC
         // })
     }
 
-    setMaterialVideo()
-    {
-        this.video = document.getElementById("video");
-        
-        this.video.play();
-
-        // console.log("Video ready:", this.video);
-
-        this.videoTexture = new THREE.VideoTexture(this.video);
-        this.videoTexture.colorSpace = THREE.SRGBColorSpace;
-        // this.videoTexture.center.set(0.5, 0.5);
-        // this.videoTexture.rotation = Math.PI; // 180°
-        this.videoTexture.repeat.y = -1;
-        this.videoTexture.offset.y = 1;
-
-
-        this.videoMaterial = new THREE.MeshBasicMaterial({
-            map: this.videoTexture,
-            side: THREE.FrontSide,
-            toneMapped: false
-        });
-
-        this.video2 = document.getElementById("video2");
-                
-        this.video2.play();
-
-        // console.log("Video ready:", this.video);
-
-        this.videoTexture2 = new THREE.VideoTexture(this.video2);
-        this.videoTexture2.colorSpace = THREE.SRGBColorSpace;
-        // this.videoTexture2.center.set(0.5, 0.5);
-        // this.videoTexture2.rotation = Math.PI; // 180°
-        this.videoTexture2.repeat.y = -1;
-        this.videoTexture2.offset.y = 1;
-
-        this.videoMaterial2 = new THREE.MeshBasicMaterial({
-            map: this.videoTexture2,
-            side: THREE.FrontSide,
-            toneMapped: false
-        });
-
-    }
-
     setMaterial()
-    {
-        console.log(this.model);
-        
+    {        
         this.screenPC = this.model.children[0].children[1];     
-        this.screenPC.material = this.videoMaterial;
+        this.screenPC.material = this.unlimitedTexture.videoPC1Material
         this.screenMonitor = this.model.children[0].children[2];     
-        this.screenMonitor.material = this.videoMaterial2;
+        this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial
     }
 
     setAnimation()
@@ -139,18 +94,18 @@ export default class PC
 
         if(!this.isOpen){
             
-            this.screenPC.material = this.videoMaterial 
+            this.screenPC.material = this.unlimitedTexture.videoPC1Material
             this.screenPC.visible = true;
         }        
 
         setTimeout(() => {
             this.isOpen = !this.isOpen;
             if(this.isOpen){
-                this.screenMonitor.material = this.videoMaterial;
+                this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial;
+                this.screenPC.visible = false
             }
             else{
-                this.screenMonitor.material = this.videoMaterial2;  
-                this.screenPC.visible = false
+                this.screenMonitor.material = this.unlimitedTexture.videoPC1Material;  
             }    
         }, 1 * 1000)
 
@@ -199,9 +154,13 @@ export default class PC
 
     update()
     {
-        if(this.videoTexture)
+        if(this.unlimitedTexture.videoPC1Texture)
         {
-            this.videoTexture.needsUpdate = true;
+            this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
+        }
+        if(this.unlimitedTexture.logoBouncingTexture)
+        {
+            this.unlimitedTexture.logoBouncingTexture.needsUpdate = true;
         }
         // Met à jour le mixer
         this.animation.mixer.update(this.time.delta * 0.001)

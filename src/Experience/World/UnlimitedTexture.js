@@ -20,6 +20,7 @@ export default class UnlimitedTexture
         this.setTextureBaseProfile()
         this.setTextureBasePortfolio()
         this.setTextureJordan()
+        this.setTextureVideo()
 
         this.setMaterials()
     }
@@ -54,6 +55,37 @@ export default class UnlimitedTexture
 
     }
 
+    setTextureVideo()
+    {
+        this.videoPC1 = document.getElementById("videoPC1");
+                
+        this.videoPC1.play();
+        
+        console.log("Video ready:", this.videoPC1);
+        
+        this.videoPC1Texture = new THREE.VideoTexture(this.videoPC1);
+        this.videoPC1Texture.colorSpace = THREE.SRGBColorSpace;
+        // this.videoTexture.center.set(0.5, 0.5);
+        // this.videoTexture.rotation = Math.PI; // 180°
+        this.videoPC1Texture.repeat.y = -1;
+        this.videoPC1Texture.offset.y = 1;
+        
+        
+        this.logoBouncing = document.getElementById("JCLogoBouncing");
+                
+        this.logoBouncing.play();
+        
+        console.log("Video ready:", this.logoBouncing);
+        
+        this.logoBouncingTexture = new THREE.VideoTexture(this.logoBouncing);
+        this.logoBouncingTexture.colorSpace = THREE.SRGBColorSpace;
+        // this.videoTexture2.center.set(0.5, 0.5);
+        // this.videoTexture2.rotation = Math.PI; // 180°
+        this.logoBouncingTexture.repeat.y = -1;
+        this.logoBouncingTexture.offset.y = 1;
+        
+    }
+
     setMaterials()
     {
         this.bakedMaterialPortfolio = new THREE.MeshBasicMaterial({
@@ -70,6 +102,19 @@ export default class UnlimitedTexture
             map: this.textures.colorJordanGreyBlue,
         })
         this.bakedMaterialJordan.color.setScalar(0.04);
+
+        
+        this.videoPC1Material = new THREE.MeshBasicMaterial({
+            map: this.videoPC1Texture,
+            side: THREE.FrontSide,
+            toneMapped: false,
+        });
+
+        this.logoBouncingMaterial = new THREE.MeshBasicMaterial({
+            map: this.logoBouncingTexture,
+            side: THREE.FrontSide,
+            toneMapped: false,
+        });
 
     }
 }
