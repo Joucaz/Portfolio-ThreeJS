@@ -17,6 +17,7 @@ import Hat from './Profile/Hat.js'
 import Mouse from './Profile/Mouse.js'
 import PC from './Profile/PC.js'
 import TroikaText from './Portfolio/TroikaText.js'
+import Sound from '../Utils/Sound.js'
 
 export default class World
 {
@@ -87,6 +88,8 @@ export default class World
 
             // Setup Environment
             this.environment = new Environment()
+
+            this.music = new Sound()
         })
 
         if(this.debug.active)
