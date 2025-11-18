@@ -268,6 +268,7 @@ export default class Renderer
             else
             {
                 this.composerPortfolio.render()
+
             }
             // this.instance.render(this.scenePortfolio, this.camera.instance)
             // this.composerPortfolio.render()

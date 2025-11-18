@@ -57,14 +57,27 @@ export default class TroikaText
             text.anchorY = 'center'
             text.position.set(...data.position)
             text.rotation.set(0, data.rotationY, 0)
+            text.fillOpacity = 0.5
+            text.clipRect = [-0.1, -0.1, 0.1, 0.1] // [minX, minY, maxX, maxY]
+            text.outlineWidth = 0      // pas d’outline si tu n’en veux pas
+            text.outlineBlur = 0  
+
 
             // Utiliser le matériau partagé
             text.material = this.textRLMaterial
 
             this.groupText.add(text)
 
-            text.sync()
+        //     text.addEventListener('synccomplete', () => {
+        //         const box = new THREE.Box3().setFromObject(text)
+        //         const helper = new THREE.Box3Helper(box, 0xff0000)
+        //         text.add(helper)
+        //         this.groupText.position.set(0.035, -0.91, -0.059)
+        // this.groupText.rotation.y = -0.09
+        //     })
 
+
+            text.sync()
             this.texts[data.key] = text
 
             // Debug GUI
@@ -91,18 +104,31 @@ export default class TroikaText
 
         this.parentGroup.add(this.groupText)
 
+        // OLD
+        // 1️⃣ Axes Helper pour voir l’orientation du groupe
+        const axesHelper = new THREE.AxesHelper(0.5); // taille des axes
+        this.groupText.add(axesHelper); // attaché au groupe pour suivre position/rotation
+
         this.groupText.position.set(0.035, -0.91, -0.059)
         this.groupText.rotation.y = -0.09
+
+        
+
 
         if(this.debug.active)
         {
             const groupFolder = this.debugFolder.addFolder('Parent Group')
-            groupFolder.add(this.groupText.position, 'x', -0.5, 0.5, 0.001).name('Position X')
-            groupFolder.add(this.groupText.position, 'y', -1.25, -0.8, 0.01).name('Position Y')
-            groupFolder.add(this.groupText.position, 'z', -0.2, 0.2, 0.001).name('Position Z')
+            groupFolder.add(this.groupText.position, 'x', -20, 20, 0.001).name('Position X')
+            groupFolder.add(this.groupText.position, 'y', -20, 20, 0.01).name('Position Y')
+            groupFolder.add(this.groupText.position, 'z', -20, 20, 0.001).name('Position Z')
+            groupFolder.add(this.groupText.rotation, 'y', -20, 20, 0.001).name('Rotation Y')
 
-            // groupFolder.add(this.groupText.rotation, 'x', -Math.PI, Math.PI, 0.01).name('Rotation X')
-            groupFolder.add(this.groupText.rotation, 'y', -0.1, -0.06, 0.001).name('Rotation Y')
+            // groupFolder.add(this.groupText.position, 'x', -0.5, 0.5, 0.001).name('Position X')
+            // groupFolder.add(this.groupText.position, 'y', -1.25, -0.8, 0.01).name('Position Y')
+            // groupFolder.add(this.groupText.position, 'z', -0.2, 0.2, 0.001).name('Position Z')
+
+            // // groupFolder.add(this.groupText.rotation, 'x', -Math.PI, Math.PI, 0.01).name('Rotation X')
+            // groupFolder.add(this.groupText.rotation, 'y', -0.1, -0.06, 0.001).name('Rotation Y')
             // groupFolder.add(this.groupText.rotation, 'z', -Math.PI, Math.PI, 0.01).name('Rotation Z')
 
             // groupFolder.add(this.groupText.scale, 'x', 0.1, 5, 0.01).name('Scale X')

@@ -16,6 +16,7 @@
     "@pmndrs/vanilla": "^1.25.0",
     "gsap": "^3.13.0",
     "lil-gui": "^0.20.0",
+    "postprocessing": "^6.38.0",
     "stats.js": "^0.17.0",
     "three": "^0.174.0",
     "troika-three-text": "^0.52.4"

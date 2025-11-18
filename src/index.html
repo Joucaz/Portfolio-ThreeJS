@@ -9,10 +9,10 @@
 </head>
 <body>
 
-    
+    <!-- CANVAS -->
     <canvas class="webgl"></canvas>
 
-
+    <!-- VIDEO IMPORT -->
     <video 
         id="videoPC1" 
         src="videos/Test2.mp4" 
@@ -41,6 +41,7 @@
         style="display:none">
     </video> -->
 
+    <!-- LOADER -->
     <div id="loader">
         <div class="loader-bg">
             
@@ -55,7 +56,8 @@
         </div>
     </div>
 
-    <div class="glass-card" style="display: none;">
+    <!-- INFOS -->
+    <div class="glass-card">
         <!-- Contenu complet -->
         <div class="card-full">
             <h2 class="card-title">Joud Cazeaux Website</h2>
@@ -78,21 +80,81 @@
                 <span class="toggle-right">2D</span>
             </div>
 
-            <button class="enter-btn">Enter</button>
         </div>
 
-        <!-- Bouton "I" minimal, caché initialement -->
-        <button class="info-btn" style="display: none;">I</button>
+        <div class="info-btn">I</div>
     </div>
 
+    <!-- 2D VERSION -->
+    <div class="entry-logo-home">
+        <h2>Joud Cazeaux</h2>
+    </div>
+
+    <section id="container">
+        <section id="container-accueil">
+            
+            <div class="index-entries">
+                
+        
+                <div class="index-entry">
+                    <div class="bg-index-entry" id="bg-index-entry-3">
+                        <a class="" href="en/"></a>
+                        <div class="bg-content"></div>
+                    </div>
+                    <div class="index-menus">
+                        <a href="en/" ></a>
+                        <h2>Profile</h2>
+                    </div>
+                </div>
+        
+                <div class="index-entry">
+                    <div class="bg-index-entry" id="bg-index-entry-6">
+                        <a class="" href="joucaz/"></a>
+                        <div class="bg-content" id="background-portfolio">
+                            <!-- <video autoplay muted loop id="myVideo">
+                                <source src="videos\FiverVideoGood.mp4" type="video/mp4">
+                            </video> -->
+                        </div>
+                    </div>
+    
+                    <div class="index-menus">
+                        <a href="joucaz/"></a>
+                        <h2>Portfolio</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    
+    <script>
+
+        const backgrounds = [
+            // 'url(images/Home/JCArtist-3Car.webp)',
+            'url(images/Home/JCArtist-3Car2.webp)',
+            'url(images/Home/JCArtist-CSChickenTrophy.webp)',
+            // 'url(images/Home/JCArtist-CSSnip.webp)',
+            'url(images/Home/JCArtist-CSWalk.webp)',
+            // 'url(images/Home/JCArtist-KaydopSortie2.webp)',
+            'url(images/Home/JCArtist-Valorant.webp)',
+            'url(images/Home/JCArtist-Jordan1.webp)',
+            'url(images/Home/JCArtist-M8F1.webp)'
+        ];
+
+        const container = document.getElementById('background-portfolio');
+        function changeBackground() {
+            const randomIndex = Math.floor(Math.random() * backgrounds.length);
+            container.style.backgroundImage = backgrounds[randomIndex];
+        }
+
+        window.onload = function() {
+            changeBackground();
+        };
+
+    </script>
 
 
 
-
-    <!-- <div class="text-rl-track speedF">1</div>
-    <div class="text-rl-track speedO">2</div>
-    <div class="text-rl-track lapF">12</div> -->
-    <!-- <div class="text-rl-track lapO">250</div> -->
 
     
     <script type="module" src="./script.js"></script>
