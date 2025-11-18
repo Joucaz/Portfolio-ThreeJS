@@ -18,7 +18,7 @@ export default class Renderer
         this.sceneProfile = this.experience.sceneProfile
         this.scenePortfolio = this.experience.scenePortfolio
         this.camera = this.experience.camera
-        this.enablePostProcessing = false
+        this.enablePostProcessing = true
         this.debug = this.experience.debug
 
         // Debug
@@ -48,6 +48,8 @@ export default class Renderer
         this.composerProfile.setSize(this.sizes.width, this.sizes.height)
         this.composerProfile.setPixelRatio(this.sizes.pixelRatio)
         this.composerPortfolio = new EffectComposer(this.instance);
+        this.composerProfile.setSize(this.sizes.width, this.sizes.height)
+        this.composerProfile.setPixelRatio(this.sizes.pixelRatio)
 
         this.renderPassProfile = new RenderPass(this.sceneProfile, this.camera.instance);
         this.renderPassPortfolio = new RenderPass(this.scenePortfolio, this.camera.instance);
@@ -246,28 +248,28 @@ export default class Renderer
             // Partie gauche
             this.instance.setViewport(0, 0, this.sizes.width / 2, this.sizes.height)
             this.instance.setScissor(0, 0, this.sizes.width / 2, this.sizes.height)
-            // if(this.cursor.isFirstSection)
-            // {
-            //     this.composerProfile.render()
-            // }
-            // else{
-            //     this.instance.render(this.sceneProfile, this.camera.instance)
-            // }
-            this.instance.render(this.sceneProfile, this.camera.instance)
+            if(this.cursor.isFirstSection)
+            {
+                this.composerProfile.render()
+            }
+            else{
+                this.instance.render(this.sceneProfile, this.camera.instance)
+            }
+            // this.instance.render(this.sceneProfile, this.camera.instance)
             // this.composerProfile.render()
 
             // Partie droite
             this.instance.setViewport(this.sizes.width / 2, 0, this.sizes.width / 2, this.sizes.height)
             this.instance.setScissor(this.sizes.width / 2, 0, this.sizes.width / 2, this.sizes.height)
-            // if(this.cursor.isFirstSection)
-            // {
-            //     this.instance.render(this.scenePortfolio, this.camera.instance)
-            // }
-            // else
-            // {
-            //     this.composerPortfolio.render()
-            // }
-            this.instance.render(this.scenePortfolio, this.camera.instance)
+            if(this.cursor.isFirstSection)
+            {
+                this.instance.render(this.scenePortfolio, this.camera.instance)
+            }
+            else
+            {
+                this.composerPortfolio.render()
+            }
+            // this.instance.render(this.scenePortfolio, this.camera.instance)
             // this.composerPortfolio.render()
         }
         else

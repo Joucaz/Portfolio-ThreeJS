@@ -44,13 +44,50 @@
     <div id="loader">
         <div class="loader-bg">
             
+            <div class="loader-text">Creating beautiful 3D experience...</div>
+
             <div class="loader-bar">
                 <div class="loader-bar-fill"></div>
             </div>
 
-            <div id="loader-percent">0</div>
+            <div id="loader-percent">00.00 %</div>
+
         </div>
     </div>
+
+    <div class="glass-card" style="display: none;">
+        <!-- Contenu complet -->
+        <div class="card-full">
+            <h2 class="card-title">Joud Cazeaux Website</h2>
+            <p class="card-text">
+                The first page of this site is an interactive experience set in a 3D world<br>
+                Explore two distinct sections representing different aspects of my life, and use your mouse to discover their hidden secrets.<br>
+                If you want to dive deeper into either section, simply click to be redirected to a more detailed view.<br><br>
+
+                At any point during the experience, you can press "I" or click the button at the bottom of the screen to revisit this information<br><br>
+
+                For a smoother experience, especially if your PC struggles with performance, you can switch to 2D mode using the button<br>
+            </p>
+
+            <div class="toggle-container">
+                <span class="toggle-left">3D</span>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-right">2D</span>
+            </div>
+
+            <button class="enter-btn">Enter</button>
+        </div>
+
+        <!-- Bouton "I" minimal, caché initialement -->
+        <button class="info-btn" style="display: none;">I</button>
+    </div>
+
+
+
+
 
     <!-- <div class="text-rl-track speedF">1</div>
     <div class="text-rl-track speedO">2</div>

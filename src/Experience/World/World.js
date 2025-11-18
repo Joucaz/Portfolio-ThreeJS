@@ -72,7 +72,7 @@ export default class World
             this.arrayAnimationProfile = [this.ball, this.chair, this.hat, this.mouse, this.pc]
 
             // Setup Portfolio    
-            this.basePortfolio = new BasePortfolio()
+            // this.basePortfolio = new BasePortfolio()
 
             this.reyna = new Reyna()
             this.chamber = new Chamber()

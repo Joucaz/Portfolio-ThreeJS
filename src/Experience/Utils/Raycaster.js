@@ -117,7 +117,7 @@ export default class Raycaster
                     {
                         if(this.experience.renderer.enablePostProcessing)
                         {
-                            // console.log(animatedObject.model);
+                            console.log(animatedObject.model);
                             this.experience.renderer.addSelectedObject(animatedObject.model)
                         }
                     }

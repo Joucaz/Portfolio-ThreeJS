@@ -25,14 +25,25 @@ export default class Resources extends EventEmitter
     setLoadingManager() {
         const loaderElement = document.getElementById('loader');
         const loaderBar = document.querySelector('.loader-bar-fill');
-        const loaderPercent = document.getElementById('loader-percent');   
+        const loaderPercent = document.getElementById('loader-percent');
+        const glassCard = document.querySelector('.glass-card');
+        const enterBtn = glassCard.querySelector('.enter-btn');
+        const infoBtn = glassCard.querySelector('.info-btn');
+        const cardFull = glassCard.querySelector('.card-full');
 
 
         this.loadingManager = new THREE.LoadingManager(
             // Quand tout est chargé
+            // () => {
+            //     loaderElement.style.opacity = '0';
+            //     setTimeout(() => loaderElement.remove(), 600);
+            // },
             () => {
-                loaderElement.style.opacity = '0';
-                setTimeout(() => loaderElement.remove(), 600);
+                
+                // Afficher la glass-card
+                glassCard.style.display = 'flex';
+                glassCard.style.opacity = '0';
+                setTimeout(() => glassCard.style.opacity = '1', 50); // fade-in
             },
 
             // Pendant le chargement
@@ -40,9 +51,38 @@ export default class Resources extends EventEmitter
                 const progress = itemsLoaded / itemsTotal;
 
                 loaderBar.style.transform = `scaleX(${progress})`;
-                loaderPercent.textContent = `${Math.floor(progress * 100)}%`;
+                
+                // loaderPercent.textContent = `${Math.floor(progress * 100)}%`;
+                loaderPercent.textContent = `${(progress * 100).toFixed(2)} %`;
             }
         );
+
+        // // Clic sur Enter → tout disparaît
+        // enterBtn.addEventListener('click', () => {
+        //     // Masquer le loader
+        //     loaderElement.style.opacity = '0';
+        //     setTimeout(() => loaderElement.style.display = 'none', 600);
+            
+        //     glassCard.style.opacity = '0';
+        //     setTimeout(() => glassCard.style.display = 'none', 400);
+        // });
+
+        enterBtn.addEventListener('click', () => {
+            // Masquer le loader
+            loaderElement.style.opacity = '0';
+            setTimeout(() => loaderElement.style.display = 'none', 600);
+
+            cardFull.style.display = 'none';
+            infoBtn.style.display = 'block';
+        });
+
+        // Quand on clique sur le bouton "I" → tout réapparaît
+        infoBtn.addEventListener('click', () => {
+            cardFull.style.display = 'block';
+            infoBtn.style.display = 'none';
+        });
+
+        
 
     }
 

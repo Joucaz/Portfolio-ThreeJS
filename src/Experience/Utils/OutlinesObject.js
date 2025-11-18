@@ -15,7 +15,7 @@ export default class OutlinesObject
             this.debugFolder = this.debug.ui.addFolder('Outlines')
         }
 
-        this.setTestCube()
+        // this.setTestCube()
     }
 
     setTestCube()
