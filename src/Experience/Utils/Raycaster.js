@@ -65,8 +65,11 @@ export default class Raycaster
 
                     if(this.currentIntersectLeft == null)
                     {
-                        // console.log(animatedObject.model);
-                        this.experience.renderer.addSelectedObject(animatedObject.model)
+                        if(this.experience.renderer.enablePostProcessing)
+                        {
+                            // console.log(animatedObject.model);
+                            this.experience.renderer.addSelectedObject(animatedObject.model)
+                        }
                     }
 
                     this.currentIntersectLeft = animatedObject
@@ -112,8 +115,11 @@ export default class Raycaster
 
                     if(this.currentIntersectRight == null)
                     {
-                        // console.log(animatedObject.model);
-                        this.experience.renderer.addSelectedObject(animatedObject.model)
+                        if(this.experience.renderer.enablePostProcessing)
+                        {
+                            // console.log(animatedObject.model);
+                            this.experience.renderer.addSelectedObject(animatedObject.model)
+                        }
                     }
 
                     this.currentIntersectRight = animatedObject

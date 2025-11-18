@@ -15,6 +15,7 @@ import ObjectsIntersect from './World/ObjectsIntersect.js'
 import Stats from './Utils/Stats.js'
 import Input from './Utils/Input.js'
 import PostProcessing from './Utils/PostProcessing.js'
+import OutlinesObject from './Utils/OutlinesObject.js'
 
 let instance = null
 
@@ -53,6 +54,7 @@ export default class Experience
         this.objectsIntersectRight = new ObjectsIntersect()
         this.objectsIntersectLeft = new ObjectsIntersect()
         this.world = new World()
+        this.outlinesObject = new OutlinesObject
         this.raycast = new Raycaster()
 
         /**

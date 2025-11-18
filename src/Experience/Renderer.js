@@ -18,7 +18,7 @@ export default class Renderer
         this.sceneProfile = this.experience.sceneProfile
         this.scenePortfolio = this.experience.scenePortfolio
         this.camera = this.experience.camera
-
+        this.enablePostProcessing = false
         this.debug = this.experience.debug
 
         // Debug
@@ -32,7 +32,17 @@ export default class Renderer
         }
 
         this.setInstance()
+        this.setPostProcessing()
+        this.setDebug()
 
+        this.selectedObjects = [];
+
+    }
+
+    setPostProcessing()
+    {
+        if(!this.enablePostProcessing)
+            return
         // Post-processing
         this.composerProfile = new EffectComposer(this.instance);
         this.composerProfile.setSize(this.sizes.width, this.sizes.height)
@@ -78,43 +88,47 @@ export default class Renderer
         this.effectFXAAPortfolio.uniforms['resolution'].value.set(1 / this.sizes.width, 1 / this.sizes.height);
         this.composerProfile.addPass(this.effectFXAAProfile);
         this.composerPortfolio.addPass(this.effectFXAAPortfolio);
+    }
 
-        this.selectedObjects = [];
-
+    setDebug()
+    {
         if (this.debug.active) {
 
-            const params = {
-                edgeStrength: this.outlinePassProfile.edgeStrength,
-                edgeGlow: this.outlinePassProfile.edgeGlow,
-                edgeThickness: this.outlinePassProfile.edgeThickness,
-                pulsePeriod: this.outlinePassProfile.pulsePeriod,
-                usePatternTexture: this.outlinePassProfile.usePatternTexture,
-            };
+            if(this.enablePostProcessing)
+            {
+                const params = {
+                    edgeStrength: this.outlinePassProfile.edgeStrength,
+                    edgeGlow: this.outlinePassProfile.edgeGlow,
+                    edgeThickness: this.outlinePassProfile.edgeThickness,
+                    pulsePeriod: this.outlinePassProfile.pulsePeriod,
+                    usePatternTexture: this.outlinePassProfile.usePatternTexture,
+                };
 
-            const applyToBoth = (callback) => {
-                callback(this.outlinePassProfile);
-                callback(this.outlinePassPortfolio);
-            };
+                const applyToBoth = (callback) => {
+                    callback(this.outlinePassProfile);
+                    callback(this.outlinePassPortfolio);
+                };
 
-            this.outlineFolder.add(params, 'edgeStrength', 0.01, 10).onChange((value) => {
-                applyToBoth((p) => (p.edgeStrength = Number(value)));
-            });
+                this.outlineFolder.add(params, 'edgeStrength', 0.01, 10).onChange((value) => {
+                    applyToBoth((p) => (p.edgeStrength = Number(value)));
+                });
 
-            this.outlineFolder.add(params, 'edgeGlow', 0.0, 1.0).onChange((value) => {
-                applyToBoth((p) => (p.edgeGlow = Number(value)));
-            });
+                this.outlineFolder.add(params, 'edgeGlow', 0.0, 1.0).onChange((value) => {
+                    applyToBoth((p) => (p.edgeGlow = Number(value)));
+                });
 
-            this.outlineFolder.add(params, 'edgeThickness', 1, 4).onChange((value) => {
-                applyToBoth((p) => (p.edgeThickness = Number(value)));
-            });
+                this.outlineFolder.add(params, 'edgeThickness', 1, 4).onChange((value) => {
+                    applyToBoth((p) => (p.edgeThickness = Number(value)));
+                });
 
-            this.outlineFolder.add(params, 'pulsePeriod', 0.0, 5.0).onChange((value) => {
-                applyToBoth((p) => (p.pulsePeriod = Number(value)));
-            });
+                this.outlineFolder.add(params, 'pulsePeriod', 0.0, 5.0).onChange((value) => {
+                    applyToBoth((p) => (p.pulsePeriod = Number(value)));
+                });
 
-            this.outlineFolder.add(params, 'usePatternTexture').onChange((value) => {
-                applyToBoth((p) => (p.usePatternTexture = value));
-            });
+                this.outlineFolder.add(params, 'usePatternTexture').onChange((value) => {
+                    applyToBoth((p) => (p.usePatternTexture = value));
+                });
+            }
 
             const toneMappingOptions = {
                 NoToneMapping: THREE.NoToneMapping,
@@ -148,7 +162,6 @@ export default class Renderer
                     this.instance.outputEncoding = parseInt(this.instance.outputEncoding);
                 });
         }
-
     }
 
     addSelectedObject( object ) 
@@ -233,28 +246,28 @@ export default class Renderer
             // Partie gauche
             this.instance.setViewport(0, 0, this.sizes.width / 2, this.sizes.height)
             this.instance.setScissor(0, 0, this.sizes.width / 2, this.sizes.height)
-            if(this.cursor.isFirstSection)
-            {
-                this.composerProfile.render()
-            }
-            else{
-                this.instance.render(this.sceneProfile, this.camera.instance)
-            }
-            // this.instance.render(this.sceneProfile, this.camera.instance)
+            // if(this.cursor.isFirstSection)
+            // {
+            //     this.composerProfile.render()
+            // }
+            // else{
+            //     this.instance.render(this.sceneProfile, this.camera.instance)
+            // }
+            this.instance.render(this.sceneProfile, this.camera.instance)
             // this.composerProfile.render()
 
             // Partie droite
             this.instance.setViewport(this.sizes.width / 2, 0, this.sizes.width / 2, this.sizes.height)
             this.instance.setScissor(this.sizes.width / 2, 0, this.sizes.width / 2, this.sizes.height)
-            if(this.cursor.isFirstSection)
-            {
-                this.instance.render(this.scenePortfolio, this.camera.instance)
-            }
-            else
-            {
-                this.composerPortfolio.render()
-            }
-            // this.instance.render(this.scenePortfolio, this.camera.instance)
+            // if(this.cursor.isFirstSection)
+            // {
+            //     this.instance.render(this.scenePortfolio, this.camera.instance)
+            // }
+            // else
+            // {
+            //     this.composerPortfolio.render()
+            // }
+            this.instance.render(this.scenePortfolio, this.camera.instance)
             // this.composerPortfolio.render()
         }
         else
@@ -273,7 +286,10 @@ export default class Renderer
             this.composerPortfolio.render()
         }
         
-        this.enableOutline()
+        if(this.enablePostProcessing)
+        {
+            this.enableOutline()
+        }
 
     }
 }

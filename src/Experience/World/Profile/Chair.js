@@ -11,6 +11,7 @@ export default class Chair
         this.time = this.experience.time
         this.debug = this.experience.debug
 
+        this.objects = []
         this.isPlaying = false;
 
         // Debug
@@ -21,8 +22,6 @@ export default class Chair
 
         
         this.resource = this.resources.items.chair
-
-        this.materialTestOutline = new THREE.MeshStandardMaterial({color:"white"})
 
         this.setModel()
         this.setAnimation()
@@ -51,13 +50,16 @@ export default class Chair
                 //         child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
                 //     }
                 // }
+                                this.objects.push(child) // <--- plusieurs
 
                 if (child.material)
                     child.material = this.experience.world.unlimitedTexture.bakedMaterialProfile
 
             }
         });
-
+        this.objects.forEach(mesh => {
+            this.experience.outlinesObject.addOutline(mesh)
+        })  
         // Add object to raycast
         this.experience.objectsIntersectLeft.addObject(this.model)
     
@@ -72,6 +74,8 @@ export default class Chair
         // this.experience.postProcessing.setOutlinedObjects([this.model])
 
     }
+
+    
 
     setAnimation()
     {
