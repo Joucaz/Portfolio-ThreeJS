@@ -136,28 +136,62 @@ export default class Experience
 
         // NEED HELP FOR BOTH SCENE
         // Traverse the whole scene
-        for(const scene in this.allScene)
-        {
-            this.scene.traverse((child) =>
-                {
-                    // Test if it's a mesh
-                    if(child instanceof THREE.Mesh)
-                    {
-                        child.geometry.dispose()
+        // for(const scene in this.allScene)
+        // {
+        //     this.scene.traverse((child) =>
+        //         {
+        //             // Test if it's a mesh
+        //             if(child instanceof THREE.Mesh)
+        //             {
+        //                 child.geometry.dispose()
 
-                        // Loop through the material properties
-                        for(const key in child.material)
-                        {
-                            const value = child.material[key]
+        //                 // Loop through the material properties
+        //                 for(const key in child.material)
+        //                 {
+        //                     const value = child.material[key]
 
-                            // Test if there is a dispose function
-                            if(value && typeof value.dispose === 'function')
-                            {
-                                value.dispose()
+        //                     // Test if there is a dispose function
+        //                     if(value && typeof value.dispose === 'function')
+        //                     {
+        //                         value.dispose()
+        //                     }
+        //                 }
+        //             }
+        //         })
+        // }
+
+       for(const sceneKey in this.allScene) {
+            const scene = this.allScene[sceneKey];
+
+            scene.traverse((child) => {
+                // Si c'est un mesh
+                if(child.isMesh) {
+                    // Libère la géométrie
+                    if(child.geometry) child.geometry.dispose();
+
+                    // Libère les matériaux
+                    const materials = Array.isArray(child.material) ? child.material : [child.material];
+                    materials.forEach(mat => {
+                        if(mat) {
+                            // Libère les textures dans le matériau
+                            for(const key in mat) {
+                                const value = mat[key];
+                                if(value && value.isTexture) value.dispose();
                             }
+                            // Libère le matériau lui-même
+                            if(mat.dispose) mat.dispose();
                         }
-                    }
-                })
+                    });
+                }
+
+                // Si c'est un skinned mesh (VRM)
+                if(child.isSkinnedMesh && child.skeleton) {
+                    child.skeleton.dispose?.();
+                }
+            });
+
+            // Optionnel : vider la scène
+            scene.clear();
         }
         
         this.camera.controls.dispose()

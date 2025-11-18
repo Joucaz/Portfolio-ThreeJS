@@ -7,6 +7,12 @@ export default class Input extends EventEmitter {
         super();
         this.experience = new Experience();
 
+        const glassCard = document.querySelector('.glass-card');
+        const infoBtn = glassCard.querySelector('.info-btn');
+        const cardFull = glassCard.querySelector('.card-full');
+
+        this.isInfosOpen = false;
+
         const actions = {
             'ArrowRight': () => {
                 console.log("open portfolio page")
@@ -21,7 +27,21 @@ export default class Input extends EventEmitter {
             'KeyM': () => this.experience.world.mouse.playAnimation(),
             'KeyP': () => this.experience.world.pc.playAnimation(),
             'KeyS': () => this.experience.world.chair.playAnimation(),
-            'KeyH': () => this.experience.world.hat.playAnimation()
+            'KeyH': () => this.experience.world.hat.playAnimation(),
+            'KeyI': () => {
+                if(this.isInfosOpen)
+                {
+                    cardFull.classList.remove('show');
+                    infoBtn.classList.remove('hide'); 
+                    this.isInfosOpen = !this.isInfosOpen
+                }
+                else
+                {
+                    cardFull.classList.add('show');
+                    infoBtn.classList.add('hide'); 
+                    this.isInfosOpen = !this.isInfosOpen
+                }
+            },
         };
 
         document.addEventListener('keydown', (event) => {

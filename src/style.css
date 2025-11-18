@@ -190,8 +190,8 @@ body
 }
 .card-full.show{
   opacity: 1;
-  max-height: 40vh;
-  max-width: 80vh;
+  max-height: 100vh;
+  max-width: 100vw;
 }
 .card-title {
   font-size: 1.6rem;
@@ -212,7 +212,6 @@ body
   align-items: center;
   justify-content: center; /* centre le switch et les textes */
   gap: 12px; /* espace entre éléments */
-  margin-bottom: 20px;
   color: white;
   font-size: 0.95rem;
 }
@@ -264,11 +263,6 @@ body
   transition: 0.3s;
 }
 
-/* active state */
-/* .switch input:checked + .slider {
-  background: rgba(227, 180, 5, 0.7);
-} */
-
 .switch input:checked + .slider::before {
   transform: translateX(22px);
 }
@@ -288,3 +282,72 @@ body
     opacity: 0;
 }
 
+
+/* STYLE HOME  */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.fullpage-container {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* pleine hauteur */
+}
+
+/* Div section fixe à 50% */
+.fullpage-section {
+    flex: 1;                 /* 50% de la largeur */
+    position: relative;
+    overflow: hidden;        /* pour que l'image zoomée ne dépasse pas */
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image de fond indépendante pour zoom */
+.background-image {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%);
+    transition: transform 0.5s ease, filter 0.5s ease;
+    z-index: 0;
+}
+
+/* Zoom + couleur au hover (seule l'image) */
+.fullpage-section:hover .background-image {
+    transform: scale(1.03);
+    filter: grayscale(0%);
+}
+
+/* Overlay léger pour texte */
+.fullpage-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.25);
+    pointer-events: none;
+    transition: background-color 0.5s ease;
+}
+
+.fullpage-section:hover::before {
+    background-color: rgba(0,0,0,0.1);
+}
+
+/* Texte centré */
+.section-title {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 2em;
+    text-align: center;
+}
+
+
+/* END STYLE HOME */

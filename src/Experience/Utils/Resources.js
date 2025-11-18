@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import Experience from "../Experience";
+
 // import { FontLoader } from 'three/addons/loaders/FontLoader.js'
 
 import EventEmitter from './EventEmitter.js'
@@ -10,7 +12,7 @@ export default class Resources extends EventEmitter
     constructor(sources)
     {
         super()
-
+        this.experience = new Experience()  
         this.sources = sources
 
         this.items = {}
@@ -20,6 +22,27 @@ export default class Resources extends EventEmitter
         this.setLoadingManager()
         this.setLoaders()
         this.startLoading()
+        this.startToggle2D3D()
+    }
+
+    startToggle2D3D()
+    {
+        const toggle = document.querySelector('.switch input');
+        const canvas = document.querySelector('canvas.webgl')
+        const lowVersion = document.querySelector('.low-version');
+
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                this.experience.destroy()
+                // canvas.style.display = 'none'
+                lowVersion.style.display = 'block'
+                console.log('Mode 2D activé');
+            } else {
+                location.reload();
+                console.log('Mode 3D activé');
+            }
+        });
+
     }
 
     setLoadingManager() {
@@ -56,7 +79,10 @@ export default class Resources extends EventEmitter
 
                     glassCard.style.opacity = '1';
                 }, 500);
-                
+
+                setTimeout(() => {
+                    loaderElement.remove()
+                }, 2000);
             },
 
             // Pendant le chargement
