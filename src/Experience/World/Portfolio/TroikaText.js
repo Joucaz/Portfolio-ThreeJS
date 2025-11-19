@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import { Text } from 'troika-three-text'
 import Experience from '../../Experience.js'
+import { OverrideMaterialManager } from 'postprocessing'
+
+OverrideMaterialManager.workaroundEnabled = false
 
 export default class TroikaText
 {
@@ -25,6 +28,7 @@ export default class TroikaText
         if(this.debug.active)
         {
             this.debugFolder = this.debug.ui.addFolder('TroikaText')
+            this.debugFolder.close()
         }
         
         this.setTexts()
@@ -66,7 +70,8 @@ export default class TroikaText
 
             // Utiliser le matériau partagé
             text.material = this.textRLMaterial
-            text.layers.set(1)
+            if(!this.experience.sizes.isMobile)
+                text.layers.set(1)
 
             this.groupText.add(text)
 
@@ -109,9 +114,8 @@ export default class TroikaText
         this.parentGroup.add(this.groupText)
 
         // OLD
-        // 1️⃣ Axes Helper pour voir l’orientation du groupe
-        const axesHelper = new THREE.AxesHelper(0.5); // taille des axes
-        this.groupText.add(axesHelper); // attaché au groupe pour suivre position/rotation
+        // const axesHelper = new THREE.AxesHelper(0.5);
+        // this.groupText.add(axesHelper); 
 
         this.groupText.position.set(0.035, -0.91, -0.059)
         this.groupText.rotation.y = -0.09

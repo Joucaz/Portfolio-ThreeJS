@@ -20,6 +20,9 @@ export default class Renderer
         this.camera = this.experience.camera
         this.enablePostProcessing = true
         this.debug = this.experience.debug
+        
+        if (!this.timeoutId) this.timeoutId = null;
+        this.enableTimeout = true;
 
         // Debug
         if(this.debug.active)
@@ -50,6 +53,11 @@ export default class Renderer
         this.composerPortfolio = new EffectComposer(this.instance);
         this.composerProfile.setSize(this.sizes.width, this.sizes.height)
         this.composerProfile.setPixelRatio(this.sizes.pixelRatio)
+        
+        this.composerProfile.toneMapping = THREE.NoToneMapping
+        // this.composerPortfolio.toneMapping = THREE.NoToneMapping
+        this.composerPortfolio.toneMapping = THREE.CineonToneMapping
+        this.composerPortfolio.toneMappingExposure = 58
 
         this.renderPassProfile = new RenderPass(this.sceneProfile, this.camera.instance);
         this.renderPassPortfolio = new RenderPass(this.scenePortfolio, this.camera.instance);
@@ -74,14 +82,15 @@ export default class Renderer
             op.edgeGlow = 0.5;
             op.edgeThickness = 2.0;
             op.pulsePeriod = 0;
+            // op.resolution = (2048,2048)
         });
 
         this.composerProfile.addPass(this.outlinePassProfile);
         this.composerPortfolio.addPass(this.outlinePassPortfolio);
 
-        // this.outputPassProfile = new OutputPass();
-        // this.outputPassPortfolio = new OutputPass();
-        // this.composerProfile.addPass(this.outputPassProfile);
+        this.outputPassProfile = new OutputPass();
+        this.outputPassPortfolio = new OutputPass();
+        this.composerProfile.addPass(this.outputPassProfile);
         // this.composerPortfolio.addPass(this.outputPassPortfolio);
 
 
@@ -141,12 +150,14 @@ export default class Renderer
                 ACESFilmicToneMapping: THREE.ACESFilmicToneMapping
             };
 
-            // On suppose que this.instance est ton renderer
             this.rendererFolder.add(this.instance, 'toneMapping', toneMappingOptions)
                 .name('Tone Mapping')
-                .onChange(() => {
-                    this.instance.toneMapping = parseInt(this.instance.toneMapping);
-                    this.instance.needsUpdate = true; // parfois nécessaire pour que ça prenne effet
+                .onChange(value => {   // value contient déjà le bon number
+                    this.instance.toneMapping = value;
+
+                    // Si tu utilises EffectComposer, synchronise aussi :
+                    if (this.composerProfile) this.composerProfile.toneMapping = value;
+                    if (this.composerPortfolio) this.composerPortfolio.toneMapping = value;
                 });
 
             // Exposure (luminosité globale)
@@ -198,6 +209,7 @@ export default class Renderer
             powerPreference: 'high-performance'
         })
         this.instance.toneMapping = THREE.NoToneMapping
+        // this.instance.toneMapping = THREE.CineonToneMapping
         this.instance.toneMappingExposure = 1.75
         // this.instance.shadowMap.enabled = true
         // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
@@ -265,13 +277,35 @@ export default class Renderer
 
             if(this.cursor.isFirstSection)
             {
-                this.camera.instance.layers.set(0);
-                this.camera.instance.layers.enable(1);
-                this.instance.render(this.scenePortfolio, this.camera.instance)
+                if(this.enableTimeout){
+                    this.camera.instance.layers.set(0); 
+                    this.composerPortfolio.render();
+                    this.instance.autoClear = false;         
+
+                    this.camera.instance.layers.set(1); 
+                    this.instance.render(this.scenePortfolio, this.camera.instance)
+                    this.camera.instance.layers.set(0);
+
+                    if (!this.timeoutId) {
+                        // clearTimeout(this.timeoutId);
+
+                        // Crée un nouveau timeout
+                        this.timeoutId = setTimeout(() => {
+                            this.timeoutId = null;
+                            this.enableTimeout = false
+                        }, 500);
+                    }
+                }
+                else{
+                    this.camera.instance.layers.set(0);
+                    this.camera.instance.layers.enable(1);
+                    this.instance.render(this.scenePortfolio, this.camera.instance);
+                }
+                
             }
             else
             {
-            
+                this.enableTimeout = true
                 // this.experience.world.troikaText.groupText.traverse(c => c.layers.set(1));
 
                 this.camera.instance.layers.set(0); 
@@ -294,14 +328,14 @@ export default class Renderer
             // Partie haute
             this.instance.setViewport(0, this.sizes.height / 2, this.sizes.width, this.sizes.height / 2)
             this.instance.setScissor(0, this.sizes.height / 2, this.sizes.width, this.sizes.height / 2)
-            // this.instance.render(this.sceneProfile, this.camera.instance)
-            this.composerProfile.render()
+            this.instance.render(this.sceneProfile, this.camera.instance)
+            // this.composerProfile.render()
 
             // Partie basse
             this.instance.setViewport(0, 0, this.sizes.width, this.sizes.height / 2)
             this.instance.setScissor(0, 0, this.sizes.width, this.sizes.height / 2)
-            // this.instance.render(this.scenePortfolio, this.camera.instance)
-            this.composerPortfolio.render()
+            this.instance.render(this.scenePortfolio, this.camera.instance)
+            // this.composerPortfolio.render()
         }
         
         if(this.enablePostProcessing)

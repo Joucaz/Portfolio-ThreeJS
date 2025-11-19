@@ -47,18 +47,20 @@ export default class Environment
 
     update()
     {
-        
-
         if(this.experience.sizes.isMobile)
         {
+            // console.log("limobile1ht");
             if(!this.isMobileEnabled)
             {
                 this.setLightMobile()
+                // console.log("mobile");
                 this.isMobileEnabled = true;
             }
         }
         else
         {
+            // console.log("light");
+            
             this.updateLights()   
         }     
     }
@@ -89,19 +91,56 @@ export default class Environment
     
             this.currentSection = isFirst
 
-            let intensity = { value: isFirst ? this.intensityLightOff : this.intensityLightOn }
+            // let intensity = { value: isFirst ? this.intensityLightOff : this.intensityLightOn }
+            // console.log(intensity);
+            
 
-            gsap.to(intensity, { value: isFirst ? 1 : 0.04, 
-                duration: 1, 
-                ease: "power2.out", 
-                onUpdate: () => { 
-                    this.colorProfile.setScalar(intensity.value); 
-                    this.colorPortfolio.setScalar(1 - intensity.value + 0.03); 
-                    this.colorJordan.setScalar(1 - intensity.value + 0.03); 
-                    const c = 1 - intensity.value + 0.03
-                    this.colorTextRL.setRGB(c, c, c)
+            // gsap.to(intensity, { value: isFirst ? 1 : 0.04, 
+            //     duration: 1, 
+            //     ease: "power2.out", 
+            //     onUpdate: () => { 
+            //         this.colorProfile.setScalar(intensity.value); 
+            //         this.colorPortfolio.setScalar(1 - intensity.value + 0.03); 
+            //         // this.colorJordan.setScalar(1 - intensity.value + 0.03); 
+            //         // const c = 1 - intensity.value + 0.03
+            //         // this.colorTextRL.setRGB(c, c, c)
+            //     }
+            // })
+
+            const targetProfile = isFirst ? this.intensityLightOn : this.intensityLightOff;
+            const targetPortfolio = isFirst ? this.intensityLightOff : this.intensityLightOn;
+
+            console.log("Target profile:", targetProfile);
+            console.log("Target portfolio:", targetPortfolio);
+
+            const startingProfile = this.intensityLightOn - targetProfile + this.intensityLightOff;      // ou selon ton offset
+            const startingPortfolio = this.intensityLightOn - targetPortfolio + this.intensityLightOff;
+
+            console.log("Starting profile value:", startingProfile);
+            console.log("Starting portfolio value:", startingPortfolio);
+
+            console.log(this.colorProfile);
+            
+            
+            const anim = {
+                profile: startingProfile,
+                portfolio: startingPortfolio
+            };
+
+            gsap.to(anim, {
+                profile: targetProfile,
+                portfolio: targetPortfolio,
+                duration: 1,
+                ease: "power2.out",
+                onUpdate: () => {
+                    this.colorProfile.setScalar(anim.profile);
+                    this.colorPortfolio.setScalar(anim.portfolio);
+                    this.colorJordan.setScalar(anim.portfolio);
+                    this.colorTextRL.setScalar(anim.portfolio);
                 }
-            })
+            });
+
+
 
 
             // if (isFirst) 
@@ -243,19 +282,26 @@ export default class Environment
     }
 
     setLightMobile()
-    {
+    {   
+        const starting = this.intensityLightOff; // valeur actuelle
+        const target = this.intensityLightOn; // valeur cible
 
-        let intensity = { value: this.intensityLightOff }; // valeur de départ
+        // Objet animé
+        const anim = { value: starting };
 
-        gsap.to(intensity, {
-            value: this.intensityLightOn, // valeur cible
+        // Animation GSAP
+        gsap.to(anim, {
+            value: target,
             duration: 1,
             ease: "power2.out",
             onUpdate: () => {
-                this.colorProfile.setScalar(intensity.value);
-                this.colorPortfolio.setScalar(intensity.value);
+                this.colorProfile.setScalar(anim.value);
+                this.colorPortfolio.setScalar(anim.value);
+                this.colorJordan.setScalar(anim.value);
+                this.colorTextRL.setScalar(anim.value);
             }
         });
+
 
         // gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
         // gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLight, duration: 1, ease: "power2.out" })
