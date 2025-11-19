@@ -48,7 +48,6 @@ export default class Experience
         this.allScene = [this.sceneProfile, this.scenePortfolio]
         this.resources = new Resources(sources)
         this.camera = new Camera()
-        this.renderer = new Renderer()
         // this.postProcessing = new PostProcessing()
         
         this.objectsIntersectRight = new ObjectsIntersect()
@@ -57,6 +56,8 @@ export default class Experience
         this.outlinesObject = new OutlinesObject
         this.raycast = new Raycaster()
 
+        
+        this.renderer = new Renderer()
         /**
          * Helper
          */

@@ -16,7 +16,8 @@ export default class TroikaText
         this.texts = [] 
 
         this.textRLMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0xffffff 
+            color: 0xffffff,
+            transparent: true
         })
         this.textRLMaterial.color.setScalar(0.04);
 
@@ -65,6 +66,7 @@ export default class TroikaText
 
             // Utiliser le matériau partagé
             text.material = this.textRLMaterial
+            text.layers.set(1)
 
             this.groupText.add(text)
 
@@ -102,6 +104,8 @@ export default class TroikaText
             }
         })
 
+        
+        // this.groupText.traverse(c => c.layers.set(1));
         this.parentGroup.add(this.groupText)
 
         // OLD

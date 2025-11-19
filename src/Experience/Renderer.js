@@ -79,17 +79,18 @@ export default class Renderer
         this.composerProfile.addPass(this.outlinePassProfile);
         this.composerPortfolio.addPass(this.outlinePassPortfolio);
 
-        this.outputPassProfile = new OutputPass();
-        this.outputPassPortfolio = new OutputPass();
-        this.composerProfile.addPass(this.outputPassProfile);
-        this.composerPortfolio.addPass(this.outputPassPortfolio);
+        // this.outputPassProfile = new OutputPass();
+        // this.outputPassPortfolio = new OutputPass();
+        // this.composerProfile.addPass(this.outputPassProfile);
+        // this.composerPortfolio.addPass(this.outputPassPortfolio);
 
-        this.effectFXAAProfile = new ShaderPass(FXAAShader);
-        this.effectFXAAPortfolio = new ShaderPass(FXAAShader);
-        this.effectFXAAProfile.uniforms['resolution'].value.set(1 / this.sizes.width, 1 / this.sizes.height);
-        this.effectFXAAPortfolio.uniforms['resolution'].value.set(1 / this.sizes.width, 1 / this.sizes.height);
-        this.composerProfile.addPass(this.effectFXAAProfile);
-        this.composerPortfolio.addPass(this.effectFXAAPortfolio);
+
+        // this.effectFXAAProfile = new ShaderPass(FXAAShader);
+        // this.effectFXAAPortfolio = new ShaderPass(FXAAShader);
+        // this.effectFXAAProfile.uniforms['resolution'].value.set(1 / this.sizes.width, 1 / this.sizes.height);
+        // this.effectFXAAPortfolio.uniforms['resolution'].value.set(1 / this.sizes.width, 1 / this.sizes.height);
+        // this.composerProfile.addPass(this.effectFXAAProfile);
+        // this.composerPortfolio.addPass(this.effectFXAAPortfolio);
     }
 
     setDebug()
@@ -230,10 +231,10 @@ export default class Renderer
         }
 
         // FXAA (résolution inverse)
-        if (this.effectFXAAProfile && this.effectFXAAPortfolio) {
-            this.effectFXAAProfile.uniforms['resolution'].value.set(1 / halfWidth, 1 / halfHeight)
-            this.effectFXAAPortfolio.uniforms['resolution'].value.set(1 / halfWidth, 1 / halfHeight)
-        }
+        // if (this.effectFXAAProfile && this.effectFXAAPortfolio) {
+        //     this.effectFXAAProfile.uniforms['resolution'].value.set(1 / halfWidth, 1 / halfHeight)
+        //     this.effectFXAAPortfolio.uniforms['resolution'].value.set(1 / halfWidth, 1 / halfHeight)
+        // }
     }
 
     update()
@@ -261,15 +262,29 @@ export default class Renderer
             // Partie droite
             this.instance.setViewport(this.sizes.width / 2, 0, this.sizes.width / 2, this.sizes.height)
             this.instance.setScissor(this.sizes.width / 2, 0, this.sizes.width / 2, this.sizes.height)
+
             if(this.cursor.isFirstSection)
             {
+                this.camera.instance.layers.set(0);
+                this.camera.instance.layers.enable(1);
                 this.instance.render(this.scenePortfolio, this.camera.instance)
             }
             else
             {
-                this.composerPortfolio.render()
+            
+                // this.experience.world.troikaText.groupText.traverse(c => c.layers.set(1));
 
+                this.camera.instance.layers.set(0); 
+                this.composerPortfolio.render();
+                this.instance.autoClear = false;         
+
+                this.camera.instance.layers.set(1); 
+                this.instance.render(this.scenePortfolio, this.camera.instance)
+                this.camera.instance.layers.set(0);
+
+                    
             }
+
             // this.instance.render(this.scenePortfolio, this.camera.instance)
             // this.composerPortfolio.render()
         }

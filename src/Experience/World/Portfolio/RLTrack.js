@@ -69,6 +69,9 @@ export default class RLTrack
         //         child.castShadow = true
         //     }
         // })
+
+        // this.experience.renderer.addSelectedObject(this.model)
+
     }
 
     setAnimation() {
