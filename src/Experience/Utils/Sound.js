@@ -8,7 +8,7 @@ export default class Sound
         this.experience = new Experience()         
         this.debug = this.experience.debug
 
-        this.music = new Audio('/sounds/MusicJCValo.mp3')
+        this.music = new Audio('./sounds/MusicJCValo.mp3')
         this.music.volume = 0.2
         this.music.play()
         
