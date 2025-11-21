@@ -61,23 +61,37 @@ export default class Raycaster
 
                 // Une fois l'objet parent trouvé, on peut jouer l'animation
                 if (current && current.userData.parentInstance) {
-                    const animatedObject = current.userData.parentInstance;
+                    this.newAnimatedObjectLeft = current.userData.parentInstance;                       
 
                     if(this.currentIntersectLeft == null)
                     {
+                        
                         if(this.experience.renderer.enablePostProcessing)
                         {
                             // console.log(animatedObject.model);
-                            this.experience.renderer.addSelectedObject(animatedObject.model)
+                            this.experience.renderer.addSelectedObject(this.newAnimatedObjectLeft.model)
                         }
                     }
 
-                    this.currentIntersectLeft = animatedObject
-
-                    // Si l'animation n'est pas déjà en cours, la lancer
-                    if (!animatedObject.isPlaying) {
-                        animatedObject.playAnimation();
+                    if(!this.newAnimatedObjectLeft.loopFalse){
+                        console.log("loopTrue");
+                        
+                        // Si l'animation n'est pas déjà en cours, la lancer
+                        if (!this.newAnimatedObjectLeft.isPlaying) {
+                            this.newAnimatedObjectLeft.playAnimation();
+                        }
                     }
+                    else{
+                        console.log("loopFalse");
+                        if(this.currentIntersectLeft == null)
+                        {
+                            if (!this.newAnimatedObjectLeft.isPlaying) {
+                                this.newAnimatedObjectLeft.playAnimation();
+                            }
+                        }
+                    }
+
+                    this.currentIntersectLeft = this.newAnimatedObjectLeft            
                 }
                 
             }
@@ -111,23 +125,36 @@ export default class Raycaster
 
                 // Une fois l'objet parent trouvé, on peut jouer l'animation
                 if (current && current.userData.parentInstance) {
-                    const animatedObject = current.userData.parentInstance;
+                    this.newAnimatedObjectRight = current.userData.parentInstance;
 
                     if(this.currentIntersectRight == null)
                     {
                         if(this.experience.renderer.enablePostProcessing)
                         {
-                            console.log(animatedObject.model);
-                            this.experience.renderer.addSelectedObject(animatedObject.model)
+                            // console.log(this.newAnimatedObjectRight.model);
+                            this.experience.renderer.addSelectedObject(this.newAnimatedObjectRight.model)
                         }
                     }
 
-                    this.currentIntersectRight = animatedObject
-
-                    // Si l'animation n'est pas déjà en cours, la lancer
-                    if (!animatedObject.isPlaying) {
-                        animatedObject.playAnimation();
+                    if(!this.newAnimatedObjectRight.loopFalse){
+                        console.log("loopTrue");
+                        
+                        // Si l'animation n'est pas déjà en cours, la lancer
+                        if (!this.newAnimatedObjectRight.isPlaying) {
+                            this.newAnimatedObjectRight.playAnimation();
+                        }
                     }
+                    else{
+                        console.log("loopFalse");
+                        if(this.currentIntersectRight == null)
+                        {
+                            if (!this.newAnimatedObjectRight.isPlaying) {
+                                this.newAnimatedObjectRight.playAnimation();
+                            }
+                        }
+                    }
+
+                    this.currentIntersectRight = this.newAnimatedObjectRight
                 }
                 
             }

@@ -14,7 +14,8 @@ export default class PC
         this.unlimitedTexture = this.experience.world.unlimitedTexture
 
         this.isPlaying = false;
-        this.isOpen = true;
+        this.isOpen = false;
+        this.loopFalse = true
 
         // Debug
         if(this.debug.active)
@@ -66,6 +67,7 @@ export default class PC
     {        
         this.screenPC = this.model.children[0].children[1];     
         this.screenPC.material = this.unlimitedTexture.videoPC1Material
+        this.screenPC.visible = false
         this.screenMonitor = this.model.children[0].children[2];     
         this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial
     }
@@ -101,11 +103,12 @@ export default class PC
         setTimeout(() => {
             this.isOpen = !this.isOpen;
             if(this.isOpen){
-                this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial;
-                this.screenPC.visible = false
+                this.screenMonitor.material = this.unlimitedTexture.videoPC1Material
+                this.screenPC.visible = true
             }
             else{
-                this.screenMonitor.material = this.unlimitedTexture.videoPC1Material;  
+                this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial
+                this.screenPC.visible = false
             }    
         }, 1 * 1000)
 
@@ -149,11 +152,13 @@ export default class PC
 
         setTimeout(() => {
             this.isPlaying = false
-        }, (maxDuration + 2) * 1000)
+        }, (maxDuration) * 1000)
     }
 
     update()
     {
+        console.log(this.screenPC.visible);
+        
         if(this.unlimitedTexture.videoPC1Texture)
         {
             this.unlimitedTexture.videoPC1Texture.needsUpdate = true;

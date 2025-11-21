@@ -77,7 +77,7 @@ export default class Renderer
 
         [this.outlinePassProfile, this.outlinePassPortfolio].forEach(op => {
             op.visibleEdgeColor.set('#ffffff');
-            op.hiddenEdgeColor.set('#190a05');
+            op.hiddenEdgeColor.set('#000000'); 
             op.edgeStrength = 3.0;
             op.edgeGlow = 0.5;
             op.edgeThickness = 2.0;
@@ -198,7 +198,7 @@ export default class Renderer
         {
             this.outlinePassPortfolio.selectedObjects = this.selectedObjects;
         }
-        
+
     }
 
     setInstance()
