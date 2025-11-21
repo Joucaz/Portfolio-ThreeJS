@@ -348,6 +348,15 @@ html, body {
     font-size: 2em;
     text-align: center;
 }
+@media (max-width: 768px) {
+    .fullpage-container {
+        flex-direction: column;
+        height: auto; /* important pour que les sections s’empilent correctement */
+    }
 
+    .fullpage-section {
+        height: 50vh; /* chaque partie prend une demi-page sur mobile */
+    }
+}
 
 /* END STYLE HOME */

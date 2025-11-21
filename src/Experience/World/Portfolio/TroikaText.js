@@ -62,7 +62,7 @@ export default class TroikaText
             text.anchorY = 'center'
             text.position.set(...data.position)
             text.rotation.set(0, data.rotationY, 0)
-            text.fillOpacity = 0.5
+            text.fillOpacity = 0.7
             text.clipRect = [-0.1, -0.1, 0.1, 0.1] // [minX, minY, maxX, maxY]
             text.outlineWidth = 0      // pas d’outline si tu n’en veux pas
             text.outlineBlur = 0  
