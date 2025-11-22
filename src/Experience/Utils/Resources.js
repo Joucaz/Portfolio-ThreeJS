@@ -6,6 +6,7 @@ import Experience from "../Experience";
 // import { FontLoader } from 'three/addons/loaders/FontLoader.js'
 
 import EventEmitter from './EventEmitter.js'
+import Sound from './Sound.js';
 
 export default class Resources extends EventEmitter
 {
@@ -47,10 +48,11 @@ export default class Resources extends EventEmitter
 
     setLoadingManager() {
         const loaderElement = document.getElementById('loader');
+        const loaderDisappear = document.querySelector('.loader-disappear');
         const loaderBar = document.querySelector('.loader-bar-fill');
         const loaderPercent = document.getElementById('loader-percent');
         const glassCard = document.querySelector('.glass-card');
-        const enterBtn = glassCard.querySelector('.enter-btn');
+        const enterButton = document.querySelector('.button-enter');
         const infoBtn = glassCard.querySelector('.info-btn');
         const cardFull = glassCard.querySelector('.card-full');
 
@@ -67,22 +69,24 @@ export default class Resources extends EventEmitter
 
         });
 
+        enterButton.addEventListener('click', () => {
+            this.music = new Sound()
+            this.experience.music = this.music
+            loaderElement.style.opacity = '0';
+            glassCard.style.opacity = '1';
+
+            setTimeout(() => {
+                loaderElement.remove()
+            }, 2000);
+        });
+
         this.loadingManager = new THREE.LoadingManager(
-            // Quand tout est chargé
-            // () => {
-            //     loaderElement.style.opacity = '0';
-            //     setTimeout(() => loaderElement.remove(), 600);
-            // },
             () => {
-                setTimeout(() => {
-                    loaderElement.style.opacity = '0';
 
-                    glassCard.style.opacity = '1';
+                setTimeout(() => {
+                    loaderDisappear.style.opacity = '0';
+                    enterButton.style.opacity = '0.8';
                 }, 500);
-
-                setTimeout(() => {
-                    loaderElement.remove()
-                }, 2000);
             },
 
             // Pendant le chargement

@@ -6,6 +6,7 @@
     <title>Joucaz Portfolio</title>
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -44,31 +45,63 @@
     <!-- LOADER -->
     <div id="loader">
         <div class="loader-bg">
+            <!-- <div class="loader-title">Joud Cazeaux</div> -->
+
+            <div class="loader-disappear">
             
-            <div class="loader-text">Creating beautiful 3D experience...</div>
+                <div class="loader-text">Creating beautiful 3D experience...</div>
 
-            <div class="loader-bar">
-                <div class="loader-bar-fill"></div>
+                <div class="loader-bar">
+                    <div class="loader-bar-fill"></div>
+                </div>
+
+                <div id="loader-percent">00.00 %</div>
+
             </div>
+            
+            
+        </div>
 
-            <div id="loader-percent">00.00 %</div>
+        <button class="button-enter">Enter the 3D World</button>
 
+        <div class="loader-end">
+            <span class="span-by">by</span> 
+            <span class="span-jc"> Joud Cazeaux</span>
         </div>
     </div>
+    
+
+    
+
 
     <!-- INFOS -->
     <div class="glass-card">
         <!-- Contenu complet -->
         <div class="card-full">
-            <h2 class="card-title">Joud Cazeaux Website</h2>
+            <div class="icon-card">
+                <div class="left-icons">
+                    <button class="btn-volume-up">
+                        <i class="fa fa-volume-up"></i>
+                    </button>
+                    <button class="btn-volume-off" style="display: none;">
+                        <i class="fa fa-volume-off"></i>
+                    </button>
+                </div>
+                <button class="btn-close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+
+            <h2 class="card-title">Joud Cazeaux</h2>
             <p class="card-text">
-                The first page of this site is an interactive experience set in a 3D world<br>
-                Explore two distinct sections representing different aspects of my life, and use your mouse to discover their hidden secrets.<br>
-                If you want to dive deeper into either section, simply click to be redirected to a more detailed view.<br><br>
+                Welcome to this interactive 3D experience<br>
+                Explore two different aspects of my life, and use your mouse to discover their hidden secrets<br>
+                If you want to dive deeper into either section, simply click to be redirected to a more detailed view<br><br>
 
-                At any point during the experience, you can press "I" or click the button at the bottom of the screen to revisit this information<br><br>
+                Press <strong>I</strong> or hover the info button at any time for more options
+                At any point during the experience, you can press I or hover infos button<br><br>
 
-                For a smoother experience, especially if your PC struggles with performance, you can switch to 2D mode using the button<br>
+                If your PC struggles with 3D and performance, you can switch to 2D mode using the info button<br>
             </p>
 
             <div class="toggle-container">
@@ -82,7 +115,7 @@
 
         </div>
 
-        <div class="info-btn">I</div>
+        <div class="info-btn">i</div>
     </div>
 
     <!-- 2D VERSION -->

@@ -10,6 +10,7 @@ export default class Sound
 
         this.music = new Audio('./sounds/MusicJCValo.mp3')
         this.music.volume = 0.2
+        this.music.loop = true;
         this.music.play()
         
          // Debug

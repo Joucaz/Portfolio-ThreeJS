@@ -111,11 +111,83 @@ body
 .loader-text{
   
   margin: 0 auto 12px auto;
-  font-size: 1.2em;
+  font-size: 0.8em;
   opacity: 0.8;
   text-shadow: 0 0 10px rgba(227, 180, 5, 0.5);
 
 }
+
+.loader-title{
+  top: 75%;
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+  margin: 0 auto 25% auto;
+  font-size: 2em;
+  opacity: 0.8;
+  text-shadow: 0 0 10px rgba(227, 180, 5, 0.5);
+
+}
+
+
+.loader-end{
+  color: #fff;
+  z-index: 999999;
+  top: 75%;
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+  margin: 0 auto 25% auto;
+  opacity: 0.8;
+  text-shadow: 0 0 10px rgba(227, 180, 5, 0.5);
+
+}
+.span-by{
+    margin-right: 0.5em; /* espace entre "by" et ton nom */
+font-size: 0.8em;
+}
+.span-jc{
+  font-size: 1.5em;
+  font-style: italic;
+}
+.loader-disappear{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+.button-enter {
+  color: #fff;
+  z-index: 999999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  z-index: 999999;
+  opacity: 0;
+  cursor: pointer;
+  color: #fff !important;
+  text-decoration: none;
+  background: #17161700;
+  padding: 20px;
+  border: 1px solid #fff !important;
+  border-radius: 15px;
+  display: inline-block;
+  transition: all 0.4s ease;
+  transition: opacity 0.2s;
+  box-shadow: rgba(227, 180, 5, 0.5) 0 0 5px 0;
+  text-shadow: 0 0 10px rgba(227, 180, 5, 0.5);
+
+}
+
+.button-enter:hover {
+  background-color: #e3b405;
+  border-color: rgba(227, 180, 5, 0.5)!important;
+  box-shadow: rgba(227, 180, 5, 0.5) 0 0 5px 0;;
+}
+
 
 /* ======== GLASS CARD BASE ======== */
 
@@ -143,7 +215,7 @@ body
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.8% 1% 0.8% 1%;
+  padding: 0.8% 0.8% 0.8% 0.8%;
   box-sizing: border-box;
   color: white;
   font-family: sans-serif;
@@ -179,6 +251,32 @@ body
     transparent,
     rgba(255, 255, 255, 0.3)
   );
+}
+
+/* ICON */
+.icon-card {
+    display: flex;
+    justify-content: space-between; /* espace entre gauche et droite */
+    align-items: center;
+    width: 100%; /* ou ajuster selon ton conteneur */
+}
+
+.left-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-card button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 0;
+}
+
+.icon-card button:focus {
+    outline: none;
 }
 
 /* ======== TITLE & TEXT ======== */
@@ -270,13 +368,20 @@ body
 
 /* bouton "I" */
 .info-btn {
-  font-style: italic;
+  display: inline-flex;       /* Permet de centrer le contenu */
+  justify-content: center;    /* Centre horizontalement */
+  align-items: center;        /* Centre verticalement */
+  width: 20px;                /* Taille du bouton */
+  height: 20px;
+  border: 1px solid #ffffff;     /* Bordure autour */
+  border-radius: 50%;         /* Rond, mettre 4px pour carré arrondi */
+  /* font-style: italic;
+  font-weight: bold; */
+  font-size: 1rem;
+  text-decoration: none;      /* Retire le soulignement si besoin */
+  cursor: pointer;            /* Curseur en forme de main */
+  transition: opacity 0.5s, background-color 0.3s;
   opacity: 1;
-  border: none;
-  font-weight: bold;
-  font-size: 1rem;        
-  text-decoration: underline;
-  transition: opacity 0.5s;
 }
 .info-btn.hide {
     opacity: 0;

@@ -34,7 +34,6 @@ export default class World
         this.sceneProfile.add(this.groupProfile)
         this.scenePortfolio.add(this.groupPortfolio)
 
-        this.troikaText = new TroikaText({ parentGroup: this.groupPortfolio })
 
         this.debug = this.experience.debug
 
@@ -47,6 +46,9 @@ export default class World
         // Wait for resources
         this.resources.on('ready', () =>
         {            
+
+            this.troikaText = new TroikaText({ parentGroup: this.groupPortfolio })
+
             // Setup
             // this.floor = new Floor()
             
@@ -92,8 +94,6 @@ export default class World
 
             // Setup Environment
             this.environment = new Environment()
-
-            this.music = new Sound()
         })
 
         if(this.debug.active)
