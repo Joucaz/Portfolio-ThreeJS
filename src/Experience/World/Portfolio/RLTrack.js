@@ -13,19 +13,25 @@ export default class RLTrack
         this.debug = this.experience.debug
         this.troikaText = this.experience.world.troikaText
 
-        this.lastAnimationChange = 0 // en millisecondes
-        this.animationChangeCooldown = 3000 // 3 secondes
+        this.loopFalse = true
+
+        this.lastAnimationChange = -this.animationChangeCooldown; // en millisecondes
+        this.animationChangeCooldown = 1500 // 3 secondes
 
         this.fennecCounter = 0
         this.octaneCounter = 0
 
         // 🎲 Génère une vitesse aléatoire
-        this.minSpeed = 1.5
-        this.maxSpeed = 3.88
+        this.minSpeed = 1
+        this.maxSpeed = 3
 
-        this.baseSpeed = 110
-        this.fennecSpeed = 110
-        this.octaneSpeed = 110
+        this.baseSpeed = 108
+        this.fennecSpeed = this.baseSpeed
+        this.octaneSpeed = this.baseSpeed
+
+        this.activeHalo = null;
+        this.lastSpeedFennec = this.baseSpeed;
+        this.lastSpeedOctane = this.baseSpeed;
 
         // Debug
         if(this.debug.active)
@@ -77,17 +83,22 @@ export default class RLTrack
     setAnimation() {
         this.animation = {}
 
-        this.emptyFennec = this.model.children[0].children.find(child => child.name === "EmptyFennec005")
-        this.emptyOctane = this.model.children[0].children.find(child => child.name === "EmptyOctane005")
+        this.emptyFennec = this.model.children[0].children.find(child => child.name === "EmptyFennec008")
+        this.emptyOctane = this.model.children[0].children.find(child => child.name === "EmptyOctane008")
+        // this.emptyFennec = this.experience.world.rlFennec.emptyFennec
+        // this.emptyOctane = this.experience.world.rlOctane.emptyOctane
+        
 
         // Mixers
         this.animation.mixerFennec = new THREE.AnimationMixer(this.emptyFennec)
         this.animation.mixerOctane = new THREE.AnimationMixer(this.emptyOctane)
-
         // Actions
-        this.animation.actions = {}
+        this.animation.actions = {}        
         this.animation.actions.fennecAction = this.animation.mixerFennec.clipAction(this.resource.animations[0])
         this.animation.actions.octaneAction = this.animation.mixerOctane.clipAction(this.resource.animations[1])
+        // this.animation.actions.fennecAction = this.animation.mixerFennec.clipAction(this.experience.world.rlFennec.resource.animations[0])
+        // this.animation.actions.octaneAction = this.animation.mixerOctane.clipAction(this.experience.world.rlOctane.resource.animations[0])
+        
 
         // Boucles infinies
         this.animation.actions.fennecAction.setLoop(THREE.LoopRepeat, Infinity)
@@ -232,6 +243,7 @@ export default class RLTrack
     //     fade()
     // }
 
+   
 
     playAnimation()
     {
@@ -248,6 +260,9 @@ export default class RLTrack
 
         const newSpeed = Math.random() * (this.maxSpeed - this.minSpeed) + this.minSpeed
 
+        console.log(newSpeed);
+        
+
         // ⏩ Applique la vitesse à l'animation
         randomAction.timeScale = newSpeed
         this.currentSpeed = newSpeed
@@ -256,11 +271,29 @@ export default class RLTrack
         const newSpeedKmH = newSpeed * this.baseSpeed
 
         if (randomAction === fAction) {
+
+            const oldSpeed = this.lastSpeedFennec;
+            const isUp = newSpeedKmH > oldSpeed;
+
+            this.lastSpeedFennec = newSpeedKmH;
+
             this.fennecSpeed = newSpeedKmH.toFixed(0)
+
+            this.createHalo(this.emptyFennec.children[0], isUp);
+
             this.troikaText.updateText('speedFennec', `${this.fennecSpeed}`)
             console.log(`Fennec speed updated: ${this.fennecSpeed} km/h`)
+
         } else {
+            const oldSpeed = this.lastSpeedOctane;
+            const isUp = newSpeedKmH > oldSpeed;
+
+            this.lastSpeedOctane = newSpeedKmH;
+            
             this.octaneSpeed = newSpeedKmH.toFixed(0)
+            
+            this.createHalo(this.emptyOctane.children[0], isUp);
+
             this.troikaText.updateText('speedOctane', `${this.octaneSpeed}`)
             console.log(`Octane speed updated: ${this.octaneSpeed} km/h`)
         }
@@ -271,10 +304,69 @@ export default class RLTrack
         // this.createSpeedIndicator(targetModel, speedLabel)
     }
 
+     createHalo(carMesh, isSpeedUp) {
+        // Si un halo existe déjà → on le supprime
+        if (this.activeHalo) {
+            this.activeHalo.parent.remove(this.activeHalo);
+            this.activeHalo.material.dispose();
+            this.activeHalo.geometry.dispose();
+            this.activeHalo = null;
+        }
+
+        // Choix couleur selon montée / descente de vitesse
+        const color = isSpeedUp ? 0x2EF527 : 0xFF0A0A; // vert / rouge
+
+        const ringGeom = new THREE.RingGeometry(0.8, 0.95, 32);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: color,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 1
+        });
+
+        const halo = new THREE.Mesh(ringGeom, ringMat);
+        halo.rotation.x = -Math.PI / 2;
+        carMesh.add(halo);
+
+        halo.userData = {
+            elapsed: 0,
+            duration: this.animationChangeCooldown, // halo reste jusqu'au cooldown
+            pulseSpeed: 0.01
+        };
+
+        this.activeHalo = halo;
+    }
 
     update()
     {
         this.animation.mixerFennec.update(this.time.delta * 0.001)      
         this.animation.mixerOctane.update(this.time.delta * 0.001)
+
+        if (this.activeHalo) {
+            const h = this.activeHalo;
+            h.userData.elapsed += this.time.delta;
+            
+            // Pulse du scale
+            const t = h.userData.elapsed * h.userData.pulseSpeed;
+            const scale = 1 + 0.08 * Math.sin(t);
+            h.scale.set(scale, scale, scale);
+
+            const minOpacity = 0.3;
+            const maxOpacity = 1;
+            h.material.opacity = minOpacity + (maxOpacity - minOpacity) * (0.5 + 0.5 * Math.sin(t));
+
+
+            // Fade progressif
+            // h.material.opacity = 0.8 * (1 - h.userData.elapsed / h.userData.duration);
+
+            if (h.userData.elapsed >= h.userData.duration) {
+                console.log("destroy");
+                
+                h.parent.remove(h);
+                h.material.dispose();
+                h.geometry.dispose();
+                this.activeHalo = null;
+            }
+        }
     }
 }

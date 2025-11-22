@@ -42,8 +42,8 @@ export default class TroikaText
             { key: 'lapOctane', text: '0', position: [-0.22, 0.38, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.1, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
             { key: 'lapFennec', text: '0', position: [0.22, 0.38, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.1, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
             { key: 'speedLabel', text: 'SPEED', position: [0, 0.16, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.06, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
-            { key: 'speedOctane', text: '110', position: [-0.22, 0.18, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.1, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
-            { key: 'speedFennec', text: '110', position: [0.22, 0.18, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.1, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
+            { key: 'speedOctane', text: '108', position: [-0.22, 0.18, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.1, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
+            { key: 'speedFennec', text: '108', position: [0.22, 0.18, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.1, fontWeight: 900, letterSpacing: 0, lineHeight: 1 },
             { key: 'nameFennec', text: 'Fennec', position: [0.22, 0.26, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.06, fontWeight: 500, letterSpacing: 0, lineHeight: 1 },
             { key: 'nameOctane', text: 'Octane', position: [-0.22, 0.26, 0.19], rotationY: 0, color: 0xffffff, fontSize: 0.06, fontWeight: 500, letterSpacing: 0, lineHeight: 1 },
         ]

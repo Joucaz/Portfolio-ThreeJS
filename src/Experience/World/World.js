@@ -18,6 +18,8 @@ import Mouse from './Profile/Mouse.js'
 import PC from './Profile/PC.js'
 import TroikaText from './Portfolio/TroikaText.js'
 import Sound from '../Utils/Sound.js'
+import RLFennec from './Portfolio/RLFennec.js'
+import RLOctane from './Portfolio/RLOctane.js'
 
 export default class World
 {
@@ -78,6 +80,8 @@ export default class World
             this.reyna = new Reyna()
             this.chamber = new Chamber()
             this.breach = new Breach()
+            // this.rlFennec = new RLFennec()
+            // this.rlOctane = new RLOctane()
             this.rlTrack = new RLTrack()
             // this.jordan = new Jordan()
             this.jordanBox = new JordanBox()

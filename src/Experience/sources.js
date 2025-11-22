@@ -63,6 +63,16 @@ export default [
         path: 'models/Portfolio/RL/RLTrack.glb'
     },
     {
+        name: 'rlFennec',
+        type: 'gltfModel',
+        path: 'models/Portfolio/RL/RLFennec.glb'
+    },
+    {
+        name: 'rlOctane',
+        type: 'gltfModel',
+        path: 'models/Portfolio/RL/RLOctane.glb'
+    },
+    {
         name: 'jordan',
         type: 'gltfModel',
         path: 'models/Portfolio/Jordan1/Jordan1.glb'

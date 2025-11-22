@@ -137,7 +137,7 @@ export default class Raycaster
                     }
 
                     if(!this.newAnimatedObjectRight.loopFalse){
-                        console.log("loopTrue");
+                        // console.log("loopTrue");
                         
                         // Si l'animation n'est pas déjà en cours, la lancer
                         if (!this.newAnimatedObjectRight.isPlaying) {
@@ -145,7 +145,7 @@ export default class Raycaster
                         }
                     }
                     else{
-                        console.log("loopFalse");
+                        // console.log("loopFalse");
                         if(this.currentIntersectRight == null)
                         {
                             if (!this.newAnimatedObjectRight.isPlaying) {

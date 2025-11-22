@@ -156,9 +156,7 @@ export default class PC
     }
 
     update()
-    {
-        console.log(this.screenPC.visible);
-        
+    {        
         if(this.unlimitedTexture.videoPC1Texture)
         {
             this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
