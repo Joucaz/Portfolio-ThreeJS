@@ -188,8 +188,93 @@ font-size: 0.8em;
   box-shadow: rgba(227, 180, 5, 0.5) 0 0 5px 0;;
 }
 
+/* .mobile-sound{
+  display: none;
+  color: #ffffff;
+  z-index: 9999999;
+  
+} */
+ .mobile-sound {
+  left: 50%;
+  width: 10%;
+  transform: translateX(-50%);
+  top: 1%;
+  position: relative;
+  color: #ffffff;    
+  display: none;   
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0);
+  overflow: hidden;
+}
 
+.mobile-sound ::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.mobile-sound ::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+.mobile-sound button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 0;
+}
+
+.mobile-sound button:focus {
+    outline: none;
+}
+ 
+@media screen and (max-width: 768px) {
+  .mobile-sound {
+    display: flex;  
+    justify-content: center;  
+    align-items: center;      
+}
+
+
+}
 /* ======== GLASS CARD BASE ======== */
+
+@media screen and (max-width: 768px) {
+  .glass-card {
+      display: none !important;
+    }
+
+}
 
 .glass-card {
   opacity: 0;
@@ -218,10 +303,11 @@ font-size: 0.8em;
   padding: 0.8% 0.8% 0.8% 0.8%;
   box-sizing: border-box;
   color: white;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   text-align: center;
   transition: opacity 0.2s, max-height 0.5s ease-out, max-width 0.5s ease-out;
 }
+
 
 .glass-card::before {
   content: '';
@@ -259,6 +345,8 @@ font-size: 0.8em;
     justify-content: space-between; /* espace entre gauche et droite */
     align-items: center;
     width: 100%; /* ou ajuster selon ton conteneur */
+    align-content: center;
+    margin-bottom: 10px;
 }
 
 .left-icons {
@@ -294,7 +382,6 @@ font-size: 0.8em;
 .card-title {
   font-size: 1.6rem;
   font-weight: 600;
-  margin: 0 0 10px 0;
 }
 
 .card-text {
@@ -303,6 +390,8 @@ font-size: 0.8em;
   opacity: 0.9;
   margin-bottom: 20px;
 }
+
+
 
 /* ======== TOGGLE SWITCH ======== */
 .toggle-container {
