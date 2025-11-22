@@ -16,7 +16,7 @@ export default class RLTrack
         this.loopFalse = true
 
         this.lastAnimationChange = -this.animationChangeCooldown; // en millisecondes
-        this.animationChangeCooldown = 1500 // 3 secondes
+        this.animationChangeCooldown = 2000
 
         this.fennecCounter = 0
         this.octaneCounter = 0
@@ -33,13 +33,24 @@ export default class RLTrack
         this.lastSpeedFennec = this.baseSpeed;
         this.lastSpeedOctane = this.baseSpeed;
 
+        this.speedTransition = {
+            active: false,
+            startTime: 0,
+            duration: this.animationChangeCooldown,
+            startSpeed: 0,
+            endSpeed: 0,
+            action: null,        // fennecAction ou octaneAction
+            updateCallback: null // pour mettre à jour le text et les halos
+        };
+
+
         // Debug
         if(this.debug.active)
         {
             this.debugFolder = this.debug.ui.addFolder('RLTrack')
         }
 
-        
+
         this.resource = this.resources.items.rlTrack
 
         this.setModel()
@@ -47,9 +58,9 @@ export default class RLTrack
     }
 
     setModel()
-    {        
+    {
         this.model = this.resource.scene
-        this.experience.world.groupPortfolio.add(this.model) 
+        this.experience.world.groupPortfolio.add(this.model)
 
         // Ajoute une référence vers "this" dans le modèle
         this.model.traverse(child => {
@@ -62,12 +73,12 @@ export default class RLTrack
                     child.material = this.experience.world.unlimitedTexture.bakedMaterialPortfolio
                 }
             }
-            
+
         });
 
         // Add object to raycast
         this.experience.objectsIntersectRight.addObject(this.model)
-    
+
         // this.model.traverse((child) =>
         // {
         //     if(child instanceof THREE.Mesh)
@@ -87,18 +98,18 @@ export default class RLTrack
         this.emptyOctane = this.model.children[0].children.find(child => child.name === "EmptyOctane008")
         // this.emptyFennec = this.experience.world.rlFennec.emptyFennec
         // this.emptyOctane = this.experience.world.rlOctane.emptyOctane
-        
+
 
         // Mixers
         this.animation.mixerFennec = new THREE.AnimationMixer(this.emptyFennec)
         this.animation.mixerOctane = new THREE.AnimationMixer(this.emptyOctane)
         // Actions
-        this.animation.actions = {}        
+        this.animation.actions = {}
         this.animation.actions.fennecAction = this.animation.mixerFennec.clipAction(this.resource.animations[0])
         this.animation.actions.octaneAction = this.animation.mixerOctane.clipAction(this.resource.animations[1])
         // this.animation.actions.fennecAction = this.animation.mixerFennec.clipAction(this.experience.world.rlFennec.resource.animations[0])
         // this.animation.actions.octaneAction = this.animation.mixerOctane.clipAction(this.experience.world.rlOctane.resource.animations[0])
-        
+
 
         // Boucles infinies
         this.animation.actions.fennecAction.setLoop(THREE.LoopRepeat, Infinity)
@@ -243,68 +254,59 @@ export default class RLTrack
     //     fade()
     // }
 
-   
 
-    playAnimation()
-    {
+
+    playAnimation() {
         if (this.time.elapsed - this.lastAnimationChange < this.animationChangeCooldown)
-            return
+            return;
 
-        this.lastAnimationChange = this.time.elapsed
+        this.lastAnimationChange = this.time.elapsed;
 
-        const fAction = this.animation.actions.fennecAction
-        const oAction = this.animation.actions.octaneAction
+        const fAction = this.animation.actions.fennecAction;
+        const oAction = this.animation.actions.octaneAction;
+        const actions = [fAction, oAction];
+        const randomAction = actions[Math.floor(Math.random() * actions.length)];
 
-        const actions = [fAction, oAction]
-        const randomAction = actions[Math.floor(Math.random() * actions.length)]
+        const newSpeed = Math.random() * (this.maxSpeed - this.minSpeed) + this.minSpeed;
+        console.log("Nouvelle vitesse target:", newSpeed);
 
-        const newSpeed = Math.random() * (this.maxSpeed - this.minSpeed) + this.minSpeed
+        // Conversion km/h
+        const newSpeedKmH = newSpeed * this.baseSpeed;
 
-        console.log(newSpeed);
-        
+        // Détermination de l'ancienne vitesse
+        const oldSpeedKmH = randomAction === fAction ? this.lastSpeedFennec : this.lastSpeedOctane;
 
-        // ⏩ Applique la vitesse à l'animation
-        randomAction.timeScale = newSpeed
-        this.currentSpeed = newSpeed
+        // Mise à jour de la dernière vitesse cible
+        if (randomAction === fAction) this.lastSpeedFennec = newSpeedKmH;
+        else this.lastSpeedOctane = newSpeedKmH;
 
-        // 🔹 Conversion en km/h pour cette voiture
-        const newSpeedKmH = newSpeed * this.baseSpeed
+        // Création du halo
+        const isUp = newSpeedKmH > oldSpeedKmH;
+        const targetEmpty = randomAction === fAction ? this.emptyFennec.children[0] : this.emptyOctane.children[0];
+        this.createHalo(targetEmpty, isUp);
 
-        if (randomAction === fAction) {
-
-            const oldSpeed = this.lastSpeedFennec;
-            const isUp = newSpeedKmH > oldSpeed;
-
-            this.lastSpeedFennec = newSpeedKmH;
-
-            this.fennecSpeed = newSpeedKmH.toFixed(0)
-
-            this.createHalo(this.emptyFennec.children[0], isUp);
-
-            this.troikaText.updateText('speedFennec', `${this.fennecSpeed}`)
-            console.log(`Fennec speed updated: ${this.fennecSpeed} km/h`)
-
-        } else {
-            const oldSpeed = this.lastSpeedOctane;
-            const isUp = newSpeedKmH > oldSpeed;
-
-            this.lastSpeedOctane = newSpeedKmH;
-            
-            this.octaneSpeed = newSpeedKmH.toFixed(0)
-            
-            this.createHalo(this.emptyOctane.children[0], isUp);
-
-            this.troikaText.updateText('speedOctane', `${this.octaneSpeed}`)
-            console.log(`Octane speed updated: ${this.octaneSpeed} km/h`)
-        }
-
-        // console.log(`Action : ${randomAction._clip.name}, Vitesse : x${newSpeed.toFixed(2)}`)    
-
-        // const targetModel = randomAction === fAction ? this.emptyFennec : this.emptyOctane
-        // this.createSpeedIndicator(targetModel, speedLabel)
+        // On initialise la transition
+        this.speedTransition = {
+            active: true,
+            startTime: this.time.elapsed,
+            duration: this.animationChangeCooldown,
+            startSpeed: oldSpeedKmH / this.baseSpeed, // timeScale de départ
+            endSpeed: newSpeed,
+            action: randomAction,
+            updateCallback: (currentSpeedKmH) => {
+                if (randomAction === fAction) {
+                    this.fennecSpeed = currentSpeedKmH.toFixed(0);
+                    this.troikaText.updateText('speedFennec', `${this.fennecSpeed}`);
+                } else {
+                    this.octaneSpeed = currentSpeedKmH.toFixed(0);
+                    this.troikaText.updateText('speedOctane', `${currentSpeedKmH.toFixed(0)}`);
+                }
+            }
+        };
     }
 
-     createHalo(carMesh, isSpeedUp) {
+
+    createHalo(carMesh, isSpeedUp) {
         // Si un halo existe déjà → on le supprime
         if (this.activeHalo) {
             this.activeHalo.parent.remove(this.activeHalo);
@@ -339,13 +341,13 @@ export default class RLTrack
 
     update()
     {
-        this.animation.mixerFennec.update(this.time.delta * 0.001)      
+        this.animation.mixerFennec.update(this.time.delta * 0.001)
         this.animation.mixerOctane.update(this.time.delta * 0.001)
 
         if (this.activeHalo) {
             const h = this.activeHalo;
             h.userData.elapsed += this.time.delta;
-            
+
             // Pulse du scale
             const t = h.userData.elapsed * h.userData.pulseSpeed;
             const scale = 1 + 0.08 * Math.sin(t);
@@ -361,12 +363,42 @@ export default class RLTrack
 
             if (h.userData.elapsed >= h.userData.duration) {
                 console.log("destroy");
-                
+
                 h.parent.remove(h);
                 h.material.dispose();
                 h.geometry.dispose();
                 this.activeHalo = null;
             }
         }
+
+        if (this.speedTransition.active) {
+            const tRaw = (this.time.elapsed - this.speedTransition.startTime) / this.speedTransition.duration;
+            const t = Math.min(Math.max(tRaw, 0), 1); // clamp 0-1
+
+            // Smoothstep pour un mouvement “courbe” Bézier-like
+            const easeT = t * t * (3 - 2 * t);
+
+            const k = 3; // ajuster pour plus ou moins d'accélération
+            const easeCar = 1 - Math.exp(-k * t);
+            // const easeCar = (1 - Math.exp(-k * t)) * (3 - 2 * t) * t * t;
+
+
+
+            const currentSpeed = this.speedTransition.startSpeed + (this.speedTransition.endSpeed - this.speedTransition.startSpeed) * t;// * t pour lineaire / * easeT pour bizer
+
+            // Applique la vitesse interpolée
+            this.speedTransition.action.timeScale = currentSpeed;
+
+            // Callback pour update texte / km/h
+            const currentSpeedKmH = currentSpeed * this.baseSpeed;
+            this.speedTransition.updateCallback?.(currentSpeedKmH);
+
+            // Fin de la transition
+            if (t >= 1) {
+                this.speedTransition.active = false;
+                this.speedTransition.action.timeScale = this.speedTransition.endSpeed;
+            }
+        }
+
     }
 }
