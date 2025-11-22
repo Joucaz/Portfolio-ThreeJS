@@ -22,7 +22,7 @@ export default class Environment
         this.intensityDirectionnalLightOff = 0
         // this.intensityDirectionnalLight = 0
         // this.intensityDirectionnalLightOff = 0
-        this.intensityLightOff = 0.04
+        this.intensityLightOff = 0.02
         this.intensityLightOn = 1
 
         

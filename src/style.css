@@ -350,8 +350,16 @@ font-size: 0.8em;
 }
 
 .left-icons {
+  text-align: left;
+
+    width: 10%;
     display: flex;
     gap: 10px;
+}
+
+.div-close{
+  text-align: right;
+  width: 10%;
 }
 
 .icon-card button {
@@ -380,6 +388,8 @@ font-size: 0.8em;
   max-width: 100vw;
 }
 .card-title {
+  text-align: center;
+  width: 80%;
   font-size: 1.6rem;
   font-weight: 600;
 }

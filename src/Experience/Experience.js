@@ -195,7 +195,7 @@ export default class Experience
             scene.clear();
         }
         
-        this.camera.controls.dispose()
+        // this.camera.controls.dispose()
         this.renderer.instance.dispose()
 
         if(this.debug.active)

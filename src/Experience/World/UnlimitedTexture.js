@@ -91,17 +91,17 @@ export default class UnlimitedTexture
         this.bakedMaterialPortfolio = new THREE.MeshBasicMaterial({
             map: this.textures.colorPortfolio,
         })
-        this.bakedMaterialPortfolio.color.setScalar(0.04);
+        this.bakedMaterialPortfolio.color.setScalar(0.02);
 
         this.bakedMaterialProfile = new THREE.MeshBasicMaterial({
             map: this.textures.colorProfile,
         })
-        this.bakedMaterialProfile.color.setScalar(0.04);
+        this.bakedMaterialProfile.color.setScalar(0.02);
 
         this.bakedMaterialJordan = new THREE.MeshBasicMaterial({
             map: this.textures.colorJordanGreyBlue,
         })
-        this.bakedMaterialJordan.color.setScalar(0.04);
+        this.bakedMaterialJordan.color.setScalar(0.02);
 
         
         this.videoPC1Material = new THREE.MeshBasicMaterial({

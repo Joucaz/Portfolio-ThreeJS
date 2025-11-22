@@ -14,15 +14,15 @@ export default class Input extends EventEmitter {
         // const buttonVolume = this.isMuted ? document.querySelector('.btn-volume-mute') : document.querySelector('.btn-volume-up');
         const buttonVolumeOn = document.querySelector('.btn-volume-up')
         const buttonVolumeOff = document.querySelector('.btn-volume-off')
+        const buttonVolumeOnMobile = document.querySelector('.btn-volume-up-mobile')
+        const buttonVolumeOffMobile = document.querySelector('.btn-volume-off-mobile')
         const buttonClose = document.querySelector('.btn-close');
 
         this.isInfosOpen = false;
 
         const actions = {
-            'ArrowRight': () => {
-                console.log("open portfolio page")
-            },
-            'ArrowLeft': () => console.log("open profile page"),
+            'ArrowRight': () => window.location.href = '/joucaz',
+            'ArrowLeft': () => window.location.href = '/en',
             'KeyR': () => this.experience.world.reyna.playAnimation(),
             'KeyB': () => this.experience.world.breach.playAnimation(),
             'KeyC': () => this.experience.world.chamber.playAnimation(),
@@ -64,17 +64,44 @@ export default class Input extends EventEmitter {
             this.isInfosOpen = false
         });
 
-        buttonVolumeOn.addEventListener('click', () => {
-            this.experience.music.music.pause()
-            buttonVolumeOn.style.display = 'none'
-            buttonVolumeOff.style.display = 'block'
-        });
+        if(!this.experience.sizes.isMobile){
+            buttonVolumeOn.addEventListener('click', () => {
+                this.experience.music.music.pause()
+                buttonVolumeOn.style.display = 'none'
+                buttonVolumeOff.style.display = 'block'
+            });
 
-        buttonVolumeOff.addEventListener('click', () => {
-            this.experience.music.music.currentTime = 0; 
-            this.experience.music.music.play();  
-            buttonVolumeOn.style.display = 'block'
-            buttonVolumeOff.style.display = 'none'
+            buttonVolumeOff.addEventListener('click', () => {
+                this.experience.music.music.currentTime = 0; 
+                this.experience.music.music.play();  
+                buttonVolumeOn.style.display = 'block'
+                buttonVolumeOff.style.display = 'none'
+            });
+        }
+        else{
+            buttonVolumeOnMobile.addEventListener('click', () => {
+                this.experience.music.music.pause()
+                buttonVolumeOnMobile.style.display = 'none'
+                buttonVolumeOffMobile.style.display = 'block'
+            });
+
+            buttonVolumeOffMobile.addEventListener('click', () => {
+                this.experience.music.music.currentTime = 0; 
+                this.experience.music.music.play();  
+                buttonVolumeOnMobile.style.display = 'block'
+                buttonVolumeOffMobile.style.display = 'none'
+            });
+        }
+        
+        document.querySelector('canvas.webgl').addEventListener('click', () => {
+            if(this.experience.cursor.isFirstSection)
+            {
+                window.location.href = '/en'
+            }
+            else
+            {
+                window.location.href = '/joucaz'
+            }
         });
     }
 }

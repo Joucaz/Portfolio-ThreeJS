@@ -30,7 +30,7 @@ export default class Camera
 
 
         this.setInstance()
-        this.setControls()
+        // this.setControls()
 
     }
 
