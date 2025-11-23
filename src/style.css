@@ -168,6 +168,8 @@ font-size: 0.8em;
   z-index: 999999;
   top: 50%;
   left: 50%;
+  
+  font-size: 0.8em;
   transform: translate(-50%, -50%);
   position: absolute;
   z-index: 999999;
@@ -184,6 +186,7 @@ font-size: 0.8em;
   transition: opacity 0.2s;
   box-shadow: rgba(227, 180, 5, 0.5) 0 0 5px 0;
   text-shadow: 0 0 10px rgba(227, 180, 5, 0.5);
+  font-family: 'Montserrat', 'serif' !important;
 
 }
 
