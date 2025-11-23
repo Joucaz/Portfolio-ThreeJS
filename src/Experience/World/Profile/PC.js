@@ -66,7 +66,7 @@ export default class PC
     setMaterial()
     {        
         this.screenPC = this.model.children[0].children[1];     
-        this.screenPC.material = this.unlimitedTexture.videoPC1Material
+        this.screenPC.material = this.unlimitedTexture.vscodeMaterial
         this.screenPC.visible = false
         this.screenMonitor = this.model.children[0].children[2];     
         this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial
@@ -96,17 +96,20 @@ export default class PC
 
         if(!this.isOpen){
             
-            this.screenPC.material = this.unlimitedTexture.videoPC1Material
+            this.screenPC.material = this.unlimitedTexture.vscodeMaterial
             this.screenPC.visible = true;
         }        
 
         setTimeout(() => {
             this.isOpen = !this.isOpen;
             if(this.isOpen){
-                this.screenMonitor.material = this.unlimitedTexture.videoPC1Material
+                this.screenPC.material = this.unlimitedTexture.vscodeMaterial
+                this.screenMonitor.material = this.unlimitedTexture.blenderMaterial
+                this.unlimitedTexture.logoBouncing.pause()
                 this.screenPC.visible = true
             }
             else{
+                this.unlimitedTexture.logoBouncing.play()
                 this.screenMonitor.material = this.unlimitedTexture.logoBouncingMaterial
                 this.screenPC.visible = false
             }    
@@ -157,14 +160,14 @@ export default class PC
 
     update()
     {        
-        if(this.unlimitedTexture.videoPC1Texture)
-        {
-            this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
-        }
-        if(this.unlimitedTexture.logoBouncingTexture)
-        {
-            this.unlimitedTexture.logoBouncingTexture.needsUpdate = true;
-        }
+        // if(this.unlimitedTexture.videoPC1Texture)
+        // {
+        //     this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
+        // }
+        // if(this.unlimitedTexture.logoBouncingTexture)
+        // {
+        //     this.unlimitedTexture.logoBouncingTexture.needsUpdate = true;
+        // }
         // Met à jour le mixer
         this.animation.mixer.update(this.time.delta * 0.001)
     }

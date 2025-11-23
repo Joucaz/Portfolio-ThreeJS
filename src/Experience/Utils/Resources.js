@@ -52,6 +52,7 @@ export default class Resources extends EventEmitter
         const loaderBar = document.querySelector('.loader-bar-fill');
         const loaderPercent = document.getElementById('loader-percent');
         const glassCard = document.querySelector('.glass-card');
+        const divButtonSound = document.querySelector('.button-sound');
         const enterButton = document.querySelector('.button-enter');
         const infoBtn = glassCard.querySelector('.info-btn');
         const cardFull = glassCard.querySelector('.card-full');
@@ -85,7 +86,7 @@ export default class Resources extends EventEmitter
 
                 setTimeout(() => {
                     loaderDisappear.style.opacity = '0';
-                    enterButton.style.opacity = '0.8';
+                    divButtonSound.style.opacity = '0.8';
                 }, 500);
             },
 

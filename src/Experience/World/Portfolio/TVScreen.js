@@ -36,7 +36,7 @@ export default class TVScreen
                 // child.castShadow = true
 
                 if (child.material) {
-                    child.material = this.unlimitedTexture.videoPC1Material
+                    child.material = this.unlimitedTexture.videoTVMaterial
                 }
 
                 // if (child.geometry.attributes.uv) {
@@ -50,10 +50,10 @@ export default class TVScreen
 
     update()
     {
-        if(this.unlimitedTexture.videoPC1Texture)
-        {
-            this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
-        }
+        // if(this.unlimitedTexture.videoPC1Texture)
+        // {
+        //     this.unlimitedTexture.videoPC1Texture.needsUpdate = true;
+        // }
     }
     
 }

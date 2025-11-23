@@ -57,19 +57,25 @@ export default class UnlimitedTexture
 
     setTextureVideo()
     {
-        this.videoPC1 = document.getElementById("videoPC1");
-                
-        this.videoPC1.play();
+        this.videoTV = document.getElementById("videoTV");
         
-        console.log("Video ready:", this.videoPC1);
+        this.videoTV.play();
         
-        this.videoPC1Texture = new THREE.VideoTexture(this.videoPC1);
-        this.videoPC1Texture.colorSpace = THREE.SRGBColorSpace;
+        console.log("Video ready:", this.videoTV);
+        
+        this.videoTVTexture = new THREE.VideoTexture(this.videoTV);
+        this.videoTVTexture.colorSpace = THREE.SRGBColorSpace;
         // this.videoTexture.center.set(0.5, 0.5);
         // this.videoTexture.rotation = Math.PI; // 180°
-        this.videoPC1Texture.repeat.y = -1;
-        this.videoPC1Texture.offset.y = 1;
+        this.videoTVTexture.repeat.y = -1;
+        this.videoTVTexture.offset.y = 1;
         
+        this.videoTVTexture.minFilter = THREE.LinearFilter;
+        this.videoTVTexture.magFilter = THREE.LinearFilter;
+        this.videoTVTexture.generateMipmaps = false;
+
+        this.videoTVTexture.needsUpdate = true;
+
         
         this.logoBouncing = document.getElementById("JCLogoBouncing");
                 
@@ -83,6 +89,20 @@ export default class UnlimitedTexture
         // this.videoTexture2.rotation = Math.PI; // 180°
         this.logoBouncingTexture.repeat.y = -1;
         this.logoBouncingTexture.offset.y = 1;
+
+        this.logoBouncingTexture.minFilter = THREE.LinearFilter;
+        this.logoBouncingTexture.magFilter = THREE.LinearFilter;
+        this.logoBouncingTexture.generateMipmaps = false;
+
+        this.logoBouncingTexture.needsUpdate = true;
+
+        this.textures.colorBlender = this.resources.items.blenderTexture
+        this.textures.colorBlender.colorSpace = THREE.SRGBColorSpace
+        this.textures.colorBlender.flipY = false
+
+        this.textures.colorVSCode = this.resources.items.vscodeTexture
+        this.textures.colorVSCode.colorSpace = THREE.SRGBColorSpace
+        this.textures.colorVSCode.flipY = false
         
     }
 
@@ -104,8 +124,8 @@ export default class UnlimitedTexture
         this.bakedMaterialJordan.color.setScalar(0.02);
 
         
-        this.videoPC1Material = new THREE.MeshBasicMaterial({
-            map: this.videoPC1Texture,
+        this.videoTVMaterial = new THREE.MeshBasicMaterial({
+            map: this.videoTVTexture,
             side: THREE.FrontSide,
             toneMapped: false,
         });
@@ -115,6 +135,13 @@ export default class UnlimitedTexture
             side: THREE.FrontSide,
             toneMapped: false,
         });
+
+        this.blenderMaterial = new THREE.MeshBasicMaterial({
+            map: this.textures.colorBlender
+        })
+        this.vscodeMaterial = new THREE.MeshBasicMaterial({
+            map: this.textures.colorVSCode
+        })
 
     }
 }

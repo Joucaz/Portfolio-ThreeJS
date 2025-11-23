@@ -111,12 +111,21 @@ export default [
         name: 'basePortfolioTexture',
         type: 'texture',
         path: 'textures/Base/BasePortfolioTexture.jpg'
-    }
-    ,
+    },
     {
         name: 'baseProfileTexture',
         type: 'texture',
         path: 'textures/Base/BaseProfileTexture.jpg'
+    },
+    {
+        name: 'blenderTexture',
+        type: 'texture',
+        path: 'textures/Screen/ScreenBlender_480.webp'
+    },
+    {
+        name: 'vscodeTexture',
+        type: 'texture',
+        path: 'textures/Screen/ScreenVSCode_480.webp'
     },
     {
         name: 'ball',
