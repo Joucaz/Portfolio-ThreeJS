@@ -21,8 +21,8 @@ export default class Input extends EventEmitter {
         this.isInfosOpen = false;
 
         const actions = {
-            'ArrowRight': () => window.location.href = '/joucaz',
-            'ArrowLeft': () => window.location.href = '/en',
+            'ArrowRight': () => window.location.href = '/portfolio',
+            'ArrowLeft': () => window.location.href = '/profile/en',
             'KeyR': () => this.experience.world.reyna.playAnimation(),
             'KeyB': () => this.experience.world.breach.playAnimation(),
             'KeyC': () => this.experience.world.chamber.playAnimation(),
@@ -96,11 +96,11 @@ export default class Input extends EventEmitter {
         document.querySelector('canvas.webgl').addEventListener('click', () => {
             if(this.experience.cursor.isFirstSection)
             {
-                window.location.href = '/en'
+                window.location.href = '/profile/en'
             }
             else
             {
-                window.location.href = '/joucaz'
+                window.location.href = '/portfolio'
             }
         });
     }
