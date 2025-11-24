@@ -22,7 +22,7 @@ export default class Environment
         this.intensityDirectionnalLightOff = 0
         // this.intensityDirectionnalLight = 0
         // this.intensityDirectionnalLightOff = 0
-        this.intensityLightOff = 0.02
+        this.intensityLightOff = 0.04
         this.intensityLightOn = 1
 
         
@@ -69,14 +69,53 @@ export default class Environment
     {        
         if(this.experience.sizes.isMobile)
             return
+        
+        if(this.currentSection)
+        {
+            const starting = this.intensityLightOn; // valeur actuelle
+            const target = this.intensityLightOff; // valeur cible
+
+            // Objet animé
+            const anim = { value: starting };
+
+            // Animation GSAP
+            gsap.to(anim, {
+                value: target,
+                duration: 1,
+                ease: "power2.out",
+                onUpdate: () => {
+                    this.colorProfile.setScalar(anim.value);
+                }
+            });
+        }
+        else
+        {
+            const starting = this.intensityLightOn; // valeur actuelle
+            const target = this.intensityLightOff; // valeur cible
+
+            // Objet animé
+            const anim = { value: starting };
+
+            // Animation GSAP
+            gsap.to(anim, {
+                value: target,
+                duration: 1,
+                ease: "power2.out",
+                onUpdate: () => {
+                    this.colorPortfolio.setScalar(anim.value);
+                    this.colorJordan.setScalar(anim.value);
+                    this.colorTextRL.setScalar(anim.value);
+                }
+            });
+        }
 
         this.currentSection = null
-        
-        gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
-        gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+     
+        // gsap.to(this.ambientLightProfile, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
+        // gsap.to(this.ambientLightPortfolio, { intensity: this.intensityAmbientLightOff, duration: 1, ease: "power2.out" })
 
-        gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
-        gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+        // gsap.to(this.directionalLightProfile, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
+        // gsap.to(this.directionalLightPortfolio, { intensity: this.intensityDirectionnalLightOff, duration: 1, ease: "power2.out" })
     }
 
     updateLights()
