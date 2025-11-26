@@ -21,6 +21,8 @@ export default class Raycaster
         this.objectsIntersectRight = this.experience.objectsIntersectRight
         this.frameCount = 0
 
+        this.raycastInterval = this.experience.sizes.isMobile ? 0 : 6
+
         this.currentIntersectLeft = null
         this.currentIntersectRight = null
         // getCursorForRaycast()
@@ -43,6 +45,8 @@ export default class Raycaster
 
     sendRaycast()
     {             
+        console.log("raycast");
+        
         if(this.cursor.isFirstSection)
         {
             this.getCursorForRaycast("left")
@@ -174,9 +178,14 @@ export default class Raycaster
     {
         this.frameCount++;
 
-        if (this.frameCount % 4 === 0)
+        if (this.frameCount % this.raycastInterval === 0)
         {
             this.sendRaycast()
         }
+
+        // if (this.frameCount % 4 === 0)
+        // {
+        //     this.sendRaycast()
+        // }
     }
 }
