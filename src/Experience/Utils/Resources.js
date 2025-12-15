@@ -56,6 +56,7 @@ export default class Resources extends EventEmitter
         const enterButton = document.querySelector('.button-enter');
         const infoBtn = glassCard.querySelector('.info-btn');
         const cardFull = glassCard.querySelector('.card-full');
+        const sectionsButton = document.querySelector('.section-buttons');
 
         glassCard.addEventListener('mouseenter', () => {
 
@@ -75,6 +76,7 @@ export default class Resources extends EventEmitter
             this.experience.music = this.music
             loaderElement.style.opacity = '0';
             glassCard.style.opacity = '1';
+            sectionsButton.style.opacity = '1';
 
             setTimeout(() => {
                 loaderElement.remove()

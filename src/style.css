@@ -209,6 +209,123 @@ font-size: 0.8em;
   transition: opacity 0.2s;
 }
 
+/* ======== SECTION BUTTONS ======== */
+
+/* Positionnement des boutons */
+.section-buttons {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  z-index: 999998; /* juste en dessous de la glass-card */
+  pointer-events: none; /* permet aux clics de passer à travers */
+  opacity: 0;
+}
+
+.glass-btn,
+.glass-btn-minimal {
+  pointer-events: all; /* réactive les clics sur les boutons */
+  position: absolute;
+  bottom: 0;
+  text-decoration: none;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.2s, transform 0.3s ease, background 0.3s;
+}
+
+/* Positionnement gauche/droite */
+.glass-btn-left,
+.glass-btn-minimal.glass-btn-left {
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.glass-btn-right,
+.glass-btn-minimal.glass-btn-right {
+  right: 25%;
+  transform: translateX(50%);
+}
+
+/* ======== OPTION 1: Boutons "Explore" ======== */
+.glass-btn {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-family: 'Montserrat', 'serif';
+}
+
+.glass-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.btn-icon {
+  font-size: 1.1em;
+  transition: transform 0.3s;
+}
+
+.glass-btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+
+/* ======== MOBILE ======== */
+@media screen and (max-width: 768px) {
+  .section-buttons {
+    display: none !important;
+  }
+}
+
+/* Mobile version si tu veux quand même les afficher */
+/* @media screen and (max-width: 768px) {
+  .glass-btn-left {
+    left: 50%;
+    top: 25vh;
+    bottom: auto;
+  }
+  
+  .glass-btn-right {
+    right: auto;
+    left: 50%;
+    top: 75vh;
+    bottom: auto;
+  }
+  
+  .glass-btn-minimal.glass-btn-left {
+    left: 50%;
+    top: 25vh;
+    bottom: auto;
+  }
+  
+  .glass-btn-minimal.glass-btn-right {
+    right: auto;
+    left: 50%;
+    top: 75vh;
+    bottom: auto;
+  }
+} */
+
 /* .mobile-sound{
   display: none;
   color: #ffffff;
