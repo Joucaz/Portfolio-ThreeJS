@@ -93,15 +93,17 @@ export default class Input extends EventEmitter {
             });
         }
         
-        document.querySelector('canvas.webgl').addEventListener('click', () => {
-            if(this.experience.cursor.isFirstSection)
-            {
-                window.location.href = '/profile/en'
-            }
-            else
-            {
-                window.location.href = '/portfolio'
-            }
-        });
+        if(this.experience.sizes.isMobile){
+            document.querySelector('canvas.webgl').addEventListener('click', () => {
+                if(this.experience.cursor.isFirstSection)
+                {
+                    window.location.href = '/profile/en'
+                }
+                else
+                {
+                    window.location.href = '/portfolio'
+                }
+            });
+        }
     }
 }

@@ -216,37 +216,20 @@ font-size: 0.8em;
   position: fixed;
   bottom: 20px;
   width: 100%;
-  z-index: 999998; /* juste en dessous de la glass-card */
-  pointer-events: none; /* permet aux clics de passer à travers */
+  z-index: 999998;
+  pointer-events: none;
   opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.glass-btn,
-.glass-btn-minimal {
-  pointer-events: all; /* réactive les clics sur les boutons */
+.glass-btn {
+  pointer-events: all;
   position: absolute;
   bottom: 0;
   text-decoration: none;
   color: white;
-  opacity: 1;
-  transition: opacity 0.2s, transform 0.3s ease, background 0.3s;
-}
-
-/* Positionnement gauche/droite */
-.glass-btn-left,
-.glass-btn-minimal.glass-btn-left {
-  left: 25%;
-  transform: translateX(-50%);
-}
-
-.glass-btn-right,
-.glass-btn-minimal.glass-btn-right {
-  right: 25%;
-  transform: translateX(50%);
-}
-
-/* ======== OPTION 1: Boutons "Explore" ======== */
-.glass-btn {
+  
+  /* Glassmorphism identique au bouton info */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -257,14 +240,28 @@ font-size: 0.8em;
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(255, 255, 255, 0.1);
   
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  padding: 12px 20px;
+  
+  /* Block pour permettre width de fonctionner */
+  display: block;
+  text-align: center;
+  
   font-size: 0.9rem;
   font-family: 'Montserrat', 'serif';
+  
+  /* Largeur fixe avec transition */
+  width: auto; /* Largeur pour "Explore" / "Discover" */
+  overflow: hidden;
+  white-space: nowrap;
+  
+  transition: 
+    width 0.5s ease-in-out,
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
+/* Effet de brillance en haut */
 .glass-btn::before {
   content: '';
   position: absolute;
@@ -280,14 +277,65 @@ font-size: 0.8em;
   );
 }
 
-.btn-icon {
-  font-size: 1.1em;
-  transition: transform 0.3s;
+/* Positionnement gauche/droite */
+.glass-btn-left {
+  left: 0%;
+  transform: translateX(25px); /* Valeur fixe au lieu de % */
 }
 
-.glass-btn:hover .btn-icon {
-  transform: translateX(4px);
+.glass-btn-right {
+  right: 0%;
+  transform: translateX(-25px); /* Valeur fixe au lieu de % */
 }
+
+.glass-btn-left:hover {
+  transform: translateX(25px) translateY(-3px); /* Même valeur */
+}
+
+.glass-btn-right:hover {
+  transform: translateX(-25px) translateY(-3px); /* Même valeur */
+}
+
+/* Léger lift au hover pour les deux */
+/* .glass-btn-left:hover {
+  transform: translateX(-50%) translateY(-3px);
+}
+
+.glass-btn-right:hover {
+  transform: translateX(50%) translateY(-3px);
+} */
+
+/* Container pour les textes superposés */
+.btn-text-short,
+.btn-text-full {
+  display: inline-block;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.btn-text-short {
+  opacity: 1;
+}
+
+.btn-text-full {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.glass-btn:hover {
+  width: 150px; 
+}
+
+.glass-btn:hover .btn-text-short {
+  opacity: 0;
+}
+
+.glass-btn:hover .btn-text-full {
+  opacity: 1;
+}
+
 
 
 /* ======== MOBILE ======== */
@@ -296,35 +344,6 @@ font-size: 0.8em;
     display: none !important;
   }
 }
-
-/* Mobile version si tu veux quand même les afficher */
-/* @media screen and (max-width: 768px) {
-  .glass-btn-left {
-    left: 50%;
-    top: 25vh;
-    bottom: auto;
-  }
-  
-  .glass-btn-right {
-    right: auto;
-    left: 50%;
-    top: 75vh;
-    bottom: auto;
-  }
-  
-  .glass-btn-minimal.glass-btn-left {
-    left: 50%;
-    top: 25vh;
-    bottom: auto;
-  }
-  
-  .glass-btn-minimal.glass-btn-right {
-    right: auto;
-    left: 50%;
-    top: 75vh;
-    bottom: auto;
-  }
-} */
 
 /* .mobile-sound{
   display: none;
